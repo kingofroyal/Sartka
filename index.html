@@ -7,23 +7,23 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Tahoma,Arial,sans-serif;background:#f4f7fb;color:#172033;line-height:1.8}
-header{background:linear-gradient(135deg,#0879e8,#0055b8);color:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;box-shadow:0 4px 15px #0002}
+body{font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eef6ff 0%,#f8fbff 45%,#eefbf6 100%);color:#172033;line-height:1.8;min-height:100vh}
+header{background:linear-gradient(135deg,#075fc4,#0879e8 55%,#00a878);color:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;box-shadow:0 4px 15px #0002}
 .logo{font-size:22px;font-weight:bold}.langs{display:flex;gap:5px}
 .langs button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:6px 10px;border-radius:7px;cursor:pointer}
 .hero{max-width:1100px;margin:25px auto;padding:30px 20px;display:grid;grid-template-columns:1fr 300px;gap:30px;align-items:center}
-.hero h1{font-size:38px;color:#075ebd;margin-bottom:10px}.hero p{color:#5e6b7d;font-size:17px}
+.hero h1{font-size:38px;line-height:1.35;color:#075ebd;margin-bottom:10px}.hero p{color:#5e6b7d;font-size:17px}
 .profile{width:260px;height:260px;object-fit:cover;border-radius:50%;margin:auto;display:block;border:8px solid white;box-shadow:0 8px 30px #0002}
 .container{max-width:1100px;margin:auto;padding:0 15px 40px}.tabs{display:flex;gap:10px;margin-bottom:20px}
 .tab{flex:1;border:0;padding:14px;border-radius:10px;background:#dce9f8;color:#075ebd;cursor:pointer;font-weight:bold;font-size:16px}.tab.active{background:#0879e8;color:white}
-.card{background:white;border-radius:16px;padding:25px;margin-bottom:20px;box-shadow:0 5px 20px #0000000c}.card h2{color:#075ebd;margin-bottom:18px}
+.card{background:#ffffffee;backdrop-filter:blur(8px);position:relative;overflow:hidden;border-radius:20px;padding:25px;margin-bottom:20px;box-shadow:0 12px 35px #1c4d7a12;border:1px solid #ffffff}.card h2{color:#075ebd;margin-bottom:18px}
 .form-group{margin-bottom:15px}label{display:block;font-weight:bold;margin-bottom:6px}
 input,select{width:100%;padding:13px;border:1px solid #ccd6e3;border-radius:9px;font-size:16px;outline:none;background:white}
 input:focus,select:focus{border-color:#0879e8;box-shadow:0 0 0 3px #0879e818}
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.day{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:9px;padding:10px 5px;cursor:pointer;text-align:center}.day.active{background:#0879e8;color:white}
-.times{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}.time{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:8px;padding:9px;cursor:pointer}.time.active{background:#0879e8;color:white}
+.days{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.day{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:12px;padding:12px 5px;cursor:pointer;text-align:center;transition:.2s}.day:hover{transform:translateY(-2px);box-shadow:0 7px 18px #0879e81a}.day.active{background:#0879e8;color:white}.day small{display:block;font-size:12px;margin-top:4px;opacity:.9}.day.past{opacity:.45;cursor:not-allowed}.notify-btn{margin-top:10px;width:100%;background:#eef7ff;color:#075ebd;border:1px solid #b9d9f7;border-radius:10px;padding:11px;font-weight:700;cursor:pointer}.notify-btn.ok{background:#eaf9ef;color:#168044;border-color:#bfe6cb}.time.past{opacity:.45;cursor:not-allowed}
+.times{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}.time{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:10px;padding:10px;cursor:pointer;transition:.2s}.time:hover{transform:translateY(-1px)}.time.active{background:#0879e8;color:white}
 .time.booked{background:#e9edf2;color:#9aa5b2;cursor:not-allowed;text-decoration:line-through}
-.primary{width:100%;border:0;background:#0879e8;color:white;padding:14px;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer;margin-top:10px}.primary:hover{background:#005fca}.primary:disabled{opacity:.6;cursor:not-allowed}
+.primary{width:100%;border:0;background:linear-gradient(135deg,#0879e8,#075fc4);color:white;padding:14px;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer;margin-top:10px}.primary:hover{background:#005fca}.primary:disabled{opacity:.6;cursor:not-allowed}
 .message{padding:14px;border-radius:10px;margin:15px 0;display:none}.success{background:#dff7e8;color:#126b36;display:block}.error{background:#ffe2e2;color:#9b1717;display:block}
 .loading{text-align:center;padding:15px;color:#65758b}.booking-list{display:flex;flex-direction:column;gap:10px}
 .booking{border:1px solid #e0e6ee;border-radius:10px;padding:13px;background:#fafcff;display:flex;justify-content:space-between;align-items:center}.badge{background:#0879e8;color:white;border-radius:8px;padding:4px 9px;font-weight:bold}
@@ -32,7 +32,7 @@ input:focus,select:focus{border-color:#0879e8;box-shadow:0 0 0 3px #0879e818}
 .owner-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.owner-tools button{border:0;border-radius:8px;padding:10px 15px;cursor:pointer;font-weight:bold}
 .danger{background:#e53935;color:white}.warning{background:#ffb300;color:white}.table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:700px}th,td{padding:11px;border-bottom:1px solid #e5e9ef;text-align:right}th{background:#f1f6fb;color:#075ebd}
-.delete-btn{border:0;background:#e53935;color:white;border-radius:7px;padding:7px 12px;cursor:pointer}.hidden{display:none!important}
+.renew-btn{border:0;background:#14a66a;color:#fff;padding:11px 15px;border-radius:10px;font-weight:bold;cursor:pointer}.renew-btn:hover{background:#108b58}.delete-btn{border:0;background:#e53935;color:white;border-radius:7px;padding:7px 12px;cursor:pointer}.hidden{display:none!important}
 .confirm{text-align:center;border:2px solid #21a957;background:#f0fff5}.confirm-number{font-size:48px;color:#0879e8;font-weight:bold;margin:10px 0}
 footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:30px}
 @media(max-width:800px){.hero{grid-template-columns:1fr;text-align:center}.hero h1{font-size:30px}.days{grid-template-columns:repeat(4,1fr)}.times{grid-template-columns:repeat(3,1fr)}.stats{grid-template-columns:1fr}}
@@ -41,7 +41,7 @@ footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:
 </head>
 <body>
 <header>
-<div class="logo">Sartka Barber</div>
+<div class="logo">📅 Queue System</div>
 <div class="langs">
 <button onclick="changeLanguage('ku')">کوردی</button>
 <button onclick="changeLanguage('ar')">العربية</button>
@@ -69,7 +69,8 @@ footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:
 <form id="bookingForm">
 <div class="form-group"><label id="nameLabel">ناوی تەواو</label><input id="name" type="text" placeholder="ناوی تەواوت بنووسە" required></div>
 <div class="form-group"><label id="phoneLabel">ژمارەی مۆبایل</label><input id="phone" type="tel" placeholder="07xxxxxxxxx" required></div>
-<div class="form-group"><label id="dayLabel">ڕۆژ هەڵبژێرە</label><div class="days" id="days"></div></div>
+
+<div class="form-group"><label id="dayLabel">ڕۆژ هەڵبژێرە</label><div class="days" id="days"></div></div><div id="activeDayNote" style="margin-top:8px;text-align:center;color:#0879e8;font-weight:bold"></div>
 <div class="form-group"><label id="timeLabel">کات هەڵبژێرە</label><div class="times" id="times"></div></div>
 <div id="memberMessage" class="message"></div>
 <button class="primary" id="submitBtn" type="submit">تۆمارکردنی نۆرە</button>
@@ -80,7 +81,6 @@ footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:
 <h2>✅ نۆرەکەت تۆمارکرا</h2>
 <div class="confirm-number" id="confirmQueue">001</div>
 <p><b>ناو:</b> <span id="confirmName"></span></p>
-<p><b>مۆبایل:</b> <span id="confirmPhone"></span></p>
 <p><b>ڕۆژ:</b> <span id="confirmDay"></span></p>
 <p><b>کات:</b> <span id="confirmTime"></span></p>
 <p><b>بەروار:</b> <span id="confirmDate"></span></p>
@@ -126,7 +126,7 @@ footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:
 </div>
 </section>
 </main>
-<footer>© 2026 Queue System</footer>
+<footer>© 2026 Queue System — سیستەمی نۆرە و حجز</footer>
 
 <script>
 const SUPABASE_URL="https://iwqcphkxqoreleibyssk.supabase.co";
@@ -134,12 +134,12 @@ const SUPABASE_KEY="sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6Sp";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const OWNER_PASSWORD="123456";
-const START_MINUTES=3*60, END_MINUTES=23*60, MINUTE_STEP=30;
+const START_MINUTES=15*60, END_MINUTES=23*60, MINUTE_STEP=30;
 
 const DAYS={
-ku:["شەممە","یەکشەممە","دووشەممە","سێشەممە","چوارشەممە","پێنجشەممە","هەینی"],
-ar:["السبت","الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],
-en:["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"]
+ku:["شەممە","یەکشەممە","دووشەممە","سێشەممە","چوارشەممە","پێنجشەممە"],
+ar:["السبت","الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس"],
+en:["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday"]
 };
 
 const TEXT={
@@ -148,46 +148,63 @@ ar:{heroTitle:"نظام الدور والحجز",heroText:"اختر الوقت �
 en:{heroTitle:"Queue & Booking System",heroText:"Choose your time and register your queue easily. Data is saved online and shared across all devices.",formTitle:"Register Queue",nameLabel:"Full name",phoneLabel:"Mobile number",dayLabel:"Choose day",timeLabel:"Choose time",submit:"Register Queue",publicTitle:"Registered Queues",noBookings:"There are no bookings for this day.",selectDay:"Please choose a day.",selectTime:"Please choose a time.",success:"Your queue was registered successfully.",booked:"This time is already booked.",error:"An error occurred. Please try again."}
 };
 
-let language="ku", selectedDay=null, selectedTime=null, bookings=[], ownerLoggedIn=false;
+let language="ku", selectedDay=null, selectedTime=null, selectedDate=null, bookings=[], ownerLoggedIn=false;
 
 function $(id){return document.getElementById(id)}
 function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function todayString(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function dateString(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function todayString(){return dateString(new Date())}
 function currentTimeString(){return new Date().toLocaleTimeString("ku-IQ",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function weekdayIndex(d){const js=d.getDay();if(js===5)return null;return (js+6)%7}
+function getActiveDate(){const d=new Date();d.setSeconds(0,0);if(d.getDay()===5)d.setDate(d.getDate()+1);return d}
+function generateDates(){const d=getActiveDate();const idx=weekdayIndex(d);return [{date:dateString(d),dayIndex:idx,label:DAYS[language][idx],dateLabel:(d.getFullYear()+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+String(d.getDate()).padStart(2,"0")),isToday:dateString(d)===todayString()}]}
+function isTodayDate(date){return date===todayString()}
 function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP)r.push(String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"));return r}
+function timeIsPast(time,date){if(!isTodayDate(date))return false;const [h,m]=String(time).split(":").map(Number);const now=new Date();return h*60+m<=now.getHours()*60+now.getMinutes()}
+function getSelectedDateObj(){return generateDates().find(x=>x.date===selectedDate)||null}
+function getBookingDayLabel(b){const d=generateDates().find(x=>x.date===b.booking_date);return d?d.label:DAYS[language][Number(b.day_index)]}
 
 function setupDays(){
  const box=$("days"); box.innerHTML="";
- DAYS[language].forEach((day,index)=>{const b=document.createElement("button");b.type="button";b.className="day";b.textContent=day;if(selectedDay===index)b.classList.add("active");b.onclick=()=>selectDay(index);box.appendChild(b)});
+ const dates=generateDates();
+ if(!selectedDate) selectedDate=dates[0].date;
+ if(!dates.some(x=>x.date===selectedDate)) selectedDate=dates[0].date;
+ dates.forEach(item=>{const b=document.createElement("button");b.type="button";b.className="day";b.innerHTML=`${item.label}<small>${item.dateLabel}${item.isToday?" • ئەمڕۆ":""}</small>`;if(selectedDate===item.date)b.classList.add("active");b.onclick=()=>selectDay(item.date);box.appendChild(b)});
+ const note=$("activeDayNote"); if(note) note.textContent=dates[0] ? `📅 ${dates[0].label} — ${dates[0].dateLabel}${dates[0].isToday?" • ئەمڕۆ":""}` : "";
  const filter=$("ownerDayFilter"); filter.innerHTML='<option value="">هەموو ڕۆژەکان</option>';
- DAYS[language].forEach((day,index)=>{const o=document.createElement("option");o.value=index;o.textContent=day;filter.appendChild(o)});
+ dates.forEach(item=>{const o=document.createElement("option");o.value=item.date;o.textContent=item.label+" — "+item.dateLabel;filter.appendChild(o)});
 }
 
-async function selectDay(index){selectedDay=index;selectedTime=null;setupDays();await renderTimes();await renderPublicBookings()}
+async function selectDay(date){selectedDate=date;const obj=getSelectedDateObj();selectedDay=obj?obj.dayIndex:null;selectedTime=null;setupDays();await renderTimes();await renderPublicBookings()}
 
 async function renderTimes(){
  const box=$("times");box.innerHTML="";
- if(selectedDay===null){box.innerHTML=`<div class="loading">${TEXT[language].selectDay}</div>`;return}
- const bookedTimes=new Set(bookings.filter(b=>Number(b.day_index)===selectedDay).map(b=>String(b.time)));
+ if(!selectedDate){box.innerHTML=`<div class="loading">${TEXT[language].selectDay}</div>`;return}
+ const obj=getSelectedDateObj();if(!obj)return;
+ const bookedTimes=new Set(bookings.filter(b=>String(b.booking_date)===selectedDate).map(b=>String(b.time)));
  generateTimes().forEach(time=>{
   const b=document.createElement("button");b.type="button";b.className="time";b.textContent=time;
-  if(bookedTimes.has(time)){b.classList.add("booked");b.disabled=true;b.title="Booked"}
+  const past=timeIsPast(time,selectedDate);
+  if(bookedTimes.has(time)||past){if(bookedTimes.has(time))b.classList.add("booked");if(past)b.classList.add("past");b.disabled=true;b.title=bookedTimes.has(time)?"Booked":"Past"}
   else b.onclick=()=>{selectedTime=time;document.querySelectorAll(".time").forEach(x=>x.classList.remove("active"));b.classList.add("active")};
-  if(selectedTime===time&&!bookedTimes.has(time))b.classList.add("active");box.appendChild(b);
+  if(selectedTime===time&&!bookedTimes.has(time)&&!past)b.classList.add("active");box.appendChild(b);
  });
 }
 
 async function refreshBookings(){
- const {data,error}=await db.from("bookings").select("*").order("day_index",{ascending:true}).order("time",{ascending:true});
+ const {data,error}=await db.from("bookings").select("*").order("booking_date",{ascending:true}).order("time",{ascending:true});
  if(error){console.error(error);showMessage("memberMessage","هەڵە لە پەیوەندی بە داتابەیس.","error");return}
- bookings=data||[];await renderTimes();await renderPublicBookings();if(ownerLoggedIn){renderOwnerTable();renderStats()}
+ const oldIds=new Set(bookings.map(b=>String(b.id)));
+ bookings=data||[];
+ await renderTimes();await renderPublicBookings();if(ownerLoggedIn){renderOwnerTable();renderStats()}
 }
 
 async function renderPublicBookings(){
  const box=$("publicList");
- const list=[...bookings].sort((a,b)=>Number(a.day_index)-Number(b.day_index)||String(a.time).localeCompare(String(b.time)));
+ const activeDate=generateDates()[0]?.date;
+ const list=[...bookings].filter(b=>String(b.booking_date)===String(activeDate)).sort((a,b)=>String(a.time).localeCompare(String(b.time)));
  if(!list.length){box.innerHTML=`<div class="loading">${TEXT[language].noBookings}</div>`;return}
- box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${DAYS[language][Number(b.day_index)]} — 🕐 ${escapeHTML(b.time)}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
+ box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${getBookingDayLabel(b)} — ${escapeHTML(b.booking_date)} — 🕐 ${escapeHTML(b.time)}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
 }
 
 function showMessage(id,text,type){const box=$(id);box.className="message "+type;box.textContent=text}
@@ -196,25 +213,29 @@ $("bookingForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const name=$("name").value.trim(),phone=$("phone").value.trim();
  if(!name||!phone){showMessage("memberMessage","تکایە ناو و ژمارەی مۆبایل بنووسە.","error");return}
+ const active=generateDates()[0];
+ if(!active){showMessage("memberMessage","ئەمڕۆ ڕۆژی حجز نییە.","error");return}
+ if(selectedDate!==active.date){selectedDate=active.date;selectedDay=active.dayIndex;selectedTime=null;setupDays();await renderTimes();}
  if(selectedDay===null){showMessage("memberMessage",TEXT[language].selectDay,"error");return}
  if(!selectedTime){showMessage("memberMessage",TEXT[language].selectTime,"error");return}
  const btn=$("submitBtn");btn.disabled=true;btn.textContent="چاوەڕوان بە...";
  try{
-  const {data:existing,error:checkError}=await db.from("bookings").select("id").eq("day_index",selectedDay).eq("time",selectedTime).maybeSingle();
+  if(timeIsPast(selectedTime,selectedDate)){showMessage("memberMessage","ئەم کاتە تێپەڕیوە.","error");return}
+  const {data:existing,error:checkError}=await db.from("bookings").select("id").eq("booking_date",selectedDate).eq("time",selectedTime).maybeSingle();
   if(checkError)throw checkError;
   if(existing){showMessage("memberMessage",TEXT[language].booked,"error");await refreshBookings();return}
 
-  const {data:lastBooking,error:lastError}=await db.from("bookings").select("queue").eq("day_index",selectedDay).order("queue",{ascending:false}).limit(1).maybeSingle();
+  const {data:lastBooking,error:lastError}=await db.from("bookings").select("queue").eq("booking_date",selectedDate).order("queue",{ascending:false}).limit(1).maybeSingle();
   if(lastError)throw lastError;
   let nextQueue=lastBooking?Number(lastBooking.queue)+1:1;
 
   let newBooking=null,insertError=null;
   for(let attempt=0;attempt<3;attempt++){
-   const res=await db.from("bookings").insert({queue:nextQueue,name,phone,day_index:selectedDay,time:selectedTime,booking_date:todayString(),registration_time:currentTimeString()}).select().single();
+   const res=await db.from("bookings").insert({queue:nextQueue,name,phone,day_index:selectedDay,time:selectedTime,booking_date:selectedDate,registration_time:currentTimeString()}).select().single();
    newBooking=res.data;insertError=res.error;
    if(!insertError)break;
    if(insertError.code==="23505" && attempt<2){
-    const {data:lastNow}=await db.from("bookings").select("queue").eq("day_index",selectedDay).order("queue",{ascending:false}).limit(1).maybeSingle();
+    const {data:lastNow}=await db.from("bookings").select("queue").eq("booking_date",selectedDate).order("queue",{ascending:false}).limit(1).maybeSingle();
     nextQueue=lastNow?Number(lastNow.queue)+1:nextQueue+1;
     continue;
    }
@@ -227,8 +248,8 @@ $("bookingForm").addEventListener("submit",async e=>{
 
   $("confirmation").classList.remove("hidden");
   $("confirmQueue").textContent=String(newBooking.queue).padStart(3,"0");
-  $("confirmName").textContent=newBooking.name;$("confirmPhone").textContent=newBooking.phone;
-  $("confirmDay").textContent=DAYS[language][Number(newBooking.day_index)];$("confirmTime").textContent=newBooking.time;
+  $("confirmName").textContent=newBooking.name;
+  $("confirmDay").textContent=getBookingDayLabel(newBooking)+" — "+newBooking.booking_date;$("confirmTime").textContent=newBooking.time;
   $("confirmDate").textContent=newBooking.booking_date;$("confirmRegTime").textContent=newBooking.registration_time;
   showMessage("memberMessage",TEXT[language].success,"success");selectedTime=null;$("bookingForm").reset();
   await refreshBookings();$("confirmation").scrollIntoView({behavior:"smooth",block:"center"});
@@ -243,10 +264,10 @@ function ownerLogin(){
 
 function renderOwnerTable(){
  const table=$("ownerTable");if(!table)return;const filter=$("ownerDayFilter").value;let list=[...bookings];
- if(filter!=="")list=list.filter(b=>Number(b.day_index)===Number(filter));
- list.sort((a,b)=>Number(a.day_index)-Number(b.day_index)||String(a.time).localeCompare(String(b.time)));
+ if(filter!=="")list=list.filter(b=>String(b.booking_date)===String(filter));
+ list.sort((a,b)=>String(a.booking_date).localeCompare(String(b.booking_date))||String(a.time).localeCompare(String(b.time)));
  if(!list.length){table.innerHTML='<tr><td colspan="7" style="text-align:center">هیچ نۆرەیەک نییە.</td></tr>';return}
- table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${DAYS[language][Number(b.day_index)]}</td><td>${escapeHTML(b.time)}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
+ table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${getBookingDayLabel(b)}</td><td>${escapeHTML(b.time)}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
 }
 
 async function deleteBooking(id){
@@ -260,7 +281,7 @@ async function clearSelectedDay(){
  const filter=$("ownerDayFilter").value;
  if(filter===""){alert("تکایە یەک ڕۆژ هەڵبژێرە.");return}
  if(!confirm("دڵنیایت دەتەوێت هەموو نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟"))return;
- const {error}=await db.from("bookings").delete().eq("day_index",Number(filter));
+ const {error}=await db.from("bookings").delete().eq("booking_date",String(filter));
  if(error){console.error(error);alert("پاککردنەوە سەرکەوتوو نەبوو.");return}
  await refreshBookings();
 }
@@ -291,8 +312,35 @@ function showTab(tab){
  else{$("memberSection").classList.add("hidden");$("ownerSection").classList.remove("hidden");$("memberTab").classList.remove("active");$("ownerTab").classList.add("active")}
 }
 
+function syncActiveDay(){
+ const active=generateDates()[0];
+ if(!active)return;
+ if(selectedDate!==active.date || selectedDay!==active.dayIndex){
+  selectedDate=active.date;
+  selectedDay=active.dayIndex;
+  selectedTime=null;
+  setupDays();
+  renderTimes();
+  renderPublicBookings();
+ }else{
+  renderTimes();
+ }
+}
+
+function scheduleMidnightSync(){
+ const now=new Date();
+ const next=new Date(now);
+ next.setHours(24,0,1,0);
+ setTimeout(()=>{syncActiveDay();scheduleMidnightSync();},Math.max(1000,next-now));
+}
+
+selectedDate=generateDates()[0].date;
+selectedDay=generateDates()[0].dayIndex;
 setupDays();renderTimes();refreshBookings();
+scheduleMidnightSync();
+setInterval(syncActiveDay,30000);
 setInterval(refreshBookings,3000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncActiveDay();});
 </script>
 </body>
 </html>
