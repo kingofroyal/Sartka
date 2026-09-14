@@ -155,18 +155,29 @@ function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").repl
 function dateString(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function todayString(){return dateString(new Date())}
 function currentTimeString(){return new Date().toLocaleTimeString("ku-IQ",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
-function weekdayIndex(d){return (d.getDay()+6)%7}
-function getActiveDate(){const d=new Date();d.setSeconds(0,0);d.setMilliseconds(0);return d}
-function generateDates(){const start=getActiveDate();const dates=[];for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const idx=weekdayIndex(d);dates.push({date:dateString(d),dayIndex:idx,label:DAYS[language][idx],dateLabel:(d.getFullYear()+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+String(d.getDate()).padStart(2,"0")),isToday:i===0})}return dates}
+function weekdayIndex(d){const js=d.getDay();if(js===5)return null;return (js+6)%7}
+function getActiveDate(){const d=new Date();d.setSeconds(0,0);return d}
+function generateDates(){
+ const dates=[];
+ const d=getActiveDate();
+ for(let i=-7;i<=7;i++){
+  const x=new Date(d);x.setDate(d.getDate()+i);
+  const idx=weekdayIndex(x);
+  if(idx===null)continue;
+  dates.push({date:dateString(x),dayIndex:idx,label:DAYS[language][idx],dateLabel:(x.getFullYear()+"/"+String(x.getMonth()+1).padStart(2,"0")+"/"+String(x.getDate()).padStart(2,"0")),isToday:dateString(x)===todayString()});
+ }
+ return dates;
+}
 function isTodayDate(date){return date===todayString()}
-function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP){const h24=Math.floor(m/60),h=h24>12?h24-12:h24;r.push(String(h)+":"+String(m%60).padStart(2,"0"))}return r}
-function timeIsPast(time,date){if(!isTodayDate(date))return false;const [h,m]=String(time).split(":").map(Number);const now=new Date();return h*60+m<=now.getHours()*60+now.getMinutes()}
+function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP)r.push(String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"));return r}
+function timeIsPast(time,date){return false}
 function getSelectedDateObj(){return generateDates().find(x=>x.date===selectedDate)||null}
 function getBookingDayLabel(b){const d=generateDates().find(x=>x.date===b.booking_date);return d?d.label:DAYS[language][Number(b.day_index)]}
 
 function setupDays(){
  const box=$("days"); box.innerHTML="";
  const dates=generateDates();
+ if(!dates.length){selectedDate=null;selectedDay=null;return}
  if(!selectedDate) selectedDate=dates[0].date;
  if(!dates.some(x=>x.date===selectedDate)) selectedDate=dates[0].date;
  dates.forEach(item=>{const b=document.createElement("button");b.type="button";b.className="day";b.innerHTML=`${item.label}<small>${item.dateLabel}${item.isToday?" • ئەمڕۆ":""}</small>`;if(selectedDate===item.date)b.classList.add("active");b.onclick=()=>selectDay(item.date);box.appendChild(b)});
@@ -201,7 +212,7 @@ async function refreshBookings(){
 
 async function renderPublicBookings(){
  const box=$("publicList");
- const activeDate=generateDates()[0]?.date;
+ const activeDate=selectedDate;
  const list=[...bookings].filter(b=>String(b.booking_date)===String(activeDate)).sort((a,b)=>String(a.time).localeCompare(String(b.time)));
  if(!list.length){box.innerHTML=`<div class="loading">${TEXT[language].noBookings}</div>`;return}
  box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${getBookingDayLabel(b)} — ${escapeHTML(b.booking_date)} — 🕐 ${escapeHTML(b.time)}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
@@ -213,9 +224,9 @@ $("bookingForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const name=$("name").value.trim(),phone=$("phone").value.trim();
  if(!name||!phone){showMessage("memberMessage","تکایە ناو و ژمارەی مۆبایل بنووسە.","error");return}
- const active=generateDates()[0];
- if(!active){showMessage("memberMessage","ئەمڕۆ ڕۆژی حجز نییە.","error");return}
- if(selectedDate!==active.date){selectedDate=active.date;selectedDay=active.dayIndex;selectedTime=null;setupDays();await renderTimes();}
+ const selected=getSelectedDateObj();
+ if(!selected){showMessage("memberMessage",TEXT[language].selectDay,"error");return}
+ selectedDay=selected.dayIndex;
  if(selectedDay===null){showMessage("memberMessage",TEXT[language].selectDay,"error");return}
  if(!selectedTime){showMessage("memberMessage",TEXT[language].selectTime,"error");return}
  const btn=$("submitBtn");btn.disabled=true;btn.textContent="چاوەڕوان بە...";
@@ -319,9 +330,6 @@ function syncActiveDay(){
   selectedDate=dates[0].date;
   selectedDay=dates[0].dayIndex;
   selectedTime=null;
- }else{
-  const obj=dates.find(x=>x.date===selectedDate);
-  selectedDay=obj.dayIndex;
  }
  setupDays();
  renderTimes();
@@ -335,8 +343,8 @@ function scheduleMidnightSync(){
  setTimeout(()=>{syncActiveDay();scheduleMidnightSync();},Math.max(1000,next-now));
 }
 
-selectedDate=generateDates()[0].date;
-selectedDay=generateDates()[0].dayIndex;
+selectedDate=generateDates()[0]?.date||null;
+selectedDay=generateDates()[0]?.dayIndex??null;
 setupDays();renderTimes();refreshBookings();
 scheduleMidnightSync();
 setInterval(syncActiveDay,30000);
