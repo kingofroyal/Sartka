@@ -10,57 +10,70 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Tahoma,Arial,sans-serif;background:#f4f7fb;color:#172033;line-height:1.8}
-header{background:linear-gradient(135deg,#0879e8,#0055b8);color:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;box-shadow:0 4px 15px #0002}
+header{background:linear-gradient(135deg,#0879e8,#0055b8);color:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
 .logo{font-size:22px;font-weight:bold}
 .langs{display:flex;gap:5px}
 .langs button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:6px 10px;border-radius:7px;cursor:pointer}
+
 .hero{max-width:1100px;margin:25px auto;padding:30px 20px;display:grid;grid-template-columns:1fr 300px;gap:30px;align-items:center}
 .hero h1{font-size:38px;color:#075ebd;margin-bottom:10px}
 .hero p{color:#5e6b7d;font-size:17px}
 .profile{width:260px;height:260px;object-fit:cover;border-radius:50%;margin:auto;display:block;border:8px solid white;box-shadow:0 8px 30px #0002}
+
 .container{max-width:1100px;margin:auto;padding:0 15px 40px}
 .tabs{display:flex;gap:10px;margin-bottom:20px}
 .tab{flex:1;border:0;padding:14px;border-radius:10px;background:#dce9f8;color:#075ebd;cursor:pointer;font-weight:bold;font-size:16px}
 .tab.active{background:#0879e8;color:white}
+
 .card{background:white;border-radius:16px;padding:25px;margin-bottom:20px;box-shadow:0 5px 20px #0000000c}
 .card h2{color:#075ebd;margin-bottom:18px}
 .form-group{margin-bottom:15px}
 label{display:block;font-weight:bold;margin-bottom:6px}
+
 input,select{width:100%;padding:13px;border:1px solid #ccd6e3;border-radius:9px;font-size:16px;outline:none;background:white}
-input:focus,select:focus{border-color:#0879e8;box-shadow:0 0 0 3px #0879e818}
+
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
 .day{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:9px;padding:10px 5px;cursor:pointer;text-align:center}
 .day.active{background:#0879e8;color:white}
+
 .times{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
 .time{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:8px;padding:9px;cursor:pointer}
 .time.active{background:#0879e8;color:white}
 .time.booked{background:#e9edf2;color:#9aa5b2;cursor:not-allowed;text-decoration:line-through}
+
 .primary{width:100%;border:0;background:#0879e8;color:white;padding:14px;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer;margin-top:10px}
-.primary:hover{background:#005fca}
 .primary:disabled{opacity:.6;cursor:not-allowed}
+
 .message{padding:14px;border-radius:10px;margin:15px 0;display:none}
 .success{background:#dff7e8;color:#126b36;display:block}
 .error{background:#ffe2e2;color:#9b1717;display:block}
+
 .loading{text-align:center;padding:15px;color:#65758b}
 .booking-list{display:flex;flex-direction:column;gap:10px}
 .booking{border:1px solid #e0e6ee;border-radius:10px;padding:13px;background:#fafcff;display:flex;justify-content:space-between;align-items:center}
 .badge{background:#0879e8;color:white;border-radius:8px;padding:4px 9px;font-weight:bold}
+
 .owner-login{max-width:500px;margin:auto}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}
 .stat{background:#f3f8ff;border:1px solid #dbe9f8;border-radius:12px;padding:18px;text-align:center}
 .stat strong{display:block;font-size:28px;color:#0879e8}
+
 .owner-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
 .owner-tools button{border:0;border-radius:8px;padding:10px 15px;cursor:pointer;font-weight:bold}
 .danger{background:#e53935;color:white}
 .warning{background:#ffb300;color:white}
+
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:700px}
 th,td{padding:11px;border-bottom:1px solid #e5e9ef;text-align:right}
 th{background:#f1f6fb;color:#075ebd}
+
 .delete-btn{border:0;background:#e53935;color:white;border-radius:7px;padding:7px 12px;cursor:pointer}
+
 .hidden{display:none!important}
 .confirm{text-align:center;border:2px solid #21a957;background:#f0fff5}
 .confirm-number{font-size:48px;color:#0879e8;font-weight:bold;margin:10px 0}
+
 footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:30px}
 
 @media(max-width:800px){
@@ -97,9 +110,10 @@ header{flex-direction:column}
 
 <div>
 <h1 id="heroTitle">سیستەمی نۆرە و حجز</h1>
+
 <p id="heroText">
 کاتەکەت هەڵبژێرە و نۆرەکەت بە ئاسانی تۆمار بکە.
-هەموو کاتێک کە گیرا، بۆ کەسانی تر قفل دەبێت.
+زانیارییەکان لەسەر ئینتەرنێت هەڵدەگیرێن و لە هەموو ئامێرەکاندا هاوبەشن.
 </p>
 </div>
 
@@ -128,33 +142,42 @@ onclick="showTab('owner')">
 
 </div>
 
-
-<!-- MEMBER -->
-
 <section id="memberSection">
 
 <div class="card">
 
-<h2 id="formTitle">تۆمارکردنی نۆرە</h2>
+<h2 id="formTitle">
+تۆمارکردنی نۆرە
+</h2>
 
 <form id="bookingForm">
 
 <div class="form-group">
-<label id="nameLabel">ناوی تەواو</label>
+
+<label id="nameLabel">
+ناوی تەواو
+</label>
+
 <input
 id="name"
 type="text"
 placeholder="ناوی تەواوت بنووسە"
 required>
+
 </div>
 
 <div class="form-group">
-<label id="phoneLabel">ژمارەی مۆبایل</label>
+
+<label id="phoneLabel">
+ژمارەی مۆبایل
+</label>
+
 <input
 id="phone"
 type="tel"
 placeholder="07xxxxxxxxx"
 required>
+
 </div>
 
 <div class="form-group">
@@ -167,7 +190,6 @@ required>
 
 </div>
 
-
 <div class="form-group">
 
 <label id="timeLabel">
@@ -178,11 +200,9 @@ required>
 
 </div>
 
-
 <div id="memberMessage"
 class="message">
 </div>
-
 
 <button
 class="primary"
@@ -197,11 +217,7 @@ type="submit">
 
 </div>
 
-
-<!-- CONFIRMATION -->
-
-<div
-id="confirmation"
+<div id="confirmation"
 class="card confirm hidden">
 
 <h2>✅ نۆرەکەت تۆمارکرا</h2>
@@ -244,9 +260,6 @@ id="confirmQueue">
 
 </div>
 
-
-<!-- PUBLIC BOOKINGS -->
-
 <div class="card">
 
 <h2 id="publicTitle">
@@ -267,13 +280,9 @@ class="booking-list">
 
 </section>
 
-
-<!-- OWNER -->
-
 <section
 id="ownerSection"
 class="hidden">
-
 
 <div
 id="loginBox"
@@ -311,11 +320,9 @@ onclick="ownerLogin()">
 
 </div>
 
-
 <div
 id="dashboard"
 class="hidden">
-
 
 <div class="stats">
 
@@ -336,7 +343,6 @@ class="hidden">
 
 </div>
 
-
 <div class="card">
 
 <h2>
@@ -355,7 +361,6 @@ onchange="renderOwnerTable()">
 
 </select>
 
-
 <button
 class="warning"
 onclick="clearSelectedDay()">
@@ -363,7 +368,6 @@ onclick="clearSelectedDay()">
 پاککردنەوەی ئەم ڕۆژە
 
 </button>
-
 
 <button
 class="danger"
@@ -373,16 +377,11 @@ onclick="clearAllBookings()">
 
 </button>
 
-
-<button
-onclick="refreshBookings()">
-
+<button onclick="refreshBookings()">
 🔄 نوێکردنەوە
-
 </button>
 
 </div>
-
 
 <div class="table-wrap">
 
@@ -391,7 +390,6 @@ onclick="refreshBookings()">
 <thead>
 
 <tr>
-
 <th>نۆرە</th>
 <th>ناو</th>
 <th>مۆبایل</th>
@@ -399,7 +397,6 @@ onclick="refreshBookings()">
 <th>کات</th>
 <th>بەروار</th>
 <th>کردار</th>
-
 </tr>
 
 </thead>
@@ -419,17 +416,15 @@ onclick="refreshBookings()">
 
 </main>
 
-
 <footer>
 © 2026 Queue System
 </footer>
 
-
 <script>
 
-/* ==========================
+/* =========================
 SUPABASE
-========================== */
+========================= */
 
 const SUPABASE_URL =
 "https://iwqcphkxqoreleibyssk.supabase.co";
@@ -444,22 +439,22 @@ SUPABASE_KEY
 );
 
 
-/* ==========================
+/* =========================
 SETTINGS
-========================== */
+========================= */
 
-const OWNER_PASSWORD="123456";
+const OWNER_PASSWORD = "123456";
 
-const START_MINUTES=3*60;
-const END_MINUTES=23*60;
-const MINUTE_STEP=30;
+const START_MINUTES = 3 * 60;
+const END_MINUTES = 23 * 60;
+const MINUTE_STEP = 30;
 
 
-/* ==========================
+/* =========================
 DAYS
-========================== */
+========================= */
 
-const DAYS={
+const DAYS = {
 
 ku:[
 "شەممە",
@@ -494,57 +489,87 @@ en:[
 };
 
 
-/* ==========================
+/* =========================
 TEXT
-========================== */
+========================= */
 
-const TEXT={
+const TEXT = {
 
 ku:{
-success:"نۆرەکەت بە سەرکەوتوویی تۆمارکرا.",
-booked:"ئەم کاتە پێشتر گیراوە.",
+heroTitle:"سیستەمی نۆرە و حجز",
+heroText:"کاتەکەت هەڵبژێرە و نۆرەکەت بە ئاسانی تۆمار بکە. زانیارییەکان لەسەر ئینتەرنێت هەڵدەگیرێن و لە هەموو ئامێرەکاندا هاوبەشن.",
+formTitle:"تۆمارکردنی نۆرە",
+nameLabel:"ناوی تەواو",
+phoneLabel:"ژمارەی مۆبایل",
+dayLabel:"ڕۆژ هەڵبژێرە",
+timeLabel:"کات هەڵبژێرە",
+submit:"تۆمارکردنی نۆرە",
+publicTitle:"نۆرە تۆمارکراوەکان",
+noBookings:"هیچ نۆرەیەک بۆ ئەم ڕۆژە نییە.",
 selectDay:"تکایە ڕۆژ هەڵبژێرە.",
 selectTime:"تکایە کات هەڵبژێرە.",
+success:"نۆرەکەت بە سەرکەوتوویی تۆمارکرا.",
+booked:"ئەم کاتە پێشتر گیراوە.",
 error:"هەڵەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە."
 },
 
 ar:{
-success:"تم تسجيل دورك بنجاح.",
-booked:"هذا الوقت محجوز مسبقاً.",
+heroTitle:"نظام الدور والحجز",
+heroText:"اختر الوقت وسجل دورك بسهولة. يتم حفظ البيانات على الإنترنت ويمكن رؤيتها من جميع الأجهزة.",
+formTitle:"تسجيل الدور",
+nameLabel:"الاسم الكامل",
+phoneLabel:"رقم الهاتف",
+dayLabel:"اختر اليوم",
+timeLabel:"اختر الوقت",
+submit:"تسجيل الدور",
+publicTitle:"الأدوار المسجلة",
+noBookings:"لا توجد حجوزات لهذا اليوم.",
 selectDay:"يرجى اختيار اليوم.",
 selectTime:"يرجى اختيار الوقت.",
+success:"تم تسجيل دورك بنجاح.",
+booked:"هذا الوقت محجوز مسبقاً.",
 error:"حدث خطأ. حاول مرة أخرى."
 },
 
 en:{
-success:"Your queue was registered successfully.",
-booked:"This time is already booked.",
+heroTitle:"Queue & Booking System",
+heroText:"Choose your time and register your queue easily. Data is saved online and shared across all devices.",
+formTitle:"Register Queue",
+nameLabel:"Full name",
+phoneLabel:"Mobile number",
+dayLabel:"Choose day",
+timeLabel:"Choose time",
+submit:"Register Queue",
+publicTitle:"Registered Queues",
+noBookings:"There are no bookings for this day.",
 selectDay:"Please choose a day.",
 selectTime:"Please choose a time.",
+success:"Your queue was registered successfully.",
+booked:"This time is already booked.",
 error:"An error occurred. Please try again."
 }
 
 };
 
 
-/* ==========================
+/* =========================
 STATE
-========================== */
+========================= */
 
-let language="ku";
-let selectedDay=null;
-let selectedTime=null;
-let bookings=[];
+let language = "ku";
+let selectedDay = null;
+let selectedTime = null;
+let bookings = [];
+let ownerLoggedIn = false;
 
 
-/* ==========================
+/* =========================
 HELPERS
-========================== */
+========================= */
 
 function $(id){
 return document.getElementById(id);
 }
-
 
 function escapeHTML(value){
 
@@ -557,10 +582,9 @@ return String(value ?? "")
 
 }
 
-
 function todayString(){
 
-const d=new Date();
+const d = new Date();
 
 return d.getFullYear()+"-"+
 String(d.getMonth()+1).padStart(2,"0")+"-"+
@@ -568,38 +592,40 @@ String(d.getDate()).padStart(2,"0");
 
 }
 
-
 function currentTimeString(){
 
-const d=new Date();
-
-return String(d.getHours()).padStart(2,"0")+":"+
-String(d.getMinutes()).padStart(2,"0")+":"+
-String(d.getSeconds()).padStart(2,"0");
+return new Date().toLocaleTimeString(
+"ku-IQ",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
+}
+);
 
 }
 
 
-/* ==========================
-TIME GENERATOR
-========================== */
+/* =========================
+TIME
+========================= */
 
 function generateTimes(){
 
 const result=[];
 
 for(
-let m=START_MINUTES;
-m<=END_MINUTES;
-m+=MINUTE_STEP
+let minutes=START_MINUTES;
+minutes<=END_MINUTES;
+minutes+=MINUTE_STEP
 ){
 
-const h=Math.floor(m/60);
-const min=m%60;
+const h=Math.floor(minutes/60);
+const m=minutes%60;
 
 result.push(
 String(h).padStart(2,"0")+":"+
-String(min).padStart(2,"0")
+String(m).padStart(2,"0")
 );
 
 }
@@ -609,9 +635,9 @@ return result;
 }
 
 
-/* ==========================
+/* =========================
 DAYS
-========================== */
+========================= */
 
 function setupDays(){
 
@@ -624,9 +650,7 @@ DAYS[language].forEach((day,index)=>{
 const btn=document.createElement("button");
 
 btn.type="button";
-
 btn.className="day";
-
 btn.textContent=day;
 
 if(selectedDay===index){
@@ -661,9 +685,9 @@ filter.appendChild(option);
 }
 
 
-/* ==========================
+/* =========================
 SELECT DAY
-========================== */
+========================= */
 
 async function selectDay(index){
 
@@ -673,15 +697,14 @@ selectedTime=null;
 setupDays();
 
 await renderTimes();
-
-renderPublicBookings();
+await renderPublicBookings();
 
 }
 
 
-/* ==========================
-RENDER TIMES
-========================== */
+/* =========================
+TIMES
+========================= */
 
 async function renderTimes(){
 
@@ -700,51 +723,33 @@ return;
 
 }
 
-
-/*
-IMPORTANT:
-هەر کاتێک لە Supabase هەبێت
-قفل دەکرێت.
-*/
-
 const bookedTimes=new Set(
 
 bookings
 .filter(
 b=>Number(b.day_index)===Number(selectedDay)
 )
-.map(b=>b.time)
+.map(
+b=>String(b.time).slice(0,5)
+)
 
 );
-
 
 generateTimes().forEach(time=>{
 
 const btn=document.createElement("button");
 
 btn.type="button";
-
 btn.className="time";
-
 btn.textContent=time;
-
-
-/* KAT GIRAWE */
 
 if(bookedTimes.has(time)){
 
 btn.classList.add("booked");
-
 btn.disabled=true;
-
 btn.textContent="🔒 "+time;
 
-}
-
-
-/* KAT AZADA */
-
-else{
+}else{
 
 btn.onclick=()=>{
 
@@ -752,9 +757,9 @@ selectedTime=time;
 
 document
 .querySelectorAll(".time")
-.forEach(x=>{
-x.classList.remove("active");
-});
+.forEach(
+x=>x.classList.remove("active")
+);
 
 btn.classList.add("active");
 
@@ -762,9 +767,13 @@ btn.classList.add("active");
 
 }
 
+if(
+selectedTime===time &&
+!bookedTimes.has(time)
+){
 
-if(selectedTime===time){
 btn.classList.add("active");
+
 }
 
 box.appendChild(btn);
@@ -774,9 +783,9 @@ box.appendChild(btn);
 }
 
 
-/* ==========================
+/* =========================
 LOAD SUPABASE
-========================== */
+========================= */
 
 async function refreshBookings(){
 
@@ -786,14 +795,13 @@ const {data,error}=await db
 .order("day_index",{ascending:true})
 .order("time",{ascending:true});
 
-
 if(error){
 
 console.error(error);
 
 showMessage(
 "memberMessage",
-"هەڵەی پەیوەندی بە Supabase.",
+"هەڵە لە پەیوەندی بە داتابەیس.",
 "error"
 );
 
@@ -801,31 +809,26 @@ return;
 
 }
 
-
 bookings=data||[];
 
-
-/*
-دوای هەر refresh ـێک
-کاتە گیراوەکان قفل دەبن.
-*/
-
 await renderTimes();
+await renderPublicBookings();
 
-renderPublicBookings();
+if(ownerLoggedIn){
 
 renderOwnerTable();
-
 renderStats();
 
 }
 
+}
 
-/* ==========================
-PUBLIC BOOKINGS
-========================== */
 
-function renderPublicBookings(){
+/* =========================
+PUBLIC
+========================= */
+
+async function renderPublicBookings(){
 
 const box=$("publicList");
 
@@ -840,28 +843,27 @@ return;
 
 }
 
-
 const list=bookings
 .filter(
 b=>Number(b.day_index)===Number(selectedDay)
 )
 .sort(
-(a,b)=>String(a.time)
-.localeCompare(String(b.time))
+(a,b)=>
+String(a.time).localeCompare(
+String(b.time)
+)
 );
-
 
 if(list.length===0){
 
 box.innerHTML=
 `<div class="loading">
-هیچ نۆرەیەک بۆ ئەم ڕۆژە نییە.
+${TEXT[language].noBookings}
 </div>`;
 
 return;
 
 }
-
 
 box.innerHTML=list.map(b=>`
 
@@ -876,7 +878,7 @@ ${escapeHTML(b.name)}
 <div>
 ${DAYS[language][Number(b.day_index)]}
 —
-${escapeHTML(b.time)}
+${escapeHTML(String(b.time).slice(0,5))}
 </div>
 
 </div>
@@ -896,9 +898,9 @@ ${escapeHTML(b.time)}
 }
 
 
-/* ==========================
+/* =========================
 MESSAGE
-========================== */
+========================= */
 
 function showMessage(id,text,type){
 
@@ -911,9 +913,9 @@ box.textContent=text;
 }
 
 
-/* ==========================
+/* =========================
 BOOKING
-========================== */
+========================= */
 
 $("bookingForm").addEventListener(
 "submit",
@@ -921,12 +923,10 @@ async function(e){
 
 e.preventDefault();
 
-
 const name=$("name").value.trim();
 const phone=$("phone").value.trim();
 
-
-if(!name||!phone){
+if(!name || !phone){
 
 showMessage(
 "memberMessage",
@@ -937,7 +937,6 @@ showMessage(
 return;
 
 }
-
 
 if(selectedDay===null){
 
@@ -951,7 +950,6 @@ return;
 
 }
 
-
 if(!selectedTime){
 
 showMessage(
@@ -964,33 +962,32 @@ return;
 
 }
 
-
 const submitBtn=$("submitBtn");
 
 submitBtn.disabled=true;
-
 submitBtn.textContent="چاوەڕوان بە...";
-
 
 try{
 
 /*
-IMPORTANT:
-پێش insert دووبارە لە server دەپرسرێت.
+دڵنیابوون لە کات
 */
 
-const {data:existing,error:checkError}=await db
+const {
+data:existing,
+error:checkError
+}=await db
 .from("bookings")
 .select("id")
 .eq("day_index",selectedDay)
 .eq("time",selectedTime)
 .maybeSingle();
 
-
 if(checkError){
-throw checkError;
-}
 
+throw checkError;
+
+}
 
 if(existing){
 
@@ -1008,10 +1005,13 @@ return;
 
 
 /*
-ژمارەی نۆرەی نوێ
+ژمارەی نۆرە
 */
 
-const {data:lastBooking,error:lastError}=await db
+const {
+data:lastBooking,
+error:lastError
+}=await db
 .from("bookings")
 .select("queue")
 .eq("day_index",selectedDay)
@@ -1019,54 +1019,91 @@ const {data:lastBooking,error:lastError}=await db
 .limit(1)
 .maybeSingle();
 
-
 if(lastError){
+
 throw lastError;
+
 }
 
-
-const nextQueue=
+let nextQueue=
 lastBooking
-?Number(lastBooking.queue)+1
-:1;
+? Number(lastBooking.queue)+1
+: 1;
 
 
 /*
 INSERT
 */
 
-const {data:newBooking,error}=await db
+let newBooking=null;
+let insertError=null;
+
+for(let attempt=0;attempt<3;attempt++){
+
+const result=await db
 .from("bookings")
 .insert({
 
 queue:nextQueue,
-
 name:name,
-
 phone:phone,
-
 day_index:selectedDay,
-
 time:selectedTime,
-
 booking_date:todayString(),
-
 registration_time:currentTimeString()
 
 })
 .select()
 .single();
 
+newBooking=result.data;
+insertError=result.error;
+
+if(!insertError){
+
+break;
+
+}
+
 
 /*
-ئەگەر کەسێکی تر لە هەمان کات
-پێشمان کاتەکەی گرتبێت،
-Supabase بە Unique Index ڕێگری دەکات.
+23505 = unique conflict
 */
 
-if(error){
+if(
+insertError.code==="23505" &&
+attempt<2
+){
 
-console.error(error);
+const {data:lastNow}=await db
+.from("bookings")
+.select("queue")
+.eq("day_index",selectedDay)
+.order("queue",{ascending:false})
+.limit(1)
+.maybeSingle();
+
+nextQueue=
+lastNow
+? Number(lastNow.queue)+1
+: nextQueue+1;
+
+continue;
+
+}
+
+break;
+
+}
+
+
+/*
+کات پێشتر گیراوە
+*/
+
+if(insertError){
+
+if(insertError.code==="23505"){
 
 showMessage(
 "memberMessage",
@@ -1080,41 +1117,49 @@ return;
 
 }
 
+console.error(insertError);
+
+throw insertError;
+
+}
+
 
 /*
 CONFIRMATION
 */
 
-$("confirmation").classList.remove("hidden");
+$("confirmation")
+.classList.remove("hidden");
 
-
-$("confirmQueue").textContent=
+$("confirmQueue")
+.textContent=
 String(newBooking.queue).padStart(3,"0");
 
-
-$("confirmName").textContent=
+$("confirmName")
+.textContent=
 newBooking.name;
 
-
-$("confirmPhone").textContent=
+$("confirmPhone")
+.textContent=
 newBooking.phone;
 
+$("confirmDay")
+.textContent=
+DAYS[language][
+Number(newBooking.day_index)
+];
 
-$("confirmDay").textContent=
-DAYS[language][Number(newBooking.day_index)];
+$("confirmTime")
+.textContent=
+String(newBooking.time).slice(0,5);
 
-
-$("confirmTime").textContent=
-newBooking.time;
-
-
-$("confirmDate").textContent=
+$("confirmDate")
+.textContent=
 newBooking.booking_date;
 
-
-$("confirmRegTime").textContent=
+$("confirmRegTime")
+.textContent=
 newBooking.registration_time;
-
 
 showMessage(
 "memberMessage",
@@ -1122,22 +1167,19 @@ TEXT[language].success,
 "success"
 );
 
-
 selectedTime=null;
 
 $("bookingForm").reset();
 
-
 await refreshBookings();
-
 
 $("confirmation").scrollIntoView({
 behavior:"smooth",
 block:"center"
 });
 
-
-}catch(error){
+}
+catch(error){
 
 console.error(error);
 
@@ -1147,36 +1189,40 @@ TEXT[language].error,
 "error"
 );
 
-}finally{
+}
+finally{
 
 submitBtn.disabled=false;
 
 submitBtn.textContent=
-"تۆمارکردنی نۆرە";
+TEXT[language].submit;
 
 }
 
-});
+}
+);
 
 
-/* ==========================
+/* =========================
 OWNER LOGIN
-========================== */
+========================= */
 
 function ownerLogin(){
 
 const password=
 $("ownerPassword").value;
 
-
 if(password===OWNER_PASSWORD){
 
-$("loginBox").classList.add("hidden");
+ownerLoggedIn=true;
 
-$("dashboard").classList.remove("hidden");
+$("loginBox")
+.classList.add("hidden");
+
+$("dashboard")
+.classList.remove("hidden");
 
 renderStats();
-
 renderOwnerTable();
 
 }else{
@@ -1192,9 +1238,9 @@ showMessage(
 }
 
 
-/* ==========================
+/* =========================
 OWNER TABLE
-========================== */
+========================= */
 
 function renderOwnerTable(){
 
@@ -1202,13 +1248,10 @@ const table=$("ownerTable");
 
 if(!table)return;
 
-
 const filter=
 $("ownerDayFilter").value;
 
-
 let list=[...bookings];
-
 
 if(filter!==""){
 
@@ -1218,24 +1261,16 @@ b=>Number(b.day_index)===Number(filter)
 
 }
 
-
 list.sort((a,b)=>{
 
-if(
-Number(a.day_index)!==
-Number(b.day_index)
-){
-
 return Number(a.day_index)-
-Number(b.day_index);
-
-}
-
-return String(a.time)
-.localeCompare(String(b.time));
+Number(b.day_index)
+||
+String(a.time).localeCompare(
+String(b.time)
+);
 
 });
-
 
 if(list.length===0){
 
@@ -1259,7 +1294,6 @@ return;
 
 }
 
-
 table.innerHTML=list.map(b=>`
 
 <tr>
@@ -1279,11 +1313,15 @@ ${escapeHTML(b.phone)}
 </td>
 
 <td>
-${DAYS[language][Number(b.day_index)]}
+${DAYS[language][
+Number(b.day_index)
+]}
 </td>
 
 <td>
-${escapeHTML(b.time)}
+${escapeHTML(
+String(b.time).slice(0,5)
+)}
 </td>
 
 <td>
@@ -1294,7 +1332,7 @@ ${escapeHTML(b.booking_date)}
 
 <button
 class="delete-btn"
-onclick="deleteBooking(${b.id})">
+onclick="deleteBooking(${Number(b.id)})">
 
 سڕینەوە
 
@@ -1309,28 +1347,30 @@ onclick="deleteBooking(${b.id})">
 }
 
 
-/* ==========================
+/* =========================
 DELETE ONE
-========================== */
+========================= */
 
 async function deleteBooking(id){
 
-if(!confirm(
+if(
+!confirm(
 "دڵنیایت دەتەوێت ئەم نۆرەیە بسڕیتەوە؟"
-)){
+)
+){
 
 return;
 
 }
-
 
 const {error}=await db
 .from("bookings")
 .delete()
 .eq("id",id);
 
-
 if(error){
+
+console.error(error);
 
 alert(
 "سڕینەوە سەرکەوتوو نەبوو."
@@ -1340,21 +1380,19 @@ return;
 
 }
 
-
 await refreshBookings();
 
 }
 
 
-/* ==========================
+/* =========================
 CLEAR DAY
-========================== */
+========================= */
 
 async function clearSelectedDay(){
 
 const filter=
 $("ownerDayFilter").value;
-
 
 if(filter===""){
 
@@ -1366,92 +1404,90 @@ return;
 
 }
 
-
-const dayName=
-DAYS[language][Number(filter)];
-
-
-if(!confirm(
-`دڵنیایت هەموو نۆرەکانی ${dayName} بسڕیتەوە؟`
-)){
+if(
+!confirm(
+"دڵنیایت دەتەوێت هەموو نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟"
+)
+){
 
 return;
 
 }
-
 
 const {error}=await db
 .from("bookings")
 .delete()
 .eq("day_index",Number(filter));
 
-
 if(error){
 
+console.error(error);
+
 alert(
-"هەڵە لە سڕینەوە."
+"پاککردنەوە سەرکەوتوو نەبوو."
 );
 
 return;
 
 }
 
-
 await refreshBookings();
 
 }
 
 
-/* ==========================
+/* =========================
 CLEAR ALL
-========================== */
+========================= */
 
 async function clearAllBookings(){
 
-if(!confirm(
+if(
+!confirm(
 "دڵنیایت دەتەوێت هەموو نۆرەکان بسڕیتەوە؟"
-)){
+)
+){
 
 return;
 
 }
-
 
 const {error}=await db
 .from("bookings")
 .delete()
-.neq("id",-1);
-
+.gte("id",0);
 
 if(error){
 
+console.error(error);
+
 alert(
-"هەڵە لە سڕینەوە."
+"پاککردنەوە سەرکەوتوو نەبوو."
 );
 
 return;
 
 }
 
-
 await refreshBookings();
 
 }
 
 
-/* ==========================
+/* =========================
 STATS
-========================== */
+========================= */
 
 function renderStats(){
 
-$("totalBookings").textContent=
-bookings.length;
+$("totalBookings")
+.textContent=bookings.length;
 
-$("bookedSlots").textContent=
-bookings.length;
+$("bookedSlots")
+.textContent=bookings.length;
 
-$("todayBookings").textContent=
+$("todayBookings")
+.textContent=
 bookings.filter(
 b=>b.booking_date===todayString()
 ).length;
@@ -1459,9 +1495,64 @@ b=>b.booking_date===todayString()
 }
 
 
-/* ==========================
+/* =========================
+LANGUAGE
+========================= */
+
+function changeLanguage(lang){
+
+language=lang;
+
+document.documentElement.lang=lang;
+
+document.documentElement.dir=
+lang==="en"
+?"ltr"
+:"rtl";
+
+$("heroTitle").textContent=
+TEXT[lang].heroTitle;
+
+$("heroText").textContent=
+TEXT[lang].heroText;
+
+$("formTitle").textContent=
+TEXT[lang].formTitle;
+
+$("nameLabel").textContent=
+TEXT[lang].nameLabel;
+
+$("phoneLabel").textContent=
+TEXT[lang].phoneLabel;
+
+$("dayLabel").textContent=
+TEXT[lang].dayLabel;
+
+$("timeLabel").textContent=
+TEXT[lang].timeLabel;
+
+$("submitBtn").textContent=
+TEXT[lang].submit;
+
+$("publicTitle").textContent=
+TEXT[lang].publicTitle;
+
+setupDays();
+renderTimes();
+renderPublicBookings();
+
+if(ownerLoggedIn){
+
+renderOwnerTable();
+
+}
+
+}
+
+
+/* =========================
 TABS
-========================== */
+========================= */
 
 function showTab(tab){
 
@@ -1498,138 +1589,25 @@ $("ownerTab")
 }
 
 
-/* ==========================
-LANGUAGE
-========================== */
-
-function changeLanguage(lang){
-
-language=lang;
-
-document.documentElement.lang=lang;
-
-document.documentElement.dir=
-lang==="en"?"ltr":"rtl";
-
-
-$("heroTitle").textContent=
-lang==="ku"
-?"سیستەمی نۆرە و حجز"
-:lang==="ar"
-?"نظام الدور والحجز"
-:"Queue & Booking System";
-
-
-$("heroText").textContent=
-lang==="ku"
-?"کاتەکەت هەڵبژێرە و نۆرەکەت بە ئاسانی تۆمار بکە. هەموو کاتێک کە گیرا، بۆ کەسانی تر قفل دەبێت."
-:lang==="ar"
-?"اختر وقتك وسجل دورك بسهولة. كل وقت محجوز يصبح مقفلاً للآخرين."
-:"Choose your time and register easily. Every booked time is locked for others.";
-
-
-$("formTitle").textContent=
-lang==="ku"
-?"تۆمارکردنی نۆرە"
-:lang==="ar"
-?"تسجيل الدور"
-:"Register Queue";
-
-
-$("nameLabel").textContent=
-lang==="ku"
-?"ناوی تەواو"
-:lang==="ar"
-?"الاسم الكامل"
-:"Full name";
-
-
-$("phoneLabel").textContent=
-lang==="ku"
-?"ژمارەی مۆبایل"
-:lang==="ar"
-?"رقم الهاتف"
-:"Mobile number";
-
-
-$("dayLabel").textContent=
-lang==="ku"
-?"ڕۆژ هەڵبژێرە"
-:lang==="ar"
-?"اختر اليوم"
-:"Choose day";
-
-
-$("timeLabel").textContent=
-lang==="ku"
-?"کات هەڵبژێرە"
-:lang==="ar"
-?"اختر الوقت"
-:"Choose time";
-
-
-$("submitBtn").textContent=
-lang==="ku"
-?"تۆمارکردنی نۆرە"
-:lang==="ar"
-?"تسجيل الدور"
-:"Register Queue";
-
-
-$("publicTitle").textContent=
-lang==="ku"
-?"نۆرە تۆمارکراوەکان"
-:lang==="ar"
-?"الأدوار المسجلة"
-:"Registered Queues";
-
+/* =========================
+START
+========================= */
 
 setupDays();
 
 renderTimes();
 
-renderPublicBookings();
+refreshBookings();
 
-renderOwnerTable();
-
-}
-
-
-/* ==========================
-AUTO SYNC
-========================== */
 
 /*
-هەر 3 چرکە داتاکە نوێ دەکەینەوە،
-بۆ ئەوەی ئەگەر کەسێک لە
-مۆبایلێکی تر کاتێک بگرێت،
-لە مۆبایلی ئەم کەسەش قفل بێت.
+Sync every 3 seconds
 */
 
 setInterval(
-async function(){
-
-await refreshBookings();
-
-},
+refreshBookings,
 3000
 );
-
-
-/* ==========================
-START
-========================== */
-
-async function start(){
-
-setupDays();
-
-await refreshBookings();
-
-}
-
-
-start();
 
 </script>
 
