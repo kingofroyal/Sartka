@@ -41,7 +41,7 @@ footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:
 </head>
 <body>
 <header>
-<div class="logo">Sartka BarBer/div>
+<div class="logo">📅 Queue System</div>
 <div class="langs">
 <button onclick="changeLanguage('ku')">کوردی</button>
 <button onclick="changeLanguage('ar')">العربية</button>
@@ -312,15 +312,35 @@ function showTab(tab){
  else{$("memberSection").classList.add("hidden");$("ownerSection").classList.remove("hidden");$("memberTab").classList.remove("active");$("ownerTab").classList.add("active")}
 }
 
+function syncActiveDay(){
+ const active=generateDates()[0];
+ if(!active)return;
+ if(selectedDate!==active.date || selectedDay!==active.dayIndex){
+  selectedDate=active.date;
+  selectedDay=active.dayIndex;
+  selectedTime=null;
+  setupDays();
+  renderTimes();
+  renderPublicBookings();
+ }else{
+  renderTimes();
+ }
+}
+
+function scheduleMidnightSync(){
+ const now=new Date();
+ const next=new Date(now);
+ next.setHours(24,0,1,0);
+ setTimeout(()=>{syncActiveDay();scheduleMidnightSync();},Math.max(1000,next-now));
+}
+
 selectedDate=generateDates()[0].date;
 selectedDay=generateDates()[0].dayIndex;
 setupDays();renderTimes();refreshBookings();
-setInterval(()=>{
- const active=generateDates()[0];
- if(active && selectedDate!==active.date){selectedDate=active.date;selectedDay=active.dayIndex;selectedTime=null;setupDays();renderTimes();renderPublicBookings();}
- else {renderTimes();}
-},30000);
+scheduleMidnightSync();
+setInterval(syncActiveDay,30000);
 setInterval(refreshBookings,3000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncActiveDay();});
 </script>
 </body>
 </html>
