@@ -137,9 +137,9 @@ const OWNER_PASSWORD="123456";
 const START_MINUTES=3*60, END_MINUTES=23*60, MINUTE_STEP=30;
 
 const DAYS={
-ku:["شەممە","یەکشەممە","دووشەممە","سێشەممە","چوارشەممە","پێنجشەممە"],
-ar:["السبت","الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس"],
-en:["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday"]
+ku:["شەممە","یەکشەممە","دووشەممە","سێشەممە","چوارشەممە","پێنجشەممە","هەینی"],
+ar:["السبت","الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],
+en:["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"]
 };
 
 const TEXT={
@@ -155,12 +155,13 @@ function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").repl
 function todayString(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function currentTimeString(){return new Date().toLocaleTimeString("ku-IQ",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
 function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP)r.push(String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"));return r}
+function displayTime(time){const [hh,mm]=String(time).split(":").map(Number);const h=hh%12||12;return h+":"+String(mm).padStart(2,"0")}
 
 function setupDays(){
  const box=$("days"); box.innerHTML="";
- DAYS[language].forEach((day,index)=>{const b=document.createElement("button");b.type="button";b.className="day";b.textContent=day;if(selectedDay===index)b.classList.add("active");b.onclick=()=>selectDay(index);box.appendChild(b)});
+ DAYS[language].forEach((day,index)=>{if(index===6)return;const b=document.createElement("button");b.type="button";b.className="day";b.textContent=day;if(selectedDay===index)b.classList.add("active");b.onclick=()=>selectDay(index);box.appendChild(b)});
  const filter=$("ownerDayFilter"); filter.innerHTML='<option value="">هەموو ڕۆژەکان</option>';
- DAYS[language].forEach((day,index)=>{const o=document.createElement("option");o.value=index;o.textContent=day;filter.appendChild(o)});
+ DAYS[language].forEach((day,index)=>{if(index===6)return;const o=document.createElement("option");o.value=index;o.textContent=day;filter.appendChild(o)});
 }
 
 async function selectDay(index){selectedDay=index;selectedTime=null;setupDays();await renderTimes();await renderPublicBookings()}
@@ -170,7 +171,7 @@ async function renderTimes(){
  if(selectedDay===null){box.innerHTML=`<div class="loading">${TEXT[language].selectDay}</div>`;return}
  const bookedTimes=new Set(bookings.filter(b=>Number(b.day_index)===selectedDay).map(b=>String(b.time)));
  generateTimes().forEach(time=>{
-  const b=document.createElement("button");b.type="button";b.className="time";b.textContent=time;
+  const b=document.createElement("button");b.type="button";b.className="time";b.textContent=displayTime(time);
   if(bookedTimes.has(time)){b.classList.add("booked");b.disabled=true;b.title="Booked"}
   else b.onclick=()=>{selectedTime=time;document.querySelectorAll(".time").forEach(x=>x.classList.remove("active"));b.classList.add("active")};
   if(selectedTime===time&&!bookedTimes.has(time))b.classList.add("active");box.appendChild(b);
@@ -187,7 +188,7 @@ async function renderPublicBookings(){
  const box=$("publicList");
  const list=[...bookings].sort((a,b)=>Number(a.day_index)-Number(b.day_index)||String(a.time).localeCompare(String(b.time)));
  if(!list.length){box.innerHTML=`<div class="loading">${TEXT[language].noBookings}</div>`;return}
- box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${DAYS[language][Number(b.day_index)]} — 🕐 ${escapeHTML(b.time)}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
+ box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${DAYS[language][Number(b.day_index)]} — 🕐 ${escapeHTML(displayTime(b.time))}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
 }
 
 function showMessage(id,text,type){const box=$(id);box.className="message "+type;box.textContent=text}
@@ -228,7 +229,7 @@ $("bookingForm").addEventListener("submit",async e=>{
   $("confirmation").classList.remove("hidden");
   $("confirmQueue").textContent=String(newBooking.queue).padStart(3,"0");
   $("confirmName").textContent=newBooking.name;$("confirmPhone").textContent=newBooking.phone;
-  $("confirmDay").textContent=DAYS[language][Number(newBooking.day_index)];$("confirmTime").textContent=newBooking.time;
+  $("confirmDay").textContent=DAYS[language][Number(newBooking.day_index)];$("confirmTime").textContent=displayTime(newBooking.time);
   $("confirmDate").textContent=newBooking.booking_date;$("confirmRegTime").textContent=newBooking.registration_time;
   showMessage("memberMessage",TEXT[language].success,"success");selectedTime=null;$("bookingForm").reset();
   await refreshBookings();$("confirmation").scrollIntoView({behavior:"smooth",block:"center"});
@@ -246,7 +247,7 @@ function renderOwnerTable(){
  if(filter!=="")list=list.filter(b=>Number(b.day_index)===Number(filter));
  list.sort((a,b)=>Number(a.day_index)-Number(b.day_index)||String(a.time).localeCompare(String(b.time)));
  if(!list.length){table.innerHTML='<tr><td colspan="7" style="text-align:center">هیچ نۆرەیەک نییە.</td></tr>';return}
- table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${DAYS[language][Number(b.day_index)]}</td><td>${escapeHTML(b.time)}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
+ table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${DAYS[language][Number(b.day_index)]}</td><td>${escapeHTML(displayTime(b.time))}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
 }
 
 async function deleteBooking(id){
