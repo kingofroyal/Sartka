@@ -1,0 +1,785 @@
+const OWNER_PASSWORD = "123456";
+
+const START_HOUR = 8;
+const END_HOUR = 17;
+const MINUTE_STEP = 30;
+
+const DAYS = [
+  "شەممە",
+  "یەکشەممە",
+  "دووشەممە",
+  "سێشەممە",
+  "چوارشەممە",
+  "پێنجشەممە",
+  "هەینی"
+];
+
+let members = JSON.parse(
+  localStorage.getItem("queueMembers") || "[]"
+);
+
+let selectedDay = "";
+let selectedTime = "";
+
+
+function $(id) {
+  return document.getElementById(id);
+}
+
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+function save() {
+
+  localStorage.setItem(
+    "queueMembers",
+    JSON.stringify(members)
+  );
+
+}
+
+
+function generateTimeSlots() {
+
+  const slots = [];
+
+  for (let h = START_HOUR; h < END_HOUR; h++) {
+
+    for (
+      let m = 0;
+      m < 60;
+      m += MINUTE_STEP
+    ) {
+
+      slots.push(
+        String(h).padStart(2, "0") +
+        ":" +
+        String(m).padStart(2, "0")
+      );
+
+    }
+
+  }
+
+  return slots;
+}
+
+
+function setupDays() {
+
+  $("days").innerHTML = DAYS.map(day => {
+
+    return `
+      <button
+        type="button"
+        class="day"
+        data-day="${escapeHTML(day)}">
+
+        ${escapeHTML(day)}
+
+      </button>
+    `;
+
+  }).join("");
+
+
+  document.querySelectorAll(".day")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        selectedDay = button.dataset.day;
+        selectedTime = "";
+
+        document
+          .querySelectorAll(".day")
+          .forEach(b =>
+            b.classList.remove("selected")
+          );
+
+        button.classList.add("selected");
+
+        renderTimes();
+        renderPublicBookings();
+
+      });
+
+    });
+
+
+  $("dayFilter").innerHTML =
+    `<option value="all">هەموو ڕۆژەکان</option>` +
+
+    DAYS.map(day =>
+      `<option value="${escapeHTML(day)}">
+        ${escapeHTML(day)}
+      </option>`
+    ).join("");
+
+}
+
+
+function renderTimes() {
+
+  if (!selectedDay) {
+
+    $("timeArea")
+      .classList.add("hidden");
+
+    return;
+
+  }
+
+
+  $("timeArea")
+    .classList.remove("hidden");
+
+
+  $("selectedDayTitle").innerHTML =
+    `📅 ڕۆژ:
+     <b>${escapeHTML(selectedDay)}</b>`;
+
+
+  $("times").innerHTML =
+    generateTimeSlots().map(time => {
+
+      const booking =
+        members.find(
+          m =>
+            m.day === selectedDay &&
+            m.time === time
+        );
+
+
+      if (booking) {
+
+        return `
+          <button
+            type="button"
+            class="time taken"
+            disabled>
+
+            ${escapeHTML(time)}
+
+            <small>
+              گیراوە:
+              ${escapeHTML(booking.name)}
+            </small>
+
+          </button>
+        `;
+
+      }
+
+
+      return `
+        <button
+          type="button"
+          class="time"
+          data-time="${time}">
+
+          ${time}
+
+        </button>
+      `;
+
+    }).join("");
+
+
+  document
+    .querySelectorAll(".time:not(.taken)")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        selectedTime =
+          button.dataset.time;
+
+        document
+          .querySelectorAll(".time")
+          .forEach(b =>
+            b.classList.remove("selected")
+          );
+
+        button.classList.add("selected");
+
+      });
+
+    });
+
+}
+
+
+function renderPublicBookings() {
+
+  const box = $("publicBookings");
+
+
+  if (!selectedDay) {
+
+    box.className =
+      "booking-list empty";
+
+    box.textContent =
+      "سەرەتا ڕۆژێک هەڵبژێرە.";
+
+    return;
+
+  }
+
+
+  const list =
+    members
+      .filter(m => m.day === selectedDay)
+      .sort((a, b) =>
+        a.time.localeCompare(b.time)
+      );
+
+
+  if (!list.length) {
+
+    box.className =
+      "booking-list empty";
+
+    box.textContent =
+      "هێشتا هیچ کەسێک بۆ ئەم ڕۆژە تۆمار نەکراوە.";
+
+    return;
+
+  }
+
+
+  box.className =
+    "booking-list booking-grid";
+
+
+  box.innerHTML =
+    list.map(m => {
+
+      return `
+        <div class="booking-item">
+
+          <strong>
+            ⏰ ${escapeHTML(m.time)}
+          </strong>
+
+          <div>
+            👤 ${escapeHTML(m.name)}
+          </div>
+
+          <small>
+            نۆرە:
+            #${String(m.queue).padStart(3, "0")}
+          </small>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+function showMember() {
+
+  $("memberSection")
+    .classList.remove("hidden");
+
+  $("ownerSection")
+    .classList.add("hidden");
+
+  $("memberTab")
+    .classList.add("active");
+
+  $("ownerTab")
+    .classList.remove("active");
+
+}
+
+
+function showOwner() {
+
+  $("memberSection")
+    .classList.add("hidden");
+
+  $("ownerSection")
+    .classList.remove("hidden");
+
+  $("memberTab")
+    .classList.remove("active");
+
+  $("ownerTab")
+    .classList.add("active");
+
+}
+
+
+$("memberForm")
+  .addEventListener("submit", event => {
+
+    event.preventDefault();
+
+
+    const name =
+      $("name").value.trim();
+
+    const phone =
+      $("phone").value.trim();
+
+
+    if (!selectedDay) {
+
+      alert("تکایە ڕۆژ هەڵبژێرە.");
+
+      return;
+
+    }
+
+
+    if (!selectedTime) {
+
+      alert("تکایە کات هەڵبژێرە.");
+
+      return;
+
+    }
+
+
+    const exists =
+      members.some(
+        m =>
+          m.day === selectedDay &&
+          m.time === selectedTime
+      );
+
+
+    if (exists) {
+
+      alert("ئەم کاتە پێشتر گیراوە.");
+
+      renderTimes();
+
+      return;
+
+    }
+
+
+    const now = new Date();
+
+
+    const date =
+      now.toLocaleDateString("ku-IQ");
+
+
+    const registrationTime =
+      now.toLocaleTimeString(
+        "ku-IQ",
+        {
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+
+    const sameDay =
+      members.filter(
+        m => m.day === selectedDay
+      );
+
+
+    const queue =
+      sameDay.length + 1;
+
+
+    const member = {
+
+      id: Date.now(),
+
+      queue,
+
+      name,
+
+      phone,
+
+      day: selectedDay,
+
+      time: selectedTime,
+
+      date,
+
+      registrationTime
+
+    };
+
+
+    members.push(member);
+
+    save();
+
+
+    $("successBox").innerHTML = `
+
+      <div>
+        تۆ بە سەرکەوتوویی تۆمارکرایت ✅
+      </div>
+
+      <div class="queue-number">
+        #${String(queue).padStart(3, "0")}
+      </div>
+
+      <div class="success-info">
+
+        👤 ناو:
+        <b>${escapeHTML(name)}</b>
+        <br>
+
+        📱 مۆبایل:
+        <b>${escapeHTML(phone)}</b>
+        <br>
+
+        📅 ڕۆژ:
+        <b>${escapeHTML(selectedDay)}</b>
+        <br>
+
+        ⏰ کات:
+        <b>${escapeHTML(selectedTime)}</b>
+        <br>
+
+        📆 بەروار:
+        <b>${escapeHTML(date)}</b>
+
+      </div>
+
+    `;
+
+
+    $("successBox")
+      .classList.remove("hidden");
+
+
+    $("memberForm").reset();
+
+
+    selectedDay = "";
+    selectedTime = "";
+
+
+    document
+      .querySelectorAll(".day")
+      .forEach(b =>
+        b.classList.remove("selected")
+      );
+
+
+    $("timeArea")
+      .classList.add("hidden");
+
+
+    renderPublicBookings();
+
+    updateStats();
+
+
+    $("successBox")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  });
+
+
+function loginOwner() {
+
+  const password =
+    $("ownerPassword").value;
+
+
+  if (password !== OWNER_PASSWORD) {
+
+    alert("وشەی نهێنی هەڵەیە ❌");
+
+    return;
+
+  }
+
+
+  $("ownerLoginBox")
+    .classList.add("hidden");
+
+
+  $("dashboard")
+    .classList.remove("hidden");
+
+
+  renderOwnerTable();
+
+}
+
+
+function renderOwnerTable() {
+
+  const filter =
+    $("dayFilter").value;
+
+
+  let data =
+    filter === "all"
+      ? [...members]
+      : members.filter(
+          m => m.day === filter
+        );
+
+
+  data.sort(
+    (a, b) =>
+      a.time.localeCompare(b.time)
+  );
+
+
+  $("tableBody").innerHTML =
+    data.length
+
+      ? data.map(m => {
+
+          return `
+
+            <tr>
+
+              <td>
+                #${String(m.queue)
+                  .padStart(3, "0")}
+              </td>
+
+              <td>
+                ${escapeHTML(m.name)}
+              </td>
+
+              <td>
+                ${escapeHTML(m.phone)}
+              </td>
+
+              <td>
+                ${escapeHTML(m.day)}
+              </td>
+
+              <td>
+                <b>
+                  ${escapeHTML(m.time)}
+                </b>
+              </td>
+
+              <td>
+
+                ${escapeHTML(m.date)}
+
+                <br>
+
+                <small>
+                  ${escapeHTML(m.registrationTime)}
+                </small>
+
+              </td>
+
+              <td>
+
+                <button
+                  class="delete-one"
+                  onclick="deleteMember(${m.id})">
+
+                  Clear
+
+                </button>
+
+              </td>
+
+            </tr>
+
+          `;
+
+        }).join("")
+
+      : `
+
+        <tr>
+
+          <td
+            colspan="7"
+            class="empty">
+
+            هیچ فۆرمێک نییە.
+
+          </td>
+
+        </tr>
+
+      `;
+
+
+  updateStats();
+
+}
+
+
+function deleteMember(id) {
+
+  const member =
+    members.find(
+      m => m.id === id
+    );
+
+
+  if (!member) return;
+
+
+  if (
+    !confirm(
+      `دڵنیایت فۆرمی
+       ${member.name}
+       بسڕیتەوە؟`
+    )
+  ) return;
+
+
+  members =
+    members.filter(
+      m => m.id !== id
+    );
+
+
+  save();
+
+  renderOwnerTable();
+
+  renderTimes();
+
+  renderPublicBookings();
+
+}
+
+
+function clearSelectedDay() {
+
+  const day =
+    $("dayFilter").value;
+
+
+  if (day === "all") {
+
+    alert(
+      "سەرەتا ڕۆژێک هەڵبژێرە."
+    );
+
+    return;
+
+  }
+
+
+  const count =
+    members.filter(
+      m => m.day === day
+    ).length;
+
+
+  if (!count) {
+
+    alert(
+      "هیچ فۆرمێک بۆ ئەم ڕۆژە نییە."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !confirm(
+      `دڵنیایت هەموو ${count}
+       فۆرمی ${day} بسڕیتەوە؟`
+    )
+  ) return;
+
+
+  members =
+    members.filter(
+      m => m.day !== day
+    );
+
+
+  save();
+
+  renderOwnerTable();
+
+  renderTimes();
+
+  renderPublicBookings();
+
+}
+
+
+function clearEverything() {
+
+  if (!members.length) {
+
+    alert("هیچ فۆرمێک نییە.");
+
+    return;
+
+  }
+
+
+  if (
+    !confirm(
+      `دڵنیایت هەموو
+       ${members.length}
+       فۆرم بسڕیتەوە؟`
+    )
+  ) return;
+
+
+  members = [];
+
+  save();
+
+  renderOwnerTable();
+
+  renderTimes();
+
+  renderPublicBookings();
+
+}
+
+
+function updateStats() {
+
+  $("totalCount").textContent =
+    members.length;
+
+  $("takenCount").textContent =
+    members.length;
+
+
+  const today =
+    new Date().toLocaleDateString("ku-IQ");
+
+
+  $("todayCount").textContent =
+    members.filter(
+      m => m.date === today
+    ).length;
+
+}
+
+
+setupDays();
+
+updateStats();
