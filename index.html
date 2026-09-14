@@ -155,9 +155,9 @@ function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").repl
 function dateString(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function todayString(){return dateString(new Date())}
 function currentTimeString(){return new Date().toLocaleTimeString("ku-IQ",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
-function weekdayIndex(d){const js=d.getDay();if(js===5)return null;return (js+6)%7}
-function getActiveDate(){const d=new Date();d.setSeconds(0,0);if(d.getDay()===5)d.setDate(d.getDate()+1);return d}
-function generateDates(){const d=getActiveDate();const idx=weekdayIndex(d);return [{date:dateString(d),dayIndex:idx,label:DAYS[language][idx],dateLabel:(d.getFullYear()+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+String(d.getDate()).padStart(2,"0")),isToday:dateString(d)===todayString()}]}
+function weekdayIndex(d){return (d.getDay()+6)%7}
+function getActiveDate(){const d=new Date();d.setSeconds(0,0);d.setMilliseconds(0);return d}
+function generateDates(){const start=getActiveDate();const dates=[];for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const idx=weekdayIndex(d);dates.push({date:dateString(d),dayIndex:idx,label:DAYS[language][idx],dateLabel:(d.getFullYear()+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+String(d.getDate()).padStart(2,"0")),isToday:i===0})}return dates}
 function isTodayDate(date){return date===todayString()}
 function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP){const h24=Math.floor(m/60),h=h24>12?h24-12:h24;r.push(String(h)+":"+String(m%60).padStart(2,"0"))}return r}
 function timeIsPast(time,date){if(!isTodayDate(date))return false;const [h,m]=String(time).split(":").map(Number);const now=new Date();return h*60+m<=now.getHours()*60+now.getMinutes()}
@@ -313,18 +313,19 @@ function showTab(tab){
 }
 
 function syncActiveDay(){
- const active=generateDates()[0];
- if(!active)return;
- if(selectedDate!==active.date || selectedDay!==active.dayIndex){
-  selectedDate=active.date;
-  selectedDay=active.dayIndex;
+ const dates=generateDates();
+ if(!dates.length)return;
+ if(!dates.some(x=>x.date===selectedDate)){
+  selectedDate=dates[0].date;
+  selectedDay=dates[0].dayIndex;
   selectedTime=null;
-  setupDays();
-  renderTimes();
-  renderPublicBookings();
  }else{
-  renderTimes();
+  const obj=dates.find(x=>x.date===selectedDate);
+  selectedDay=obj.dayIndex;
  }
+ setupDays();
+ renderTimes();
+ renderPublicBookings();
 }
 
 function scheduleMidnightSync(){
