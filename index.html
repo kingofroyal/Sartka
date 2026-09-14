@@ -157,24 +157,9 @@ function todayString(){return dateString(new Date())}
 function currentTimeString(){return new Date().toLocaleTimeString("ku-IQ",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
 function weekdayIndex(d){const js=d.getDay();if(js===5)return null;return (js+6)%7}
 function getActiveDate(){const d=new Date();d.setSeconds(0,0);if(d.getDay()===5)d.setDate(d.getDate()+1);return d}
-function generateDates(){
- const active=getActiveDate();
- const dates=[];
- const x=new Date(active);
- // Friday is completely removed. Show the active day plus 6 previous non-Friday days.
- while(dates.length<7){
-  if(x.getDay()!==5){
-   const idx=weekdayIndex(x);
-   dates.push({date:dateString(x),dayIndex:idx,label:DAYS[language][idx],dateLabel:(x.getFullYear()+"/"+String(x.getMonth()+1).padStart(2,"0")+"/"+String(x.getDate()).padStart(2,"0")),isToday:dateString(x)===todayString()});
-  }
-  x.setDate(x.getDate()-1);
- }
- return dates;
-}
+function generateDates(){const center=getActiveDate();const out=[];for(let offset=-30;offset<=60;offset++){const d=new Date(center);d.setDate(center.getDate()+offset);const idx=weekdayIndex(d);if(idx===null)continue;out.push({date:dateString(d),dayIndex:idx,label:DAYS[language][idx],dateLabel:(d.getFullYear()+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+String(d.getDate()).padStart(2,"0")),isToday:dateString(d)===todayString()});}return out}
 function isTodayDate(date){return date===todayString()}
 function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP)r.push(String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"));return r}
-function toKurdishDigits(value){return String(value).replace(/[0-9]/g,d=>"٠١٢٣٤٥٦٧٨٩"[Number(d)]);}
-function formatKurdishTime(time){const [hh,mm]=String(time).split(":").map(Number);let h=hh%12;if(h===0)h=12;return toKurdishDigits(h)+":"+toKurdishDigits(String(mm).padStart(2,"0"));}
 function timeIsPast(time,date){if(!isTodayDate(date))return false;const [h,m]=String(time).split(":").map(Number);const now=new Date();return h*60+m<=now.getHours()*60+now.getMinutes()}
 function getSelectedDateObj(){return generateDates().find(x=>x.date===selectedDate)||null}
 function getBookingDayLabel(b){const d=generateDates().find(x=>x.date===b.booking_date);return d?d.label:DAYS[language][Number(b.day_index)]}
@@ -198,7 +183,7 @@ async function renderTimes(){
  const obj=getSelectedDateObj();if(!obj)return;
  const bookedTimes=new Set(bookings.filter(b=>String(b.booking_date)===selectedDate).map(b=>String(b.time)));
  generateTimes().forEach(time=>{
-  const b=document.createElement("button");b.type="button";b.className="time";b.textContent=formatKurdishTime(time);
+  const b=document.createElement("button");b.type="button";b.className="time";b.textContent=time;
   const past=timeIsPast(time,selectedDate);
   if(bookedTimes.has(time)||past){if(bookedTimes.has(time))b.classList.add("booked");if(past)b.classList.add("past");b.disabled=true;b.title=bookedTimes.has(time)?"Booked":"Past"}
   else b.onclick=()=>{selectedTime=time;document.querySelectorAll(".time").forEach(x=>x.classList.remove("active"));b.classList.add("active")};
@@ -216,7 +201,8 @@ async function refreshBookings(){
 
 async function renderPublicBookings(){
  const box=$("publicList");
- const list=[...bookings].filter(b=>String(b.booking_date)===String(selectedDate)).sort((a,b)=>String(a.time).localeCompare(String(b.time)));
+ const activeDate=generateDates()[0]?.date;
+ const list=[...bookings].filter(b=>String(b.booking_date)===String(activeDate)).sort((a,b)=>String(a.time).localeCompare(String(b.time)));
  if(!list.length){box.innerHTML=`<div class="loading">${TEXT[language].noBookings}</div>`;return}
  box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${getBookingDayLabel(b)} — ${escapeHTML(b.booking_date)} — 🕐 ${escapeHTML(b.time)}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
 }
@@ -227,9 +213,9 @@ $("bookingForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const name=$("name").value.trim(),phone=$("phone").value.trim();
  if(!name||!phone){showMessage("memberMessage","تکایە ناو و ژمارەی مۆبایل بنووسە.","error");return}
- const selectedObj=getSelectedDateObj();
- if(!selectedObj){showMessage("memberMessage",TEXT[language].selectDay,"error");return}
- selectedDay=selectedObj.dayIndex;
+ const active=generateDates()[0];
+ if(!active){showMessage("memberMessage","ئەمڕۆ ڕۆژی حجز نییە.","error");return}
+ if(selectedDate!==active.date){selectedDate=active.date;selectedDay=active.dayIndex;selectedTime=null;setupDays();await renderTimes();}
  if(selectedDay===null){showMessage("memberMessage",TEXT[language].selectDay,"error");return}
  if(!selectedTime){showMessage("memberMessage",TEXT[language].selectTime,"error");return}
  const btn=$("submitBtn");btn.disabled=true;btn.textContent="چاوەڕوان بە...";
@@ -263,7 +249,7 @@ $("bookingForm").addEventListener("submit",async e=>{
   $("confirmation").classList.remove("hidden");
   $("confirmQueue").textContent=String(newBooking.queue).padStart(3,"0");
   $("confirmName").textContent=newBooking.name;
-  $("confirmDay").textContent=getBookingDayLabel(newBooking)+" — "+newBooking.booking_date;$("confirmTime").textContent=formatKurdishTime(newBooking.time);
+  $("confirmDay").textContent=getBookingDayLabel(newBooking)+" — "+newBooking.booking_date;$("confirmTime").textContent=newBooking.time;
   $("confirmDate").textContent=newBooking.booking_date;$("confirmRegTime").textContent=newBooking.registration_time;
   showMessage("memberMessage",TEXT[language].success,"success");selectedTime=null;$("bookingForm").reset();
   await refreshBookings();$("confirmation").scrollIntoView({behavior:"smooth",block:"center"});
@@ -281,7 +267,7 @@ function renderOwnerTable(){
  if(filter!=="")list=list.filter(b=>String(b.booking_date)===String(filter));
  list.sort((a,b)=>String(a.booking_date).localeCompare(String(b.booking_date))||String(a.time).localeCompare(String(b.time)));
  if(!list.length){table.innerHTML='<tr><td colspan="7" style="text-align:center">هیچ نۆرەیەک نییە.</td></tr>';return}
- table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${getBookingDayLabel(b)}</td><td>${escapeHTML(formatKurdishTime(b.time))}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
+ table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${getBookingDayLabel(b)}</td><td>${escapeHTML(b.time)}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
 }
 
 async function deleteBooking(id){
@@ -327,18 +313,11 @@ function showTab(tab){
 }
 
 function syncActiveDay(){
- const active=generateDates()[0];
- if(!active)return;
- if(selectedDate!==active.date || selectedDay!==active.dayIndex){
-  selectedDate=active.date;
-  selectedDay=active.dayIndex;
-  selectedTime=null;
-  setupDays();
-  renderTimes();
-  renderPublicBookings();
- }else{
-  renderTimes();
- }
+ const obj=getSelectedDateObj();
+ if(obj){selectedDay=obj.dayIndex;}
+ setupDays();
+ renderTimes();
+ renderPublicBookings();
 }
 
 function scheduleMidnightSync(){
