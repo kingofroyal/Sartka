@@ -4,420 +4,71 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>سیستەمی نۆرە و حجز</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:Tahoma,Arial,sans-serif;
-  background:#f4f7fb;
-  color:#172033;
-  line-height:1.8
-}
-
-header{
-  background:linear-gradient(135deg,#0879e8,#0055b8);
-  color:#fff;
-  padding:15px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:10;
-  box-shadow:0 4px 15px #0002
-}
-
-.logo{
-  font-size:22px;
-  font-weight:bold
-}
-
-.langs{
-  display:flex;
-  gap:5px
-}
-
-.langs button{
-  border:1px solid #ffffff55;
-  background:#ffffff18;
-  color:white;
-  padding:6px 10px;
-  border-radius:7px;
-  cursor:pointer
-}
-
-.hero{
-  max-width:1100px;
-  margin:25px auto;
-  padding:30px 20px;
-  display:grid;
-  grid-template-columns:1fr 300px;
-  gap:30px;
-  align-items:center
-}
-
-.hero h1{
-  font-size:38px;
-  color:#075ebd;
-  margin-bottom:10px
-}
-
-.hero p{
-  color:#5e6b7d;
-  font-size:17px
-}
-
-.profile{
-  width:260px;
-  height:260px;
-  object-fit:cover;
-  border-radius:50%;
-  margin:auto;
-  display:block;
-  border:8px solid white;
-  box-shadow:0 8px 30px #0002
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:0 15px 40px
-}
-
-.tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px
-}
-
-.tab{
-  flex:1;
-  border:0;
-  padding:14px;
-  border-radius:10px;
-  background:#dce9f8;
-  color:#075ebd;
-  cursor:pointer;
-  font-weight:bold;
-  font-size:16px
-}
-
-.tab.active{
-  background:#0879e8;
-  color:white
-}
-
-.card{
-  background:white;
-  border-radius:16px;
-  padding:25px;
-  margin-bottom:20px;
-  box-shadow:0 5px 20px #0000000c
-}
-
-.card h2{
-  color:#075ebd;
-  margin-bottom:18px
-}
-
-.form-group{
-  margin-bottom:15px
-}
-
-label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:6px
-}
-
-input,select{
-  width:100%;
-  padding:13px;
-  border:1px solid #ccd6e3;
-  border-radius:9px;
-  font-size:16px;
-  outline:none;
-  background:white
-}
-
-input:focus,select:focus{
-  border-color:#0879e8;
-  box-shadow:0 0 0 3px #0879e818
-}
-
-.days{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:8px
-}
-
-.day{
-  border:1px solid #cbd8e7;
-  background:white;
-  color:#075ebd;
-  border-radius:9px;
-  padding:10px 5px;
-  cursor:pointer;
-  text-align:center
-}
-
-.day.active{
-  background:#0879e8;
-  color:white
-}
-
-.times{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
-  margin-top:10px
-}
-
-.time{
-  border:1px solid #cbd8e7;
-  background:white;
-  color:#075ebd;
-  border-radius:8px;
-  padding:9px;
-  cursor:pointer
-}
-
-.time.active{
-  background:#0879e8;
-  color:white
-}
-
-.time.booked{
-  background:#e9edf2;
-  color:#9aa5b2;
-  cursor:not-allowed;
-  text-decoration:line-through
-}
-
-.primary{
-  width:100%;
-  border:0;
-  background:#0879e8;
-  color:white;
-  padding:14px;
-  border-radius:10px;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:10px
-}
-
-.primary:hover{
-  background:#005fca
-}
-
-.primary:disabled{
-  opacity:.6;
-  cursor:not-allowed
-}
-
-.message{
-  padding:14px;
-  border-radius:10px;
-  margin:15px 0;
-  display:none
-}
-
-.success{
-  background:#dff7e8;
-  color:#126b36;
-  display:block
-}
-
-.error{
-  background:#ffe2e2;
-  color:#9b1717;
-  display:block
-}
-
-.loading{
-  text-align:center;
-  padding:15px;
-  color:#65758b
-}
-
-.booking-list{
-  display:flex;
-  flex-direction:column;
-  gap:10px
-}
-
-.booking{
-  border:1px solid #e0e6ee;
-  border-radius:10px;
-  padding:13px;
-  background:#fafcff;
-  display:flex;
-  justify-content:space-between;
-  align-items:center
-}
-
-.badge{
-  background:#0879e8;
-  color:white;
-  border-radius:8px;
-  padding:4px 9px;
-  font-weight:bold
-}
-
-.owner-login{
-  max-width:500px;
-  margin:auto
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-bottom:20px
-}
-
-.stat{
-  background:#f3f8ff;
-  border:1px solid #dbe9f8;
-  border-radius:12px;
-  padding:18px;
-  text-align:center
-}
-
-.stat strong{
-  display:block;
-  font-size:28px;
-  color:#0879e8
-}
-
-.owner-tools{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:20px
-}
-
-.owner-tools button{
-  border:0;
-  border-radius:8px;
-  padding:10px 15px;
-  cursor:pointer;
-  font-weight:bold
-}
-
-.danger{
-  background:#e53935;
-  color:white
-}
-
-.warning{
-  background:#ffb300;
-  color:white
-}
-
-.table-wrap{
-  overflow-x:auto
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:700px
-}
-
-th,td{
-  padding:11px;
-  border-bottom:1px solid #e5e9ef;
-  text-align:right
-}
-
-th{
-  background:#f1f6fb;
-  color:#075ebd
-}
-
-.delete-btn{
-  border:0;
-  background:#e53935;
-  color:white;
-  border-radius:7px;
-  padding:7px 12px;
-  cursor:pointer
-}
-
-.hidden{
-  display:none!important
-}
-
-.confirm{
-  text-align:center;
-  border:2px solid #21a957;
-  background:#f0fff5
-}
-
-.confirm-number{
-  font-size:48px;
-  color:#0879e8;
-  font-weight:bold;
-  margin:10px 0
-}
-
-footer{
-  text-align:center;
-  padding:25px;
-  background:#10243d;
-  color:white;
-  margin-top:30px
-}
-
+body{font-family:Tahoma,Arial,sans-serif;background:#f4f7fb;color:#172033;line-height:1.8}
+header{background:linear-gradient(135deg,#0879e8,#0055b8);color:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;box-shadow:0 4px 15px #0002}
+.logo{font-size:22px;font-weight:bold}.langs{display:flex;gap:5px}
+.langs button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:6px 10px;border-radius:7px;cursor:pointer}
+.hero{max-width:1100px;margin:25px auto;padding:30px 20px;display:grid;grid-template-columns:1fr 300px;gap:30px;align-items:center}
+.hero h1{font-size:38px;color:#075ebd;margin-bottom:10px}.hero p{color:#5e6b7d;font-size:17px}
+.profile{width:220px;height:220px;object-fit:cover;border-radius:50%;margin:auto;display:block;border:8px solid white;box-shadow:0 8px 30px #0002}
+.container{max-width:1100px;margin:auto;padding:0 15px 40px}
+.tabs{display:flex;gap:10px;margin-bottom:20px}
+.tab{flex:1;border:0;padding:14px;border-radius:10px;background:#dce9f8;color:#075ebd;cursor:pointer;font-weight:bold;font-size:16px}
+.tab.active{background:#0879e8;color:white}
+.card{background:white;border-radius:16px;padding:25px;margin-bottom:20px;box-shadow:0 5px 20px #0000000c}
+.card h2{color:#075ebd;margin-bottom:18px}
+.form-group{margin-bottom:15px}
+label{display:block;font-weight:bold;margin-bottom:6px}
+input,select{width:100%;padding:13px;border:1px solid #ccd6e3;border-radius:9px;font-size:16px;outline:none;background:white}
+input:focus,select:focus{border-color:#0879e8;box-shadow:0 0 0 3px #0879e818}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.day{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:9px;padding:10px 5px;cursor:pointer;text-align:center}
+.day.active{background:#0879e8;color:white}
+.times{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+.time{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:8px;padding:9px;cursor:pointer}
+.time.active{background:#0879e8;color:white}
+.time.booked{background:#e9edf2;color:#9aa5b2;cursor:not-allowed;text-decoration:line-through}
+.primary{width:100%;border:0;background:#0879e8;color:white;padding:14px;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer;margin-top:10px}
+.primary:hover{background:#005fca}.primary:disabled{opacity:.6;cursor:not-allowed}
+.message{padding:14px;border-radius:10px;margin:15px 0;display:none}
+.success{background:#dff7e8;color:#126b36;display:block}
+.error{background:#ffe2e2;color:#9b1717;display:block}
+.loading{text-align:center;padding:15px;color:#65758b}
+.booking-list{display:flex;flex-direction:column;gap:10px}
+.booking{border:1px solid #e0e6ee;border-radius:10px;padding:13px;background:#fafcff;display:flex;justify-content:space-between;align-items:center}
+.badge{background:#0879e8;color:white;border-radius:8px;padding:4px 9px;font-weight:bold}
+.owner-login{max-width:500px;margin:auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}
+.stat{background:#f3f8ff;border:1px solid #dbe9f8;border-radius:12px;padding:18px;text-align:center}
+.stat strong{display:block;font-size:28px;color:#0879e8}
+.owner-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.owner-tools button{border:0;border-radius:8px;padding:10px 15px;cursor:pointer;font-weight:bold}
+.danger{background:#e53935;color:white}.warning{background:#ffb300;color:white}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{padding:11px;border-bottom:1px solid #e5e9ef;text-align:right}
+th{background:#f1f6fb;color:#075ebd}
+.delete-btn{border:0;background:#e53935;color:white;border-radius:7px;padding:7px 12px;cursor:pointer}
+.hidden{display:none!important}
+.confirm{text-align:center;border:2px solid #21a957;background:#f0fff5}
+.confirm-number{font-size:48px;color:#0879e8;font-weight:bold;margin:10px 0}
+footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:30px}
 @media(max-width:800px){
-  .hero{
-    grid-template-columns:1fr;
-    text-align:center
-  }
-
-  .hero h1{
-    font-size:30px
-  }
-
-  .days{
-    grid-template-columns:repeat(4,1fr)
-  }
-
-  .times{
-    grid-template-columns:repeat(3,1fr)
-  }
-
-  .stats{
-    grid-template-columns:1fr
-  }
+.hero{grid-template-columns:1fr;text-align:center}
+.hero h1{font-size:30px}
+.days{grid-template-columns:repeat(4,1fr)}
+.times{grid-template-columns:repeat(3,1fr)}
+.stats{grid-template-columns:1fr}
 }
-
 @media(max-width:500px){
-  header{
-    flex-direction:column
-  }
-
-  .days{
-    grid-template-columns:repeat(2,1fr)
-  }
-
-  .times{
-    grid-template-columns:repeat(2,1fr)
-  }
-
-  .card{
-    padding:16px
-  }
-
-  .profile{
-    width:210px;
-    height:210px
-  }
+header{flex-direction:column}
+.days{grid-template-columns:repeat(2,1fr)}
+.times{grid-template-columns:repeat(2,1fr)}
+.card{padding:16px}
+.profile{width:180px;height:180px}
 }
 </style>
 </head>
@@ -425,1691 +76,1144 @@ footer{
 <body>
 
 <header>
-  <div class="logo">📅 Queue System</div>
-
-  <div class="langs">
-    <button onclick="changeLanguage('ku')">کوردی</button>
-    <button onclick="changeLanguage('ar')">العربية</button>
-    <button onclick="changeLanguage('en')">English</button>
-  </div>
+<div class="logo">📅 Queue System</div>
+<div class="langs">
+<button onclick="changeLanguage('ku')">کوردی</button>
+<button onclick="changeLanguage('ar')">العربية</button>
+<button onclick="changeLanguage('en')">English</button>
+</div>
 </header>
 
 <section class="hero">
+<div>
+<h1 id="heroTitle">سیستەمی نۆرە و حجز</h1>
+<p id="heroText">کاتەکەت هەڵبژێرە و نۆرەکەت بە ئاسانی تۆمار بکە. زانیارییەکان لەسەر ئینتەرنێت هەڵدەگیرێن و لە هەموو ئامێرەکاندا هاوبەشن.</p>
+</div>
 
-  <div>
-    <h1 id="heroTitle">سیستەمی نۆرە و حجز</h1>
-
-    <p id="heroText">
-      کاتەکەت هەڵبژێرە و نۆرەکەت بە ئاسانی تۆمار بکە.
-      زانیارییەکان لەسەر ئینتەرنێت هەڵدەگیرێن و لە هەموو ئامێرەکاندا هاوبەشن.
-    </p>
-  </div>
-
-  <img
-    class="profile"
-    src="1000015943.jpg"
-    alt="Profile"
-    onerror="this.style.display='none'"
-  >
+<img class="profile"
+src="data:image/webp;base64,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"
+alt="Profile">
 
 </section>
 
 <main class="container">
 
-  <div class="tabs">
-
-    <button
-      class="tab active"
-      id="memberTab"
-      onclick="showTab('member')"
-    >
-      👤 حجزکردن
-    </button>
-
-    <button
-      class="tab"
-      id="ownerTab"
-      onclick="showTab('owner')"
-    >
-      🔐 بەڕێوەبەر
-    </button>
-
-  </div>
-
-  <!-- MEMBER -->
-
-  <section id="memberSection">
-
-    <div class="card">
-
-      <h2 id="formTitle">
-        تۆمارکردنی نۆرە
-      </h2>
-
-      <form id="bookingForm">
-
-        <div class="form-group">
-
-          <label id="nameLabel">
-            ناوی تەواو
-          </label>
-
-          <input
-            id="name"
-            type="text"
-            placeholder="ناوی تەواوت بنووسە"
-            required
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label id="phoneLabel">
-            ژمارەی مۆبایل
-          </label>
-
-          <input
-            id="phone"
-            type="tel"
-            placeholder="07xxxxxxxxx"
-            required
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label id="dayLabel">
-            ڕۆژ هەڵبژێرە
-          </label>
-
-          <div
-            class="days"
-            id="days"
-          ></div>
-
-        </div>
-
-        <div class="form-group">
-
-          <label id="timeLabel">
-            کات هەڵبژێرە
-          </label>
-
-          <div
-            class="times"
-            id="times"
-          ></div>
-
-        </div>
-
-        <div
-          id="memberMessage"
-          class="message"
-        ></div>
-
-        <button
-          class="primary"
-          id="submitBtn"
-          type="submit"
-        >
-          تۆمارکردنی نۆرە
-        </button>
-
-      </form>
-
-    </div>
-
-    <!-- CONFIRMATION -->
-
-    <div
-      id="confirmation"
-      class="card confirm hidden"
-    >
-
-      <h2>
-        ✅ نۆرەکەت تۆمارکرا
-      </h2>
-
-      <div
-        class="confirm-number"
-        id="confirmQueue"
-      >
-        001
-      </div>
-
-      <p>
-        <b>ناو:</b>
-        <span id="confirmName"></span>
-      </p>
-
-      <p>
-        <b>مۆبایل:</b>
-        <span id="confirmPhone"></span>
-      </p>
-
-      <p>
-        <b>ڕۆژ:</b>
-        <span id="confirmDay"></span>
-      </p>
-
-      <p>
-        <b>کات:</b>
-        <span id="confirmTime"></span>
-      </p>
-
-      <p>
-        <b>بەروار:</b>
-        <span id="confirmDate"></span>
-      </p>
-
-      <p>
-        <b>کاتی تۆمارکردن:</b>
-        <span id="confirmRegTime"></span>
-      </p>
-
-    </div>
-
-    <!-- PUBLIC LIST -->
-
-    <div class="card">
-
-      <h2 id="publicTitle">
-        نۆرە تۆمارکراوەکان
-      </h2>
-
-      <div
-        id="publicList"
-        class="booking-list"
-      >
-        <div class="loading">
-          چاوەڕوان بە...
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- OWNER -->
-
-  <section
-    id="ownerSection"
-    class="hidden"
-  >
-
-    <div
-      id="loginBox"
-      class="card owner-login"
-    >
-
-      <h2>
-        🔐 چوونەژوورەوەی بەڕێوەبەر
-      </h2>
-
-      <div class="form-group">
-
-        <label>
-          وشەی نهێنی
-        </label>
-
-        <input
-          type="password"
-          id="ownerPassword"
-          placeholder="وشەی نهێنی"
-        >
-
-      </div>
-
-      <div
-        id="loginMessage"
-        class="message"
-      ></div>
-
-      <button
-        class="primary"
-        onclick="ownerLogin()"
-      >
-        چوونەژوورەوە
-      </button>
-
-    </div>
-
-    <div
-      id="dashboard"
-      class="hidden"
-    >
-
-      <div class="stats">
-
-        <div class="stat">
-          <span>کۆی نۆرەکان</span>
-          <strong id="totalBookings">0</strong>
-        </div>
-
-        <div class="stat">
-          <span>کاتە گیراوەکان</span>
-          <strong id="bookedSlots">0</strong>
-        </div>
-
-        <div class="stat">
-          <span>نۆرەکانی ئەمڕۆ</span>
-          <strong id="todayBookings">0</strong>
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <h2>
-          بەڕێوەبردنی نۆرەکان
-        </h2>
-
-        <div class="owner-tools">
-
-          <select
-            id="ownerDayFilter"
-            onchange="renderOwnerTable()"
-          >
-            <option value="">
-              هەموو ڕۆژەکان
-            </option>
-          </select>
-
-          <button
-            class="warning"
-            onclick="clearSelectedDay()"
-          >
-            پاککردنەوەی ئەم ڕۆژە
-          </button>
-
-          <button
-            class="danger"
-            onclick="clearAllBookings()"
-          >
-            پاککردنەوەی هەموو نۆرەکان
-          </button>
-
-          <button onclick="refreshBookings()">
-            🔄 نوێکردنەوە
-          </button>
-
-        </div>
-
-        <div class="table-wrap">
-
-          <table>
-
-            <thead>
-
-              <tr>
-                <th>نۆرە</th>
-                <th>ناو</th>
-                <th>مۆبایل</th>
-                <th>ڕۆژ</th>
-                <th>کات</th>
-                <th>بەروار</th>
-                <th>کردار</th>
-              </tr>
-
-            </thead>
-
-            <tbody id="ownerTable"></tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
+<div class="tabs">
+<button id="memberTab" class="tab active" onclick="showTab('member')">تۆمارکردنی نۆرە</button>
+<button id="ownerTab" class="tab" onclick="showTab('owner')">بەڕێوەبەر</button>
+</div>
+
+<section id="memberSection">
+
+<div class="card">
+<h2 id="formTitle">تۆمارکردنی نۆرە</h2>
+
+<form id="bookingForm">
+
+<div class="form-group">
+<label id="nameLabel">ناوی تەواو</label>
+<input id="name" type="text" required placeholder="ناوی تەواو">
+</div>
+
+<div class="form-group">
+<label id="phoneLabel">ژمارەی مۆبایل</label>
+<input id="phone" type="tel" required placeholder="07xxxxxxxxx">
+</div>
+
+<div class="form-group">
+<label id="dayLabel">ڕۆژ هەڵبژێرە</label>
+<div id="days" class="days"></div>
+</div>
+
+<div class="form-group">
+<label id="timeLabel">کات هەڵبژێرە</label>
+<div id="times" class="times"></div>
+</div>
+
+<div id="memberMessage" class="message"></div>
+
+<button id="submitBtn" class="primary" type="submit">
+تۆمارکردنی نۆرە
+</button>
+
+</form>
+</div>
+
+<div id="confirmation" class="card confirm hidden">
+<h2>✅ نۆرەکەت بە سەرکەوتوویی تۆمار کرا</h2>
+<div class="confirm-number" id="confirmQueue">001</div>
+<p>ناو: <b id="confirmName"></b></p>
+<p>مۆبایل: <b id="confirmPhone"></b></p>
+<p>ڕۆژ: <b id="confirmDay"></b></p>
+<p>کات: <b id="confirmTime"></b></p>
+<p>بەروار: <b id="confirmDate"></b></p>
+<p>کاتی تۆمارکردن: <b id="confirmRegTime"></b></p>
+</div>
+
+<div class="card">
+<h2 id="publicTitle">نۆرە تۆمارکراوەکان</h2>
+<div id="publicList" class="booking-list">
+<div class="loading">چاوەڕوان بە...</div>
+</div>
+</div>
+
+</section>
+
+<section id="ownerSection" class="hidden">
+
+<div id="loginBox" class="card owner-login">
+<h2>🔐 چوونەژوورەوەی بەڕێوەبەر</h2>
+
+<div class="form-group">
+<label>وشەی نهێنی</label>
+<input type="password" id="ownerPassword" placeholder="وشەی نهێنی">
+</div>
+
+<div id="loginMessage" class="message"></div>
+
+<button class="primary" onclick="ownerLogin()">چوونەژوورەوە</button>
+</div>
+
+<div id="dashboard" class="hidden">
+
+<div class="stats">
+<div class="stat">
+<span>کۆی نۆرەکان</span>
+<strong id="totalBookings">0</strong>
+</div>
+
+<div class="stat">
+<span>کاتە گیراوەکان</span>
+<strong id="bookedSlots">0</strong>
+</div>
+
+<div class="stat">
+<span>نۆرەکانی ئەمڕۆ</span>
+<strong id="todayBookings">0</strong>
+</div>
+</div>
+
+<div class="card">
+<h2>بەڕێوەبردنی نۆرەکان</h2>
+
+<div class="owner-tools">
+<select id="ownerDayFilter" onchange="renderOwnerTable()">
+<option value="">هەموو ڕۆژەکان</option>
+</select>
+
+<button class="warning" onclick="clearSelectedDay()">
+پاککردنەوەی ئەم ڕۆژە
+</button>
+
+<button class="danger" onclick="clearAllBookings()">
+پاککردنەوەی هەموو نۆرەکان
+</button>
+
+<button onclick="refreshBookings()">🔄 نوێکردنەوە</button>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>نۆرە</th>
+<th>ناو</th>
+<th>مۆبایل</th>
+<th>ڕۆژ</th>
+<th>کات</th>
+<th>بەروار</th>
+<th>کردار</th>
+</tr>
+</thead>
+
+<tbody id="ownerTable"></tbody>
+</table>
+</div>
+
+</div>
+</div>
+
+</section>
 
 </main>
 
-<footer>
-  © 2026 Queue System
-</footer>
+<footer>© 2026 Queue System</footer>
 
 <script>
 
-const SUPABASE_URL =
-"https://iwqcphkxqoreleibyssk.supabase.co";
+const SUPABASE_URL="https://iwqcphkxqoreleibyssk.supabase.co";
 
-const SUPABASE_KEY =
-"sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6Sp";
+const SUPABASE_KEY="sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6Sp";
 
-const db =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+const db=window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
-const OWNER_PASSWORD = "123456";
+const OWNER_PASSWORD="123456";
 
-const START_MINUTES = 3 * 60;
-const END_MINUTES = 23 * 60;
-const MINUTE_STEP = 30;
+const START_MINUTES=3*60;
+const END_MINUTES=23*60;
+const MINUTE_STEP=30;
 
-const DAYS = {
-
-  ku:[
-    "شەممە",
-    "یەکشەممە",
-    "دووشەممە",
-    "سێشەممە",
-    "چوارشەممە",
-    "پێنجشەممە",
-    "هەینی"
-  ],
-
-  ar:[
-    "السبت",
-    "الأحد",
-    "الإثنين",
-    "الثلاثاء",
-    "الأربعاء",
-    "الخميس",
-    "الجمعة"
-  ],
-
-  en:[
-    "Saturday",
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday"
-  ]
-
+const DAYS={
+ku:[
+"شەممە",
+"یەکشەممە",
+"دووشەممە",
+"سێشەممە",
+"چوارشەممە",
+"پێنجشەممە",
+"هەینی"
+],
+ar:[
+"السبت",
+"الأحد",
+"الإثنين",
+"الثلاثاء",
+"الأربعاء",
+"الخميس",
+"الجمعة"
+],
+en:[
+"Saturday",
+"Sunday",
+"Monday",
+"Tuesday",
+"Wednesday",
+"Thursday",
+"Friday"
+]
 };
 
-const TEXT = {
-
-  ku:{
-    heroTitle:"سیستەمی نۆرە و حجز",
-
-    heroText:
-    "کاتەکەت هەڵبژێرە و نۆرەکەت بە ئاسانی تۆمار بکە. زانیارییەکان لەسەر ئینتەرنێت هەڵدەگیرێن و لە هەموو ئامێرەکاندا هاوبەشن.",
-
-    formTitle:"تۆمارکردنی نۆرە",
-
-    nameLabel:"ناوی تەواو",
-
-    phoneLabel:"ژمارەی مۆبایل",
-
-    dayLabel:"ڕۆژ هەڵبژێرە",
-
-    timeLabel:"کات هەڵبژێرە",
-
-    submit:"تۆمارکردنی نۆرە",
-
-    publicTitle:"نۆرە تۆمارکراوەکان",
-
-    noBookings:
-    "هیچ نۆرەیەک بۆ ئەم ڕۆژە نییە.",
-
-    selectDay:
-    "تکایە ڕۆژ هەڵبژێرە.",
-
-    selectTime:
-    "تکایە کات هەڵبژێرە.",
-
-    success:
-    "نۆرەکەت بە سەرکەوتوویی تۆمارکرا.",
-
-    booked:
-    "ئەم کاتە پێشتر گیراوە.",
-
-    error:
-    "هەڵەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە."
-  },
-
-  ar:{
-
-    heroTitle:"نظام الدور والحجز",
-
-    heroText:
-    "اختر الوقت وسجل دورك بسهولة. يتم حفظ البيانات على الإنترنت ويمكن رؤيتها من جميع الأجهزة.",
-
-    formTitle:"تسجيل الدور",
-
-    nameLabel:"الاسم الكامل",
-
-    phoneLabel:"رقم الهاتف",
-
-    dayLabel:"اختر اليوم",
-
-    timeLabel:"اختر الوقت",
-
-    submit:"تسجيل الدور",
-
-    publicTitle:"الأدوار المسجلة",
-
-    noBookings:
-    "لا توجد حجوزات لهذا اليوم.",
-
-    selectDay:
-    "يرجى اختيار اليوم.",
-
-    selectTime:
-    "يرجى اختيار الوقت.",
-
-    success:
-    "تم تسجيل دورك بنجاح.",
-
-    booked:
-    "هذا الوقت محجوز مسبقاً.",
-
-    error:
-    "حدث خطأ. حاول مرة أخرى."
-  },
-
-  en:{
-
-    heroTitle:"Queue & Booking System",
-
-    heroText:
-    "Choose your time and register your queue easily. Data is saved online and shared across all devices.",
-
-    formTitle:"Register Queue",
-
-    nameLabel:"Full name",
-
-    phoneLabel:"Mobile number",
-
-    dayLabel:"Choose day",
-
-    timeLabel:"Choose time",
-
-    submit:"Register Queue",
-
-    publicTitle:"Registered Queues",
-
-    noBookings:
-    "There are no bookings for this day.",
-
-    selectDay:
-    "Please choose a day.",
-
-    selectTime:
-    "Please choose a time.",
-
-    success:
-    "Your queue was registered successfully.",
-
-    booked:
-    "This time is already booked.",
-
-    error:
-    "An error occurred. Please try again."
-  }
-
+const TEXT={
+ku:{
+heroTitle:"سیستەمی نۆرە و حجز",
+heroText:"کاتەکەت هەڵبژێرە و نۆرەکەت بە ئاسانی تۆمار بکە. زانیارییەکان لەسەر ئینتەرنێت هەڵدەگیرێن و لە هەموو ئامێرەکاندا هاوبەشن.",
+formTitle:"تۆمارکردنی نۆرە",
+nameLabel:"ناوی تەواو",
+phoneLabel:"ژمارەی مۆبایل",
+dayLabel:"ڕۆژ هەڵبژێرە",
+timeLabel:"کات هەڵبژێرە",
+submit:"تۆمارکردنی نۆرە",
+publicTitle:"نۆرە تۆمارکراوەکان",
+noBookings:"هیچ نۆرەیەک نییە.",
+selectDay:"تکایە ڕۆژ هەڵبژێرە.",
+selectTime:"تکایە کات هەڵبژێرە.",
+success:"نۆرەکەت بە سەرکەوتوویی تۆمار کرا.",
+booked:"ئەم کاتە پێشتر گیراوە.",
+error:"هەڵەیەک ڕوویدا. دووبارە هەوڵ بدە."
+},
+ar:{
+heroTitle:"نظام الدور والحجز",
+heroText:"اختر وقتك وسجل دورك بسهولة. يتم حفظ البيانات عبر الإنترنت ومشاركتها بين جميع الأجهزة.",
+formTitle:"تسجيل الدور",
+nameLabel:"الاسم الكامل",
+phoneLabel:"رقم الهاتف",
+dayLabel:"اختر اليوم",
+timeLabel:"اختر الوقت",
+submit:"تسجيل الدور",
+publicTitle:"الأدوار المسجلة",
+noBookings:"لا توجد حجوزات.",
+selectDay:"يرجى اختيار اليوم.",
+selectTime:"يرجى اختيار الوقت.",
+success:"تم تسجيل دورك بنجاح.",
+booked:"هذا الوقت محجوز مسبقاً.",
+error:"حدث خطأ. حاول مرة أخرى."
+},
+en:{
+heroTitle:"Queue & Booking System",
+heroText:"Choose your time and register your queue easily. Data is saved online and shared across all devices.",
+formTitle:"Register Queue",
+nameLabel:"Full name",
+phoneLabel:"Mobile number",
+dayLabel:"Choose day",
+timeLabel:"Choose time",
+submit:"Register Queue",
+publicTitle:"Registered Queues",
+noBookings:"There are no bookings.",
+selectDay:"Please choose a day.",
+selectTime:"Please choose a time.",
+success:"Your queue was registered successfully.",
+booked:"This time is already booked.",
+error:"An error occurred. Please try again."
+}
 };
 
-let language = "ku";
-
-let selectedDay = null;
-
-let selectedTime = null;
-
-let bookings = [];
-
-let ownerLoggedIn = false;
-
+let language="ku";
+let selectedDay=null;
+let selectedTime=null;
+let bookings=[];
+let ownerLoggedIn=false;
 
 function $(id){
-  return document.getElementById(id);
+return document.getElementById(id);
 }
-
 
 function escapeHTML(value){
-
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
+return String(value??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 }
-
 
 function todayString(){
-
-  const d = new Date();
-
-  return d.getFullYear()
-    + "-"
-    + String(d.getMonth()+1).padStart(2,"0")
-    + "-"
-    + String(d.getDate()).padStart(2,"0");
-
+const d=new Date();
+return d.getFullYear()+"-"+
+String(d.getMonth()+1).padStart(2,"0")+"-"+
+String(d.getDate()).padStart(2,"0");
 }
-
 
 function currentTimeString(){
-
-  return new Date().toLocaleTimeString(
-    "ku-IQ",
-    {
-      hour:"2-digit",
-      minute:"2-digit",
-      second:"2-digit"
-    }
-  );
-
+return new Date().toLocaleTimeString(
+"ku-IQ",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
 }
-
+);
+}
 
 function generateTimes(){
 
-  const r = [];
+const r=[];
 
-  for(
-    let m = START_MINUTES;
-    m <= END_MINUTES;
-    m += MINUTE_STEP
-  ){
+for(
+let m=START_MINUTES;
+m<=END_MINUTES;
+m+=MINUTE_STEP
+){
 
-    r.push(
-      String(Math.floor(m/60)).padStart(2,"0")
-      + ":"
-      + String(m%60).padStart(2,"0")
-    );
-
-  }
-
-  return r;
+r.push(
+String(Math.floor(m/60)).padStart(2,"0")+
+":"+
+String(m%60).padStart(2,"0")
+);
 
 }
 
+return r;
+}
 
 function setupDays(){
 
-  const box = $("days");
+const box=$("days");
 
-  box.innerHTML = "";
+box.innerHTML="";
 
-  DAYS[language].forEach(
-    (day,index)=>{
+DAYS[language].forEach(
+(day,index)=>{
 
-      const b =
-      document.createElement("button");
+const b=document.createElement("button");
 
-      b.type = "button";
+b.type="button";
+b.className="day";
+b.textContent=day;
 
-      b.className = "day";
+if(selectedDay===index)
+b.classList.add("active");
 
-      b.textContent = day;
+b.onclick=()=>selectDay(index);
 
-      if(selectedDay === index){
-
-        b.classList.add("active");
-
-      }
-
-      b.onclick =
-      ()=>selectDay(index);
-
-      box.appendChild(b);
-
-    }
-  );
-
-
-  const filter =
-  $("ownerDayFilter");
-
-  filter.innerHTML =
-  '<option value="">هەموو ڕۆژەکان</option>';
-
-  DAYS[language].forEach(
-    (day,index)=>{
-
-      const o =
-      document.createElement("option");
-
-      o.value = index;
-
-      o.textContent = day;
-
-      filter.appendChild(o);
-
-    }
-  );
+box.appendChild(b);
 
 }
+);
 
+const filter=$("ownerDayFilter");
+
+filter.innerHTML=
+'<option value="">هەموو ڕۆژەکان</option>';
+
+DAYS[language].forEach(
+(day,index)=>{
+
+const o=document.createElement("option");
+
+o.value=index;
+o.textContent=day;
+
+filter.appendChild(o);
+
+}
+);
+
+}
 
 async function selectDay(index){
 
-  selectedDay = index;
+selectedDay=index;
+selectedTime=null;
 
-  selectedTime = null;
+setupDays();
 
-  setupDays();
-
-  await renderTimes();
-
-  await renderPublicBookings();
+await renderTimes();
+await renderPublicBookings();
 
 }
-
 
 async function renderTimes(){
 
-  const box = $("times");
+const box=$("times");
 
-  box.innerHTML = "";
+box.innerHTML="";
 
-  if(selectedDay === null){
+if(selectedDay===null){
 
-    box.innerHTML =
-    `<div class="loading">
-      ${TEXT[language].selectDay}
-    </div>`;
+box.innerHTML=
+`<div class="loading">
+${TEXT[language].selectDay}
+</div>`;
 
-    return;
+return;
+}
 
-  }
+const bookedTimes=new Set(
+bookings
+.filter(
+b=>Number(b.day_index)===selectedDay
+)
+.map(
+b=>String(b.time)
+)
+);
 
+generateTimes().forEach(
+time=>{
 
-  const bookedTimes =
-  new Set(
-    bookings
-      .filter(
-        b =>
-        Number(b.day_index) === selectedDay
-      )
-      .map(
-        b => String(b.time)
-      )
-  );
+const b=document.createElement("button");
 
+b.type="button";
+b.className="time";
+b.textContent=time;
 
-  generateTimes().forEach(
-    time=>{
+if(bookedTimes.has(time)){
 
-      const b =
-      document.createElement("button");
+b.classList.add("booked");
+b.disabled=true;
+b.title="Booked";
 
-      b.type = "button";
+}else{
 
-      b.className = "time";
+b.onclick=()=>{
 
-      b.textContent = time;
+selectedTime=time;
 
+document
+.querySelectorAll(".time")
+.forEach(
+x=>x.classList.remove("active")
+);
 
-      if(bookedTimes.has(time)){
+b.classList.add("active");
 
-        b.classList.add("booked");
-
-        b.disabled = true;
-
-        b.title = "Booked";
-
-      }
-
-      else{
-
-        b.onclick = ()=>{
-
-          selectedTime = time;
-
-          document
-            .querySelectorAll(".time")
-            .forEach(
-              x => x.classList.remove("active")
-            );
-
-          b.classList.add("active");
-
-        };
-
-      }
-
-
-      if(
-        selectedTime === time &&
-        !bookedTimes.has(time)
-      ){
-
-        b.classList.add("active");
-
-      }
-
-
-      box.appendChild(b);
-
-    }
-  );
+};
 
 }
 
+if(
+selectedTime===time &&
+!bookedTimes.has(time)
+){
+
+b.classList.add("active");
+
+}
+
+box.appendChild(b);
+
+}
+);
+
+}
 
 async function refreshBookings(){
 
-  const {
-    data,
-    error
-  } =
-  await db
-    .from("bookings")
-    .select("*")
-    .order(
-      "day_index",
-      {ascending:true}
-    )
-    .order(
-      "time",
-      {ascending:true}
-    );
+const {
+data,
+error
+}=await db
+.from("bookings")
+.select("*")
+.order(
+"day_index",
+{ascending:true}
+)
+.order(
+"time",
+{ascending:true}
+);
 
+if(error){
 
-  if(error){
+console.error(error);
 
-    console.error(error);
+showMessage(
+"memberMessage",
+"هەڵە لە پەیوەندی بە داتابەیس.",
+"error"
+);
 
-    showMessage(
-      "memberMessage",
-      "هەڵە لە پەیوەندی بە داتابەیس.",
-      "error"
-    );
+return;
+}
 
-    return;
+bookings=data||[];
 
-  }
+await renderTimes();
+await renderPublicBookings();
 
+if(ownerLoggedIn){
 
-  bookings = data || [];
-
-  await renderTimes();
-
-  await renderPublicBookings();
-
-
-  if(ownerLoggedIn){
-
-    renderOwnerTable();
-
-    renderStats();
-
-  }
+renderOwnerTable();
+renderStats();
 
 }
 
+}
 
 async function renderPublicBookings(){
 
-  const box = $("publicList");
-
-
-  if(selectedDay === null){
-
-    box.innerHTML =
-    `<div class="loading">
-      ${TEXT[language].selectDay}
-    </div>`;
-
-    return;
-
-  }
-
-
-  const list =
-  bookings
-    .filter(
-      b =>
-      Number(b.day_index) === selectedDay
-    )
-    .sort(
-      (a,b)=>
-      String(a.time)
-      .localeCompare(
-        String(b.time)
-      )
-    );
-
-
-  if(!list.length){
-
-    box.innerHTML =
-    `<div class="loading">
-      ${TEXT[language].noBookings}
-    </div>`;
-
-    return;
-
-  }
-
-
-  /*
-    هەموو ئەو کەسانەی حجز دەکەن
-    لە لیستی گشتی ناویان دەردەکەوێت.
-    
-    مۆبایل نیشان نادرێت.
-  */
-
-  box.innerHTML =
-  list.map(
-    b => `
-
-      <div class="booking">
-
-        <div>
-
-          <b>
-            👤 ${escapeHTML(b.name)}
-          </b>
-
-          <div>
-            ${DAYS[language][Number(b.day_index)]}
-            —
-            🕐 ${escapeHTML(b.time)}
-          </div>
-
-        </div>
-
-        <div>
-
-          <span class="badge">
-            #${String(b.queue).padStart(3,"0")}
-          </span>
-
-        </div>
-
-      </div>
-
-    `
-  ).join("");
-
-}
-
-
-function showMessage(
-  id,
-  text,
-  type
-){
-
-  const box = $(id);
-
-  box.className =
-  "message " + type;
-
-  box.textContent = text;
-
-}
-
-
-$("bookingForm")
-.addEventListener(
-  "submit",
-  async e => {
-
-    e.preventDefault();
-
-
-    const name =
-    $("name")
-      .value
-      .trim();
-
-
-    const phone =
-    $("phone")
-      .value
-      .trim();
-
-
-    if(!name || !phone){
-
-      showMessage(
-        "memberMessage",
-        "تکایە ناو و ژمارەی مۆبایل بنووسە.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if(selectedDay === null){
-
-      showMessage(
-        "memberMessage",
-        TEXT[language].selectDay,
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if(!selectedTime){
-
-      showMessage(
-        "memberMessage",
-        TEXT[language].selectTime,
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    const btn =
-    $("submitBtn");
-
-    btn.disabled = true;
-
-    btn.textContent =
-    "چاوەڕوان بە...";
-
-
-    try{
-
-      /*
-        پشکنینی ئەوەی کاتەکە
-        پێشتر گیراوە یان نا.
-      */
-
-      const {
-        data:existing,
-        error:checkError
-      } =
-      await db
-        .from("bookings")
-        .select("id")
-        .eq(
-          "day_index",
-          selectedDay
-        )
-        .eq(
-          "time",
-          selectedTime
-        )
-        .maybeSingle();
-
-
-      if(checkError)
-        throw checkError;
-
-
-      if(existing){
-
-        showMessage(
-          "memberMessage",
-          TEXT[language].booked,
-          "error"
-        );
-
-        await refreshBookings();
-
-        return;
-
-      }
-
-
-      /*
-        دۆزینەوەی دوایین ژمارەی نۆرە.
-      */
-
-      const {
-        data:lastBooking,
-        error:lastError
-      } =
-      await db
-        .from("bookings")
-        .select("queue")
-        .eq(
-          "day_index",
-          selectedDay
-        )
-        .order(
-          "queue",
-          {ascending:false}
-        )
-        .limit(1)
-        .maybeSingle();
-
-
-      if(lastError)
-        throw lastError;
-
-
-      let nextQueue =
-      lastBooking
-        ? Number(lastBooking.queue) + 1
-        : 1;
-
-
-      let newBooking = null;
-
-      let insertError = null;
-
-
-      /*
-        ئەگەر دوو کەس لە هەمان کات
-        حجز بکەن، دووبارە هەوڵ دەدات.
-      */
-
-      for(
-        let attempt = 0;
-        attempt < 3;
-        attempt++
-      ){
-
-        const res =
-        await db
-          .from("bookings")
-          .insert({
-
-            queue:nextQueue,
-
-            name:name,
-
-            phone:phone,
-
-            day_index:selectedDay,
-
-            time:selectedTime,
-
-            booking_date:todayString(),
-
-            registration_time:currentTimeString()
-
-          })
-          .select()
-          .single();
-
-
-        newBooking = res.data;
-
-        insertError = res.error;
-
-
-        if(!insertError)
-          break;
-
-
-        if(
-          insertError.code === "23505" &&
-          attempt < 2
-        ){
-
-          const {
-            data:lastNow
-          } =
-          await db
-            .from("bookings")
-            .select("queue")
-            .eq(
-              "day_index",
-              selectedDay
-            )
-            .order(
-              "queue",
-              {ascending:false}
-            )
-            .limit(1)
-            .maybeSingle();
-
-
-          nextQueue =
-          lastNow
-            ? Number(lastNow.queue) + 1
-            : nextQueue + 1;
-
-
-          continue;
-
-        }
-
-
-        break;
-
-      }
-
-
-      if(insertError){
-
-        if(
-          insertError.code === "23505"
-        ){
-
-          showMessage(
-            "memberMessage",
-            TEXT[language].booked,
-            "error"
-          );
-
-          await refreshBookings();
-
-          return;
-
-        }
-
-
-        console.error(insertError);
-
-        throw insertError;
-
-      }
-
-
-      /*
-        پیشاندانی زانیاری حجزکراو.
-      */
-
-      $("confirmation")
-        .classList
-        .remove("hidden");
-
-
-      $("confirmQueue")
-        .textContent =
-        String(newBooking.queue)
-        .padStart(3,"0");
-
-
-      $("confirmName")
-        .textContent =
-        newBooking.name;
-
-
-      $("confirmPhone")
-        .textContent =
-        newBooking.phone;
-
-
-      $("confirmDay")
-        .textContent =
-        DAYS[language]
-        [Number(newBooking.day_index)];
-
-
-      $("confirmTime")
-        .textContent =
-        newBooking.time;
-
-
-      $("confirmDate")
-        .textContent =
-        newBooking.booking_date;
-
-
-      $("confirmRegTime")
-        .textContent =
-        newBooking.registration_time;
-
-
-      showMessage(
-        "memberMessage",
-        TEXT[language].success,
-        "success"
-      );
-
-
-      selectedTime = null;
-
-      $("bookingForm").reset();
-
-
-      await refreshBookings();
-
-
-      $("confirmation")
-        .scrollIntoView({
-          behavior:"smooth",
-          block:"center"
-        });
-
-
-    }
-    catch(error){
-
-      console.error(error);
-
-      showMessage(
-        "memberMessage",
-        TEXT[language].error,
-        "error"
-      );
-
-    }
-    finally{
-
-      btn.disabled = false;
-
-      btn.textContent =
-      TEXT[language].submit;
-
-    }
-
-  }
+const box=$("publicList");
+
+const list=[
+...bookings
+].sort(
+(a,b)=>
+Number(a.day_index)-Number(b.day_index) ||
+String(a.time).localeCompare(String(b.time))
 );
 
+if(!list.length){
+
+box.innerHTML=
+`<div class="loading">
+${TEXT[language].noBookings}
+</div>`;
+
+return;
+}
+
+box.innerHTML=list.map(
+b=>
+
+`<div class="booking">
+
+<div>
+
+<b>👤 ${escapeHTML(b.name)}</b>
+
+<div>
+📅 ${DAYS[language][Number(b.day_index)]}
+—
+🕐 ${escapeHTML(b.time)}
+</div>
+
+</div>
+
+<div>
+<span class="badge">
+#${String(b.queue).padStart(3,"0")}
+</span>
+</div>
+
+</div>`
+
+).join("");
+
+}
+
+function showMessage(id,text,type){
+
+const box=$(id);
+
+box.className="message "+type;
+
+box.textContent=text;
+
+}
+
+$("bookingForm").addEventListener(
+"submit",
+async e=>{
+
+e.preventDefault();
+
+const name=$("name").value.trim();
+const phone=$("phone").value.trim();
+
+if(!name||!phone){
+
+showMessage(
+"memberMessage",
+"تکایە ناو و ژمارەی مۆبایل بنووسە.",
+"error"
+);
+
+return;
+}
+
+if(selectedDay===null){
+
+showMessage(
+"memberMessage",
+TEXT[language].selectDay,
+"error"
+);
+
+return;
+}
+
+if(!selectedTime){
+
+showMessage(
+"memberMessage",
+TEXT[language].selectTime,
+"error"
+);
+
+return;
+}
+
+const btn=$("submitBtn");
+
+btn.disabled=true;
+btn.textContent="چاوەڕوان بە...";
+
+try{
+
+const {
+data:existing,
+error:checkError
+}=await db
+.from("bookings")
+.select("id")
+.eq("day_index",selectedDay)
+.eq("time",selectedTime)
+.maybeSingle();
+
+if(checkError)
+throw checkError;
+
+if(existing){
+
+showMessage(
+"memberMessage",
+TEXT[language].booked,
+"error"
+);
+
+await refreshBookings();
+
+return;
+}
+
+const {
+data:lastBooking,
+error:lastError
+}=await db
+.from("bookings")
+.select("queue")
+.eq("day_index",selectedDay)
+.order(
+"queue",
+{ascending:false}
+)
+.limit(1)
+.maybeSingle();
+
+if(lastError)
+throw lastError;
+
+let nextQueue=
+lastBooking
+?
+Number(lastBooking.queue)+1
+:
+1;
+
+let newBooking=null;
+let insertError=null;
+
+for(
+let attempt=0;
+attempt<3;
+attempt++
+){
+
+const res=await db
+.from("bookings")
+.insert({
+
+queue:nextQueue,
+name:name,
+phone:phone,
+day_index:selectedDay,
+time:selectedTime,
+booking_date:todayString(),
+registration_time:currentTimeString()
+
+})
+.select()
+.single();
+
+newBooking=res.data;
+insertError=res.error;
+
+if(!insertError)
+break;
+
+if(
+insertError.code==="23505" &&
+attempt<2
+){
+
+const {
+data:lastNow
+}=await db
+.from("bookings")
+.select("queue")
+.eq("day_index",selectedDay)
+.order(
+"queue",
+{ascending:false}
+)
+.limit(1)
+.maybeSingle();
+
+nextQueue=
+lastNow
+?
+Number(lastNow.queue)+1
+:
+nextQueue+1;
+
+continue;
+}
+
+break;
+
+}
+
+if(insertError){
+
+if(insertError.code==="23505"){
+
+showMessage(
+"memberMessage",
+TEXT[language].booked,
+"error"
+);
+
+await refreshBookings();
+
+return;
+}
+
+console.error(insertError);
+
+throw insertError;
+
+}
+
+$("confirmation")
+.classList.remove("hidden");
+
+$("confirmQueue")
+.textContent=
+String(newBooking.queue).padStart(3,"0");
+
+$("confirmName")
+.textContent=newBooking.name;
+
+$("confirmPhone")
+.textContent=newBooking.phone;
+
+$("confirmDay")
+.textContent=
+DAYS[
+language
+][
+Number(newBooking.day_index)
+];
+
+$("confirmTime")
+.textContent=newBooking.time;
+
+$("confirmDate")
+.textContent=newBooking.booking_date;
+
+$("confirmRegTime")
+.textContent=newBooking.registration_time;
+
+showMessage(
+"memberMessage",
+TEXT[language].success,
+"success"
+);
+
+selectedTime=null;
+
+$("bookingForm").reset();
+
+await refreshBookings();
+
+$("confirmation")
+.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}catch(error){
+
+console.error(error);
+
+showMessage(
+"memberMessage",
+TEXT[language].error,
+"error"
+);
+
+}finally{
+
+btn.disabled=false;
+
+btn.textContent=
+TEXT[language].submit;
+
+}
+
+}
+);
 
 function ownerLogin(){
 
-  if(
-    $("ownerPassword").value ===
-    OWNER_PASSWORD
-  ){
+if(
+$("ownerPassword").value===
+OWNER_PASSWORD
+){
 
-    ownerLoggedIn = true;
+ownerLoggedIn=true;
 
-    $("loginBox")
-      .classList
-      .add("hidden");
+$("loginBox")
+.classList.add("hidden");
 
-    $("dashboard")
-      .classList
-      .remove("hidden");
+$("dashboard")
+.classList.remove("hidden");
 
-    renderStats();
+renderStats();
+renderOwnerTable();
 
-    renderOwnerTable();
+}else{
 
-  }
-  else{
-
-    showMessage(
-      "loginMessage",
-      "وشەی نهێنی هەڵەیە.",
-      "error"
-    );
-
-  }
+showMessage(
+"loginMessage",
+"وشەی نهێنی هەڵەیە.",
+"error"
+);
 
 }
 
+}
 
 function renderOwnerTable(){
 
-  const table =
-  $("ownerTable");
+const table=$("ownerTable");
 
-  if(!table)
-    return;
+if(!table)
+return;
 
+const filter=
+$("ownerDayFilter").value;
 
-  const filter =
-  $("ownerDayFilter").value;
+let list=[...bookings];
 
+if(filter!==""){
 
-  let list =
-  [...bookings];
-
-
-  if(filter !== ""){
-
-    list =
-    list.filter(
-      b =>
-      Number(b.day_index) ===
-      Number(filter)
-    );
-
-  }
-
-
-  list.sort(
-    (a,b)=>
-    Number(a.day_index)
-    -
-    Number(b.day_index)
-    ||
-    String(a.time)
-      .localeCompare(
-        String(b.time)
-      )
-  );
-
-
-  if(!list.length){
-
-    table.innerHTML =
-    `
-      <tr>
-        <td
-          colspan="7"
-          style="text-align:center"
-        >
-          هیچ نۆرەیەک نییە.
-        </td>
-      </tr>
-    `;
-
-    return;
-
-  }
-
-
-  table.innerHTML =
-  list.map(
-    b => `
-
-      <tr>
-
-        <td>
-          <b>
-            #${String(b.queue).padStart(3,"0")}
-          </b>
-        </td>
-
-        <td>
-          ${escapeHTML(b.name)}
-        </td>
-
-        <td>
-          ${escapeHTML(b.phone)}
-        </td>
-
-        <td>
-          ${DAYS[language][Number(b.day_index)]}
-        </td>
-
-        <td>
-          ${escapeHTML(b.time)}
-        </td>
-
-        <td>
-          ${escapeHTML(b.booking_date)}
-        </td>
-
-        <td>
-
-          <button
-            class="delete-btn"
-            onclick="deleteBooking(${Number(b.id)})"
-          >
-            سڕینەوە
-          </button>
-
-        </td>
-
-      </tr>
-
-    `
-  ).join("");
+list=list.filter(
+b=>Number(b.day_index)===
+Number(filter)
+);
 
 }
 
+list.sort(
+(a,b)=>
+Number(a.day_index)-Number(b.day_index) ||
+String(a.time).localeCompare(String(b.time))
+);
+
+if(!list.length){
+
+table.innerHTML=
+`<tr>
+<td colspan="7" style="text-align:center">
+هیچ نۆرەیەک نییە.
+</td>
+</tr>`;
+
+return;
+}
+
+table.innerHTML=list.map(
+b=>
+
+`<tr>
+
+<td>
+<b>
+#${String(b.queue).padStart(3,"0")}
+</b>
+</td>
+
+<td>
+${escapeHTML(b.name)}
+</td>
+
+<td>
+${escapeHTML(b.phone)}
+</td>
+
+<td>
+${DAYS[language][Number(b.day_index)]}
+</td>
+
+<td>
+${escapeHTML(b.time)}
+</td>
+
+<td>
+${escapeHTML(b.booking_date)}
+</td>
+
+<td>
+<button
+class="delete-btn"
+onclick="deleteBooking(${Number(b.id)})">
+سڕینەوە
+</button>
+</td>
+
+</tr>`
+
+).join("");
+
+}
 
 async function deleteBooking(id){
 
-  if(
-    !confirm(
-      "دڵنیایت دەتەوێت ئەم نۆرەیە بسڕیتەوە؟"
-    )
-  )
-    return;
+if(
+!confirm(
+"دڵنیایت دەتەوێت ئەم نۆرەیە بسڕیتەوە؟"
+)
+)
+return;
 
+const {error}=await db
+.from("bookings")
+.delete()
+.eq("id",id);
 
-  const {error} =
-  await db
-    .from("bookings")
-    .delete()
-    .eq("id",id);
+if(error){
 
+console.error(error);
 
-  if(error){
+alert(
+"سڕینەوە سەرکەوتوو نەبوو."
+);
 
-    console.error(error);
-
-    alert(
-      "سڕینەوە سەرکەوتوو نەبوو."
-    );
-
-    return;
-
-  }
-
-
-  await refreshBookings();
-
+return;
 }
 
+await refreshBookings();
+
+}
 
 async function clearSelectedDay(){
 
-  const filter =
-  $("ownerDayFilter").value;
+const filter=
+$("ownerDayFilter").value;
 
+if(filter===""){
 
-  if(filter === ""){
+alert(
+"تکایە یەک ڕۆژ هەڵبژێرە."
+);
 
-    alert(
-      "تکایە یەک ڕۆژ هەڵبژێرە."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    !confirm(
-      "دڵنیایت دەتەوێت هەموو نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟"
-    )
-  )
-    return;
-
-
-  const {error} =
-  await db
-    .from("bookings")
-    .delete()
-    .eq(
-      "day_index",
-      Number(filter)
-    );
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "پاککردنەوە سەرکەوتوو نەبوو."
-    );
-
-    return;
-
-  }
-
-
-  await refreshBookings();
-
+return;
 }
 
+if(
+!confirm(
+"دڵنیایت دەتەوێت هەموو نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟"
+)
+)
+return;
+
+const {error}=await db
+.from("bookings")
+.delete()
+.eq(
+"day_index",
+Number(filter)
+);
+
+if(error){
+
+console.error(error);
+
+alert(
+"پاککردنەوە سەرکەوتوو نەبوو."
+);
+
+return;
+}
+
+await refreshBookings();
+
+}
 
 async function clearAllBookings(){
 
-  if(
-    !confirm(
-      "دڵنیایت دەتەوێت هەموو نۆرەکان بسڕیتەوە؟"
-    )
-  )
-    return;
+if(
+!confirm(
+"دڵنیایت دەتەوێت هەموو نۆرەکان بسڕیتەوە؟"
+)
+)
+return;
 
+const {error}=await db
+.from("bookings")
+.delete()
+.gte("id",0);
 
-  const {error} =
-  await db
-    .from("bookings")
-    .delete()
-    .gte("id",0);
+if(error){
 
+console.error(error);
 
-  if(error){
+alert(
+"پاککردنەوە سەرکەوتوو نەبوو."
+);
 
-    console.error(error);
-
-    alert(
-      "پاککردنەوە سەرکەوتوو نەبوو."
-    );
-
-    return;
-
-  }
-
-
-  await refreshBookings();
-
+return;
 }
 
+await refreshBookings();
+
+}
 
 function renderStats(){
 
-  $("totalBookings")
-    .textContent =
-    bookings.length;
+$("totalBookings")
+.textContent=bookings.length;
 
+$("bookedSlots")
+.textContent=bookings.length;
 
-  $("bookedSlots")
-    .textContent =
-    bookings.length;
-
-
-  $("todayBookings")
-    .textContent =
-    bookings.filter(
-      b =>
-      b.booking_date ===
-      todayString()
-    ).length;
+$("todayBookings")
+.textContent=
+bookings.filter(
+b=>b.booking_date===
+todayString()
+).length;
 
 }
-
 
 function changeLanguage(lang){
 
-  language = lang;
+language=lang;
 
-  document.documentElement.lang =
-  lang;
+document.documentElement.lang=lang;
 
-  document.documentElement.dir =
-  lang === "en"
-    ? "ltr"
-    : "rtl";
+document.documentElement.dir=
+lang==="en"
+?
+"ltr"
+:
+"rtl";
 
+$("heroTitle")
+.textContent=
+TEXT[lang].heroTitle;
 
-  $("heroTitle")
-    .textContent =
-    TEXT[lang].heroTitle;
+$("heroText")
+.textContent=
+TEXT[lang].heroText;
 
+$("formTitle")
+.textContent=
+TEXT[lang].formTitle;
 
-  $("heroText")
-    .textContent =
-    TEXT[lang].heroText;
+$("nameLabel")
+.textContent=
+TEXT[lang].nameLabel;
 
+$("phoneLabel")
+.textContent=
+TEXT[lang].phoneLabel;
 
-  $("formTitle")
-    .textContent =
-    TEXT[lang].formTitle;
+$("dayLabel")
+.textContent=
+TEXT[lang].dayLabel;
 
+$("timeLabel")
+.textContent=
+TEXT[lang].timeLabel;
 
-  $("nameLabel")
-    .textContent =
-    TEXT[lang].nameLabel;
+$("submitBtn")
+.textContent=
+TEXT[lang].submit;
 
+$("publicTitle")
+.textContent=
+TEXT[lang].publicTitle;
 
-  $("phoneLabel")
-    .textContent =
-    TEXT[lang].phoneLabel;
+setupDays();
 
+renderTimes();
 
-  $("dayLabel")
-    .textContent =
-    TEXT[lang].dayLabel;
+renderPublicBookings();
 
-
-  $("timeLabel")
-    .textContent =
-    TEXT[lang].timeLabel;
-
-
-  $("submitBtn")
-    .textContent =
-    TEXT[lang].submit;
-
-
-  $("publicTitle")
-    .textContent =
-    TEXT[lang].publicTitle;
-
-
-  setupDays();
-
-  renderTimes();
-
-  renderPublicBookings();
-
-
-  if(ownerLoggedIn)
-    renderOwnerTable();
+if(ownerLoggedIn)
+renderOwnerTable();
 
 }
-
 
 function showTab(tab){
 
-  if(tab === "member"){
+if(tab==="member"){
 
-    $("memberSection")
-      .classList
-      .remove("hidden");
+$("memberSection")
+.classList.remove("hidden");
 
-    $("ownerSection")
-      .classList
-      .add("hidden");
+$("ownerSection")
+.classList.add("hidden");
 
-    $("memberTab")
-      .classList
-      .add("active");
+$("memberTab")
+.classList.add("active");
 
-    $("ownerTab")
-      .classList
-      .remove("active");
+$("ownerTab")
+.classList.remove("active");
 
-  }
+}else{
 
-  else{
+$("memberSection")
+.classList.add("hidden");
 
-    $("memberSection")
-      .classList
-      .add("hidden");
+$("ownerSection")
+.classList.remove("hidden");
 
-    $("ownerSection")
-      .classList
-      .remove("hidden");
+$("memberTab")
+.classList.remove("active");
 
-    $("memberTab")
-      .classList
-      .remove("active");
-
-    $("ownerTab")
-      .classList
-      .add("active");
-
-  }
+$("ownerTab")
+.classList.add("active");
 
 }
 
-
-/*
-  دەستپێکردنی سیستەم
-*/
+}
 
 setupDays();
 
@@ -2117,17 +1221,9 @@ renderTimes();
 
 refreshBookings();
 
-
-/*
-  هەر 3 چرکە جارێک نوێ دەبێتەوە،
-  بۆیە ئەگەر کەسێکی تر لە مۆبایلێکی
-  تر حجز بکات، ناوەکەی خۆکارانە
-  لە لیستی گشتی دەردەکەوێت.
-*/
-
 setInterval(
-  refreshBookings,
-  3000
+refreshBookings,
+3000
 );
 
 </script>
