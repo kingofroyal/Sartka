@@ -133,7 +133,7 @@ const SUPABASE_URL="https://iwqcphkxqoreleibyssk.supabase.co";
 const SUPABASE_KEY="sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6Sp";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const OWNER_PASSWORD="181818";
+const OWNER_PASSWORD="123456";
 const START_MINUTES=3*60, END_MINUTES=11*60, MINUTE_STEP=30;
 
 const DAYS={
@@ -159,7 +159,7 @@ function weekdayIndex(d){const js=d.getDay();if(js===5)return null;return (js+6)
 function getActiveDate(){const d=new Date();d.setSeconds(0,0);if(d.getDay()===5)d.setDate(d.getDate()+1);return d}
 function generateDates(){const d=getActiveDate();const idx=weekdayIndex(d);return [{date:dateString(d),dayIndex:idx,label:DAYS[language][idx],dateLabel:(d.getFullYear()+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+String(d.getDate()).padStart(2,"0")),isToday:dateString(d)===todayString()}]}
 function isTodayDate(date){return date===todayString()}
-function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP)r.push(String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"));return r}
+function generateTimes(){const r=[];for(let m=START_MINUTES;m<=END_MINUTES;m+=MINUTE_STEP)r.push(String((Math.floor(m/60)-1)%12+1).padStart(2,"0")+":"+String(m%60).padStart(2,"0"));return r}
 function timeIsPast(time,date){if(!isTodayDate(date))return false;const [h,m]=String(time).split(":").map(Number);const now=new Date();return h*60+m<=now.getHours()*60+now.getMinutes()}
 function getSelectedDateObj(){return generateDates().find(x=>x.date===selectedDate)||null}
 function getBookingDayLabel(b){const d=generateDates().find(x=>x.date===b.booking_date);return d?d.label:DAYS[language][Number(b.day_index)]}
