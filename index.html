@@ -1,785 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>سیستەمی نۆرە و حجز</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,Tahoma,sans-serif;
+background:#f4f6f8;
+color:#18202a
+}
+header{
+background:linear-gradient(135deg,#111827,#2563eb);
+color:white;
+padding:35px 20px;
+text-align:center
+}
+header h1{margin:0 0 10px;font-size:30px}
+header p{margin:0;opacity:.9}
+.container{max-width:1100px;margin:auto;padding:20px}
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:20px
+}
+.tab{
+flex:1;
+border:0;
+padding:15px;
+border-radius:12px;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+background:#e5e7eb
+}
+.tab.active{background:#2563eb;color:white}
+.card{
+background:white;
+border-radius:18px;
+padding:22px;
+margin-bottom:20px;
+box-shadow:0 5px 20px #00000012
+}
+.hero{
+display:grid;
+grid-template-columns:1fr 330px;
+gap:25px;
+align-items:center
+}
+.hero img{
+width:100%;
+height:390px;
+object-fit:cover;
+border-radius:18px
+}
+.hero h2{font-size:32px;margin-top:0}
+label{
+display:block;
+font-weight:bold;
+margin:12px 0 7px
+}
+input,select{
+width:100%;
+padding:13px;
+border:1px solid #d1d5db;
+border-radius:10px;
+font-size:16px
+}
+.days{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+margin-top:10px
+}
+.day,.time{
+border:0;
+padding:13px 8px;
+border-radius:10px;
+background:#eef2ff;
+cursor:pointer;
+font-weight:bold
+}
+.day.selected,.time.selected{
+background:#2563eb;
+color:white
+}
+.time-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin-top:15px
+}
+.time.taken{
+background:#e5e7eb;
+color:#999;
+cursor:not-allowed
+}
+.time small{
+display:block;
+font-size:10px;
+margin-top:4px
+}
+button.main{
+width:100%;
+padding:15px;
+border:0;
+border-radius:11px;
+background:#16a34a;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:18px
+}
+.success{
+background:#ecfdf5;
+border:1px solid #86efac;
+padding:20px;
+border-radius:15px;
+margin-top:20px
+}
+.queue-number{
+font-size:45px;
+font-weight:bold;
+color:#16a34a;
+text-align:center;
+margin:15px
+}
+.booking-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+.booking-item{
+background:#f8fafc;
+border:1px solid #e5e7eb;
+padding:15px;
+border-radius:12px
+}
+.booking-item strong{color:#2563eb}
+.empty{
+padding:25px;
+text-align:center;
+color:#777
+}
+.hidden{display:none!important}
+.login{
+max-width:450px;
+margin:30px auto
+}
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-bottom:20px
+}
+.stat{
+background:#eff6ff;
+padding:20px;
+border-radius:15px;
+text-align:center
+}
+.stat b{
+display:block;
+font-size:30px;
+color:#2563eb
+}
+.table-wrap{overflow:auto}
+table{
+width:100%;
+border-collapse:collapse;
+min-width:850px
+}
+th,td{
+padding:12px;
+border-bottom:1px solid #e5e7eb;
+text-align:right
+}
+th{background:#f1f5f9}
+.delete{
+background:#dc2626;
+color:white;
+border:0;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer
+}
+.actions{
+display:flex;
+gap:10px;
+margin-top:15px
+}
+.action{
+border:0;
+padding:12px 16px;
+border-radius:9px;
+cursor:pointer;
+font-weight:bold
+}
+.clear-day{background:#f59e0b;color:white}
+.clear-all{background:#dc2626;color:white}
+
+@media(max-width:700px){
+.hero{grid-template-columns:1fr}
+.hero img{height:300px}
+.days{grid-template-columns:repeat(2,1fr)}
+.time-grid{grid-template-columns:repeat(3,1fr)}
+.booking-grid{grid-template-columns:1fr}
+.stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>سیستەمی نۆرە و حجز</h1>
+<p>ڕۆژ و کاتی خۆت هەڵبژێرە و نۆرەکەت تۆمار بکە</p>
+</header>
+
+<div class="container">
+
+<div class="tabs">
+<button id="memberTab" class="tab active" onclick="showMember()">👤 بەشداربوو</button>
+<button id="ownerTab" class="tab" onclick="showOwner()">🔐 بەڕێوەبەر</button>
+</div>
+
+<!-- MEMBER -->
+
+<section id="memberSection">
+
+<div class="card hero">
+<div>
+<h2>بەخێربێیت 👋</h2>
+<p>
+ناو و ژمارەی مۆبایلەکەت بنووسە،
+پاشان ڕۆژ و کاتی نۆرەکەت هەڵبژێرە.
+</p>
+</div>
+
+<img src="profile.jpg" alt="Profile">
+</div>
+
+<div class="card">
+
+<h2>تۆمارکردنی نۆرە</h2>
+
+<form id="memberForm">
+
+<label>ناوی تەواو</label>
+<input id="name" type="text" required placeholder="ناوی تەواوت بنووسە">
+
+<label>ژمارەی مۆبایل</label>
+<input id="phone" type="tel" required placeholder="07xxxxxxxxx">
+
+<label>ڕۆژ هەڵبژێرە</label>
+<div id="days" class="days"></div>
+
+<div id="timeArea" class="hidden">
+
+<h3 id="selectedDayTitle"></h3>
+
+<div id="times" class="time-grid"></div>
+
+</div>
+
+<button class="main" type="submit">
+تۆمارکردنی نۆرە ✅
+</button>
+
+</form>
+
+<div id="successBox" class="success hidden"></div>
+
+</div>
+
+<div class="card">
+
+<h2>نۆرەکانی ئەم ڕۆژە</h2>
+
+<div id="publicBookings" class="booking-list empty">
+سەرەتا ڕۆژێک هەڵبژێرە.
+</div>
+
+</div>
+
+</section>
+
+
+<!-- OWNER -->
+
+<section id="ownerSection" class="hidden">
+
+<div id="ownerLoginBox" class="card login">
+
+<h2>🔐 چوونەژوورەوەی بەڕێوەبەر</h2>
+
+<label>وشەی نهێنی</label>
+
+<input
+id="ownerPassword"
+type="password"
+placeholder="وشەی نهێنی"
+>
+
+<button class="main" onclick="loginOwner()">
+چوونەژوورەوە
+</button>
+
+<p>
+وشەی نهێنی بنەڕەتی:
+<b>123456</b>
+</p>
+
+</div>
+
+
+<div id="dashboard" class="hidden">
+
+<div class="stats">
+
+<div class="stat">
+<b id="totalCount">0</b>
+کۆی تۆمارکراوەکان
+</div>
+
+<div class="stat">
+<b id="takenCount">0</b>
+کاتە گیراوەکان
+</div>
+
+<div class="stat">
+<b id="todayCount">0</b>
+تۆمارەکانی ئەمڕۆ
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>بەڕێوەبردنی نۆرەکان</h2>
+
+<label>فلتەرکردن بە ڕۆژ</label>
+
+<select id="dayFilter" onchange="renderOwnerTable()"></select>
+
+<div class="actions">
+
+<button
+class="action clear-day"
+onclick="clearSelectedDay()">
+سڕینەوەی ئەم ڕۆژە
+</button>
+
+<button
+class="action clear-all"
+onclick="clearEverything()">
+سڕینەوەی هەموو
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>نۆرە</th>
+<th>ناو</th>
+<th>مۆبایل</th>
+<th>ڕۆژ</th>
+<th>کات</th>
+<th>بەروار</th>
+<th>کردار</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<script>
+
 const OWNER_PASSWORD = "123456";
 
-const START_HOUR = 8;
-const END_HOUR = 17;
+/* کاتەکان: 03:00 تا 23:00 */
+const START_MINUTES = 3 * 60;
+const END_MINUTES = 23 * 60;
 const MINUTE_STEP = 30;
 
 const DAYS = [
-  "شەممە",
-  "یەکشەممە",
-  "دووشەممە",
-  "سێشەممە",
-  "چوارشەممە",
-  "پێنجشەممە",
-  "هەینی"
+"شەممە",
+"یەکشەممە",
+"دووشەممە",
+"سێشەممە",
+"چوارشەممە",
+"پێنجشەممە",
+"هەینی"
 ];
 
 let members = JSON.parse(
-  localStorage.getItem("queueMembers") || "[]"
+localStorage.getItem("queueMembers") || "[]"
 );
 
 let selectedDay = "";
 let selectedTime = "";
 
 
-function $(id) {
-  return document.getElementById(id);
+function $(id){
+return document.getElementById(id);
 }
 
 
-function escapeHTML(value) {
-
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
+function escapeHTML(value){
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 }
 
 
-function save() {
-
-  localStorage.setItem(
-    "queueMembers",
-    JSON.stringify(members)
-  );
-
+function save(){
+localStorage.setItem(
+"queueMembers",
+JSON.stringify(members)
+);
 }
 
 
-function generateTimeSlots() {
+/* دروستکردنی کاتەکان */
+function generateTimeSlots(){
 
-  const slots = [];
+const slots=[];
 
-  for (let h = START_HOUR; h < END_HOUR; h++) {
+for(
+let minutes=START_MINUTES;
+minutes<=END_MINUTES;
+minutes+=MINUTE_STEP
+){
 
-    for (
-      let m = 0;
-      m < 60;
-      m += MINUTE_STEP
-    ) {
+const h=String(
+Math.floor(minutes/60)
+).padStart(2,"0");
 
-      slots.push(
-        String(h).padStart(2, "0") +
-        ":" +
-        String(m).padStart(2, "0")
-      );
+const m=String(
+minutes%60
+).padStart(2,"0");
 
-    }
+slots.push(`${h}:${m}`);
 
-  }
+}
 
-  return slots;
+return slots;
 }
 
 
-function setupDays() {
+/* ڕۆژەکان */
+function setupDays(){
 
-  $("days").innerHTML = DAYS.map(day => {
-
-    return `
-      <button
-        type="button"
-        class="day"
-        data-day="${escapeHTML(day)}">
-
-        ${escapeHTML(day)}
-
-      </button>
-    `;
-
-  }).join("");
+$("days").innerHTML=DAYS.map(day=>`
+<button
+type="button"
+class="day"
+data-day="${escapeHTML(day)}">
+${escapeHTML(day)}
+</button>
+`).join("");
 
 
-  document.querySelectorAll(".day")
-    .forEach(button => {
+document.querySelectorAll(".day")
+.forEach(button=>{
 
-      button.addEventListener("click", () => {
+button.addEventListener("click",()=>{
 
-        selectedDay = button.dataset.day;
-        selectedTime = "";
+selectedDay=button.dataset.day;
+selectedTime="";
 
-        document
-          .querySelectorAll(".day")
-          .forEach(b =>
-            b.classList.remove("selected")
-          );
+document.querySelectorAll(".day")
+.forEach(b=>b.classList.remove("selected"));
 
-        button.classList.add("selected");
+button.classList.add("selected");
 
-        renderTimes();
-        renderPublicBookings();
+renderTimes();
+renderPublicBookings();
 
-      });
+});
 
-    });
+});
 
 
-  $("dayFilter").innerHTML =
-    `<option value="all">هەموو ڕۆژەکان</option>` +
-
-    DAYS.map(day =>
-      `<option value="${escapeHTML(day)}">
-        ${escapeHTML(day)}
-      </option>`
-    ).join("");
+$("dayFilter").innerHTML=
+`<option value="all">هەموو ڕۆژەکان</option>`+
+DAYS.map(day=>`
+<option value="${escapeHTML(day)}">
+${escapeHTML(day)}
+</option>
+`).join("");
 
 }
 
 
-function renderTimes() {
+/* پیشاندانی کاتەکان */
+function renderTimes(){
 
-  if (!selectedDay) {
+if(!selectedDay){
+$("timeArea").classList.add("hidden");
+return;
+}
 
-    $("timeArea")
-      .classList.add("hidden");
+$("timeArea").classList.remove("hidden");
 
-    return;
+$("selectedDayTitle").innerHTML=
+`📅 ڕۆژ: <b>${escapeHTML(selectedDay)}</b>`;
 
-  }
+$("times").innerHTML=
+generateTimeSlots().map(time=>{
 
+const booking=members.find(
+m=>m.day===selectedDay && m.time===time
+);
 
-  $("timeArea")
-    .classList.remove("hidden");
+if(booking){
 
+return `
+<button
+type="button"
+class="time taken"
+disabled>
 
-  $("selectedDayTitle").innerHTML =
-    `📅 ڕۆژ:
-     <b>${escapeHTML(selectedDay)}</b>`;
+${escapeHTML(time)}
 
+<small>
+گیراوە: ${escapeHTML(booking.name)}
+</small>
 
-  $("times").innerHTML =
-    generateTimeSlots().map(time => {
+</button>
+`;
 
-      const booking =
-        members.find(
-          m =>
-            m.day === selectedDay &&
-            m.time === time
-        );
+}
 
+return `
+<button
+type="button"
+class="time"
+data-time="${time}">
 
-      if (booking) {
+${time}
 
-        return `
-          <button
-            type="button"
-            class="time taken"
-            disabled>
+</button>
+`;
 
-            ${escapeHTML(time)}
-
-            <small>
-              گیراوە:
-              ${escapeHTML(booking.name)}
-            </small>
-
-          </button>
-        `;
-
-      }
-
-
-      return `
-        <button
-          type="button"
-          class="time"
-          data-time="${time}">
-
-          ${time}
-
-        </button>
-      `;
-
-    }).join("");
+}).join("");
 
 
-  document
-    .querySelectorAll(".time:not(.taken)")
-    .forEach(button => {
+document.querySelectorAll(".time:not(.taken)")
+.forEach(button=>{
 
-      button.addEventListener("click", () => {
+button.addEventListener("click",()=>{
 
-        selectedTime =
-          button.dataset.time;
+selectedTime=button.dataset.time;
 
-        document
-          .querySelectorAll(".time")
-          .forEach(b =>
-            b.classList.remove("selected")
-          );
+document.querySelectorAll(".time")
+.forEach(b=>b.classList.remove("selected"));
 
-        button.classList.add("selected");
+button.classList.add("selected");
 
-      });
+});
 
-    });
+});
 
 }
 
 
-function renderPublicBookings() {
+/* نۆرەکانی ڕۆژ */
+function renderPublicBookings(){
 
-  const box = $("publicBookings");
+const box=$("publicBookings");
 
+if(!selectedDay){
 
-  if (!selectedDay) {
+box.className="booking-list empty";
+box.textContent="سەرەتا ڕۆژێک هەڵبژێرە.";
+return;
 
-    box.className =
-      "booking-list empty";
+}
 
-    box.textContent =
-      "سەرەتا ڕۆژێک هەڵبژێرە.";
+const list=members
+.filter(m=>m.day===selectedDay)
+.sort((a,b)=>a.time.localeCompare(b.time));
 
-    return;
+if(!list.length){
 
-  }
+box.className="booking-list empty";
+box.textContent=
+"هێشتا هیچ کەسێک بۆ ئەم ڕۆژە تۆمار نەکراوە.";
 
+return;
+}
 
-  const list =
-    members
-      .filter(m => m.day === selectedDay)
-      .sort((a, b) =>
-        a.time.localeCompare(b.time)
-      );
+box.className="booking-list booking-grid";
 
+box.innerHTML=list.map(m=>`
 
-  if (!list.length) {
+<div class="booking-item">
 
-    box.className =
-      "booking-list empty";
+<strong>
+⏰ ${escapeHTML(m.time)}
+</strong>
 
-    box.textContent =
-      "هێشتا هیچ کەسێک بۆ ئەم ڕۆژە تۆمار نەکراوە.";
+<div>
+👤 ${escapeHTML(m.name)}
+</div>
 
-    return;
+<small>
+نۆرە:
+#${String(m.queue).padStart(3,"0")}
+</small>
 
-  }
+</div>
 
-
-  box.className =
-    "booking-list booking-grid";
-
-
-  box.innerHTML =
-    list.map(m => {
-
-      return `
-        <div class="booking-item">
-
-          <strong>
-            ⏰ ${escapeHTML(m.time)}
-          </strong>
-
-          <div>
-            👤 ${escapeHTML(m.name)}
-          </div>
-
-          <small>
-            نۆرە:
-            #${String(m.queue).padStart(3, "0")}
-          </small>
-
-        </div>
-      `;
-
-    }).join("");
+`).join("");
 
 }
 
 
-function showMember() {
+/* بەشی بەشداربوو */
+function showMember(){
 
-  $("memberSection")
-    .classList.remove("hidden");
+$("memberSection").classList.remove("hidden");
+$("ownerSection").classList.add("hidden");
 
-  $("ownerSection")
-    .classList.add("hidden");
-
-  $("memberTab")
-    .classList.add("active");
-
-  $("ownerTab")
-    .classList.remove("active");
+$("memberTab").classList.add("active");
+$("ownerTab").classList.remove("active");
 
 }
 
 
-function showOwner() {
+/* بەشی بەڕێوەبەر */
+function showOwner(){
 
-  $("memberSection")
-    .classList.add("hidden");
+$("memberSection").classList.add("hidden");
+$("ownerSection").classList.remove("hidden");
 
-  $("ownerSection")
-    .classList.remove("hidden");
-
-  $("memberTab")
-    .classList.remove("active");
-
-  $("ownerTab")
-    .classList.add("active");
+$("memberTab").classList.remove("active");
+$("ownerTab").classList.add("active");
 
 }
 
 
-$("memberForm")
-  .addEventListener("submit", event => {
+/* تۆمارکردن */
+$("memberForm").addEventListener(
+"submit",
+event=>{
 
-    event.preventDefault();
+event.preventDefault();
 
+const name=$("name").value.trim();
+const phone=$("phone").value.trim();
 
-    const name =
-      $("name").value.trim();
+if(!selectedDay){
+alert("تکایە ڕۆژ هەڵبژێرە.");
+return;
+}
 
-    const phone =
-      $("phone").value.trim();
+if(!selectedTime){
+alert("تکایە کات هەڵبژێرە.");
+return;
+}
 
+const exists=members.some(
+m=>m.day===selectedDay &&
+m.time===selectedTime
+);
 
-    if (!selectedDay) {
+if(exists){
 
-      alert("تکایە ڕۆژ هەڵبژێرە.");
+alert("ئەم کاتە پێشتر گیراوە.");
+renderTimes();
+return;
 
-      return;
+}
 
-    }
+const now=new Date();
 
+const date=now.toLocaleDateString("ku-IQ");
 
-    if (!selectedTime) {
+const registrationTime=
+now.toLocaleTimeString(
+"ku-IQ",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
 
-      alert("تکایە کات هەڵبژێرە.");
 
-      return;
+/* ژمارەی نۆرە */
+const sameDay=members.filter(
+m=>m.day===selectedDay
+);
 
-    }
+const queue=sameDay.length
+? Math.max(...sameDay.map(m=>Number(m.queue)||0))+1
+:1;
 
 
-    const exists =
-      members.some(
-        m =>
-          m.day === selectedDay &&
-          m.time === selectedTime
-      );
+const member={
+id:Date.now(),
+queue,
+name,
+phone,
+day:selectedDay,
+time:selectedTime,
+date,
+registrationTime
+};
 
+members.push(member);
 
-    if (exists) {
+save();
 
-      alert("ئەم کاتە پێشتر گیراوە.");
 
-      renderTimes();
+$("successBox").innerHTML=`
 
-      return;
+<div>
+تۆ بە سەرکەوتوویی تۆمارکرایت ✅
+</div>
 
-    }
+<div class="queue-number">
+#${String(queue).padStart(3,"0")}
+</div>
 
+<div>
 
-    const now = new Date();
+👤 ناو:
+<b>${escapeHTML(name)}</b>
+<br><br>
 
+📱 مۆبایل:
+<b>${escapeHTML(phone)}</b>
+<br><br>
 
-    const date =
-      now.toLocaleDateString("ku-IQ");
+📅 ڕۆژ:
+<b>${escapeHTML(selectedDay)}</b>
+<br><br>
 
+⏰ کات:
+<b>${escapeHTML(selectedTime)}</b>
+<br><br>
 
-    const registrationTime =
-      now.toLocaleTimeString(
-        "ku-IQ",
-        {
-          hour: "2-digit",
-          minute: "2-digit"
-        }
-      );
+📆 بەروار:
+<b>${escapeHTML(date)}</b>
 
+</div>
+`;
 
-    const sameDay =
-      members.filter(
-        m => m.day === selectedDay
-      );
+$("successBox").classList.remove("hidden");
 
+$("memberForm").reset();
 
-    const queue =
-      sameDay.length + 1;
+selectedDay="";
+selectedTime="";
 
+document.querySelectorAll(".day")
+.forEach(b=>b.classList.remove("selected"));
 
-    const member = {
+$("timeArea").classList.add("hidden");
 
-      id: Date.now(),
+renderPublicBookings();
+updateStats();
 
-      queue,
+$("successBox").scrollIntoView({
+behavior:"smooth"
+});
 
-      name,
+});
 
-      phone,
 
-      day: selectedDay,
+/* Login */
+function loginOwner(){
 
-      time: selectedTime,
+const password=$("ownerPassword").value;
 
-      date,
+if(password!==OWNER_PASSWORD){
 
-      registrationTime
+alert("وشەی نهێنی هەڵەیە ❌");
+return;
 
-    };
+}
 
+$("ownerLoginBox").classList.add("hidden");
+$("dashboard").classList.remove("hidden");
 
-    members.push(member);
-
-    save();
-
-
-    $("successBox").innerHTML = `
-
-      <div>
-        تۆ بە سەرکەوتوویی تۆمارکرایت ✅
-      </div>
-
-      <div class="queue-number">
-        #${String(queue).padStart(3, "0")}
-      </div>
-
-      <div class="success-info">
-
-        👤 ناو:
-        <b>${escapeHTML(name)}</b>
-        <br>
-
-        📱 مۆبایل:
-        <b>${escapeHTML(phone)}</b>
-        <br>
-
-        📅 ڕۆژ:
-        <b>${escapeHTML(selectedDay)}</b>
-        <br>
-
-        ⏰ کات:
-        <b>${escapeHTML(selectedTime)}</b>
-        <br>
-
-        📆 بەروار:
-        <b>${escapeHTML(date)}</b>
-
-      </div>
-
-    `;
-
-
-    $("successBox")
-      .classList.remove("hidden");
-
-
-    $("memberForm").reset();
-
-
-    selectedDay = "";
-    selectedTime = "";
-
-
-    document
-      .querySelectorAll(".day")
-      .forEach(b =>
-        b.classList.remove("selected")
-      );
-
-
-    $("timeArea")
-      .classList.add("hidden");
-
-
-    renderPublicBookings();
-
-    updateStats();
-
-
-    $("successBox")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
-
-  });
-
-
-function loginOwner() {
-
-  const password =
-    $("ownerPassword").value;
-
-
-  if (password !== OWNER_PASSWORD) {
-
-    alert("وشەی نهێنی هەڵەیە ❌");
-
-    return;
-
-  }
-
-
-  $("ownerLoginBox")
-    .classList.add("hidden");
-
-
-  $("dashboard")
-    .classList.remove("hidden");
-
-
-  renderOwnerTable();
+renderOwnerTable();
 
 }
 
 
-function renderOwnerTable() {
+/* خشتەی بەڕێوەبەر */
+function renderOwnerTable(){
 
-  const filter =
-    $("dayFilter").value;
+const filter=$("dayFilter").value;
 
+let data=filter==="all"
+?[...members]
+:members.filter(m=>m.day===filter);
 
-  let data =
-    filter === "all"
-      ? [...members]
-      : members.filter(
-          m => m.day === filter
-        );
+data.sort(
+(a,b)=>a.time.localeCompare(b.time)
+);
 
+$("tableBody").innerHTML=data.length
 
-  data.sort(
-    (a, b) =>
-      a.time.localeCompare(b.time)
-  );
+?data.map(m=>`
 
+<tr>
 
-  $("tableBody").innerHTML =
-    data.length
+<td>
+#${String(m.queue).padStart(3,"0")}
+</td>
 
-      ? data.map(m => {
+<td>
+${escapeHTML(m.name)}
+</td>
 
-          return `
+<td>
+${escapeHTML(m.phone)}
+</td>
 
-            <tr>
+<td>
+${escapeHTML(m.day)}
+</td>
 
-              <td>
-                #${String(m.queue)
-                  .padStart(3, "0")}
-              </td>
+<td>
+<b>${escapeHTML(m.time)}</b>
+</td>
 
-              <td>
-                ${escapeHTML(m.name)}
-              </td>
+<td>
+${escapeHTML(m.date)}
+<br>
+<small>
+${escapeHTML(m.registrationTime)}
+</small>
+</td>
 
-              <td>
-                ${escapeHTML(m.phone)}
-              </td>
+<td>
 
-              <td>
-                ${escapeHTML(m.day)}
-              </td>
+<button
+class="delete"
+onclick="deleteMember(${m.id})">
+سڕینەوە
+</button>
 
-              <td>
-                <b>
-                  ${escapeHTML(m.time)}
-                </b>
-              </td>
+</td>
 
-              <td>
+</tr>
 
-                ${escapeHTML(m.date)}
+`).join("")
 
-                <br>
-
-                <small>
-                  ${escapeHTML(m.registrationTime)}
-                </small>
-
-              </td>
-
-              <td>
-
-                <button
-                  class="delete-one"
-                  onclick="deleteMember(${m.id})">
-
-                  Clear
-
-                </button>
-
-              </td>
-
-            </tr>
-
-          `;
-
-        }).join("")
-
-      : `
-
-        <tr>
-
-          <td
-            colspan="7"
-            class="empty">
-
-            هیچ فۆرمێک نییە.
-
-          </td>
-
-        </tr>
-
-      `;
-
-
-  updateStats();
-
-}
-
-
-function deleteMember(id) {
-
-  const member =
-    members.find(
-      m => m.id === id
-    );
-
-
-  if (!member) return;
-
-
-  if (
-    !confirm(
-      `دڵنیایت فۆرمی
-       ${member.name}
-       بسڕیتەوە؟`
-    )
-  ) return;
-
-
-  members =
-    members.filter(
-      m => m.id !== id
-    );
-
-
-  save();
-
-  renderOwnerTable();
-
-  renderTimes();
-
-  renderPublicBookings();
-
-}
-
-
-function clearSelectedDay() {
-
-  const day =
-    $("dayFilter").value;
-
-
-  if (day === "all") {
-
-    alert(
-      "سەرەتا ڕۆژێک هەڵبژێرە."
-    );
-
-    return;
-
-  }
-
-
-  const count =
-    members.filter(
-      m => m.day === day
-    ).length;
-
-
-  if (!count) {
-
-    alert(
-      "هیچ فۆرمێک بۆ ئەم ڕۆژە نییە."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !confirm(
-      `دڵنیایت هەموو ${count}
-       فۆرمی ${day} بسڕیتەوە؟`
-    )
-  ) return;
-
-
-  members =
-    members.filter(
-      m => m.day !== day
-    );
-
-
-  save();
-
-  renderOwnerTable();
-
-  renderTimes();
-
-  renderPublicBookings();
-
-}
-
-
-function clearEverything() {
-
-  if (!members.length) {
-
-    alert("هیچ فۆرمێک نییە.");
-
-    return;
-
-  }
-
-
-  if (
-    !confirm(
-      `دڵنیایت هەموو
-       ${members.length}
-       فۆرم بسڕیتەوە؟`
-    )
-  ) return;
-
-
-  members = [];
-
-  save();
-
-  renderOwnerTable();
-
-  renderTimes();
-
-  renderPublicBookings();
-
-}
-
-
-function updateStats() {
-
-  $("totalCount").textContent =
-    members.length;
-
-  $("takenCount").textContent =
-    members.length;
-
-
-  const today =
-    new Date().toLocaleDateString("ku-IQ");
-
-
-  $("todayCount").textContent =
-    members.filter(
-      m => m.date === today
-    ).length;
-
-}
-
-
-setupDays();
+:`<tr>
+<td colspan="7" class="empty">
+هیچ تۆمارێک نییە.
+</td>
+</tr>`;
 
 updateStats();
+
+}
+
+
+/* سڕینەوەی یەک نۆرە */
+function deleteMember(id){
+
+const member=members.find(
+m=>m.id===id
+);
+
+if(!member)return;
+
+if(!confirm(
+`دڵنیایت نۆرەی ${member.name} بسڕیتەوە؟`
+))return;
+
+members=members.filter(
+m=>m.id!==id
+);
+
+save();
+
+renderOwnerTable();
+renderTimes();
+renderPublicBookings();
+
+}
+
+
+/* سڕینەوەی ڕۆژێک */
+function clearSelectedDay(){
+
+const day=$("dayFilter").value;
+
+if(day==="all"){
+
+alert("سەرەتا ڕۆژێک هەڵبژێرە.");
+return;
+
+}
+
+const count=members.filter(
+m=>m.day===day
+).length;
+
+if(!count){
+
+alert("هیچ تۆمارێک بۆ ئەم ڕۆژە نییە.");
+return;
+
+}
+
+if(!confirm(
+`دڵنیایت هەموو ${count} نۆرەی ${day} بسڕیتەوە؟`
+))return;
+
+members=members.filter(
+m=>m.day!==day
+);
+
+save();
+
+renderOwnerTable();
+renderTimes();
+renderPublicBookings();
+
+}
+
+
+/* سڕینەوەی هەموو */
+function clearEverything(){
+
+if(!members.length){
+
+alert("هیچ تۆمارێک نییە.");
+return;
+
+}
+
+if(!confirm(
+`دڵنیایت هەموو ${members.length} تۆمار بسڕیتەوە؟`
+))return;
+
+members=[];
+
+save();
+
+renderOwnerTable();
+renderTimes();
+renderPublicBookings();
+
+}
+
+
+/* Statistics */
+function updateStats(){
+
+$("totalCount").textContent=members.length;
+
+$("takenCount").textContent=members.length;
+
+const today=
+new Date().toLocaleDateString("ku-IQ");
+
+$("todayCount").textContent=
+members.filter(
+m=>m.date===today
+).length;
+
+}
+
+
+/* Start */
+setupDays();
+updateStats();
+
+</script>
+
+</body>
+</html>
