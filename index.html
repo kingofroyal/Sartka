@@ -6,42 +6,22 @@
 <title>سیستەمی نۆرە و حجز</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Tahoma,Arial,sans-serif;background:#f4f7fb;color:#172033;line-height:1.8}
-header{background:linear-gradient(135deg,#0879e8,#0055b8);color:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;box-shadow:0 4px 15px #0002}
-.logo{font-size:22px;font-weight:bold}.langs{display:flex;gap:5px}
-.langs button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:6px 10px;border-radius:7px;cursor:pointer}
-.hero{max-width:1100px;margin:25px auto;padding:30px 20px;display:grid;grid-template-columns:1fr 300px;gap:30px;align-items:center}
-.hero h1{font-size:38px;line-height:1.35;color:#075ebd;margin-bottom:10px}.hero p{color:#5e6b7d;font-size:17px}
-.profile{width:260px;height:260px;object-fit:cover;border-radius:50%;margin:auto;display:block;border:8px solid white;box-shadow:0 8px 30px #0002}
-.container{max-width:1100px;margin:auto;padding:0 15px 40px}.tabs{display:flex;gap:10px;margin-bottom:20px}
-.tab{flex:1;border:0;padding:14px;border-radius:10px;background:#dce9f8;color:#075ebd;cursor:pointer;font-weight:bold;font-size:16px}.tab.active{background:#0879e8;color:white}
-.card{background:white;position:relative;overflow:hidden;border-radius:16px;padding:25px;margin-bottom:20px;box-shadow:0 5px 20px #0000000c}.card h2{color:#075ebd;margin-bottom:18px}
-.form-group{margin-bottom:15px}label{display:block;font-weight:bold;margin-bottom:6px}
-input,select{width:100%;padding:13px;border:1px solid #ccd6e3;border-radius:9px;font-size:16px;outline:none;background:white}
-input:focus,select:focus{border-color:#0879e8;box-shadow:0 0 0 3px #0879e818}
-.days{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.day{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:9px;padding:10px 5px;cursor:pointer;text-align:center}.day.active{background:#0879e8;color:white}.day small{display:block;font-size:12px;margin-top:4px;opacity:.9}.day.past{opacity:.45;cursor:not-allowed}.time.past{opacity:.45;cursor:not-allowed}
-.times{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}.time{border:1px solid #cbd8e7;background:white;color:#075ebd;border-radius:8px;padding:9px;cursor:pointer}.time.active{background:#0879e8;color:white}
-.time.booked{background:#e9edf2;color:#9aa5b2;cursor:not-allowed;text-decoration:line-through}
-.primary{width:100%;border:0;background:#0879e8;color:white;padding:14px;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer;margin-top:10px}.primary:hover{background:#005fca}.primary:disabled{opacity:.6;cursor:not-allowed}
-.message{padding:14px;border-radius:10px;margin:15px 0;display:none}.success{background:#dff7e8;color:#126b36;display:block}.error{background:#ffe2e2;color:#9b1717;display:block}
-.loading{text-align:center;padding:15px;color:#65758b}.booking-list{display:flex;flex-direction:column;gap:10px}
-.booking{border:1px solid #e0e6ee;border-radius:10px;padding:13px;background:#fafcff;display:flex;justify-content:space-between;align-items:center}.badge{background:#0879e8;color:white;border-radius:8px;padding:4px 9px;font-weight:bold}
-.owner-login{max-width:500px;margin:auto}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}
-.stat{background:#f3f8ff;border:1px solid #dbe9f8;border-radius:12px;padding:18px;text-align:center}.stat strong{display:block;font-size:28px;color:#0879e8}
-.owner-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.owner-tools button{border:0;border-radius:8px;padding:10px 15px;cursor:pointer;font-weight:bold}
-.danger{background:#e53935;color:white}.warning{background:#ffb300;color:white}.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:700px}th,td{padding:11px;border-bottom:1px solid #e5e9ef;text-align:right}th{background:#f1f6fb;color:#075ebd}
-.renew-btn{border:0;background:#14a66a;color:#fff;padding:11px 15px;border-radius:10px;font-weight:bold;cursor:pointer}.renew-btn:hover{background:#108b58}.delete-btn{border:0;background:#e53935;color:white;border-radius:7px;padding:7px 12px;cursor:pointer}.hidden{display:none!important}
-.confirm{text-align:center;border:2px solid #21a957;background:#f0fff5}.confirm-number{font-size:48px;color:#0879e8;font-weight:bold;margin:10px 0}
-footer{text-align:center;padding:25px;background:#10243d;color:white;margin-top:30px}
-@media(max-width:800px){.hero{grid-template-columns:1fr;text-align:center}.hero h1{font-size:30px}.days{grid-template-columns:repeat(3,1fr)}.times{grid-template-columns:repeat(3,1fr)}.stats{grid-template-columns:1fr}}
-@media(max-width:500px){header{flex-direction:column}.days{grid-template-columns:repeat(2,1fr)}.times{grid-template-columns:repeat(2,1fr)}.card{padding:16px}.profile{width:210px;height:210px}}
-</style>
+*{box-sizing:border-box;margin:0;padding:0}:root{--p:#2563eb;--p2:#4f46e5;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--bg:#f5f7fb}
+html{scroll-behavior:smooth}body{font-family:Tahoma,"Noto Sans Arabic",Arial,sans-serif;background:radial-gradient(circle at 10% 0%,#e8f0ff 0,transparent 32%),radial-gradient(circle at 90% 10%,#eeeaff 0,transparent 30%),var(--bg);color:var(--ink);line-height:1.8;min-height:100vh}button,input,select{font:inherit}
+header{background:linear-gradient(135deg,#1d4ed8,#4f46e5);color:#fff;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20;box-shadow:0 8px 28px #1e3a8a33}.logo{font-size:22px;font-weight:800}.langs{display:flex;gap:7px}.langs button{border:1px solid #ffffff44;background:#ffffff18;color:#fff;padding:7px 12px;border-radius:10px;cursor:pointer;transition:.2s}.langs button:hover{background:#ffffff2d}
+main{max-width:1160px;margin:auto}.hero{max-width:1160px;margin:22px auto 10px;padding:34px 24px;display:grid;grid-template-columns:1fr 290px;gap:36px;align-items:center}.hero h1{font-size:42px;line-height:1.3;color:#1e3a8a;margin-bottom:12px}.hero p{color:var(--muted);font-size:17px;max-width:720px}.profile{width:250px;height:250px;object-fit:cover;border-radius:50%;margin:auto;display:block;border:9px solid #fff;box-shadow:0 18px 50px #1e3a8a26}
+.container{max-width:1160px;margin:auto;padding:0 18px 45px}.tabs{display:flex;gap:10px;margin-bottom:18px;background:#ffffffc9;padding:7px;border-radius:16px;box-shadow:0 6px 24px #0f172a0b}.tab{flex:1;border:0;padding:13px;border-radius:11px;background:transparent;color:#475569;cursor:pointer;font-weight:800;font-size:16px;transition:.2s}.tab.active{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 7px 18px #4f46e544}
+.card{background:#fffffff2;overflow:hidden;border:1px solid #fff;border-radius:20px;padding:26px;margin-bottom:20px;box-shadow:0 12px 35px #0f172a0d}.card h2{color:#1e3a8a;margin-bottom:18px;font-size:22px}.form-group{margin-bottom:17px}label{display:block;font-weight:800;margin-bottom:7px;color:#334155}input,select{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:16px;outline:none;background:#fff;transition:.2s}input:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 4px #2563eb14}
+.days{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}.day{border:1px solid #dbe3ef;background:#fff;color:#1d4ed8;border-radius:12px;padding:11px 6px;cursor:pointer;text-align:center;font-weight:700;transition:.2s}.day:hover{transform:translateY(-2px);border-color:#93c5fd}.day.active{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-color:transparent;box-shadow:0 8px 20px #2563eb2e}.day small{display:block;font-size:11px;margin-top:3px;opacity:.9}.day.past{opacity:.45;cursor:not-allowed}
+.times{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:10px}.time{border:1px solid #dbe3ef;background:#fff;color:#1d4ed8;border-radius:11px;padding:10px 7px;cursor:pointer;font-weight:800;transition:.2s}.time:hover{transform:translateY(-2px);border-color:#93c5fd}.time.active{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-color:transparent;box-shadow:0 8px 18px #2563eb2b}.time.booked{background:#f1f5f9;color:#94a3b8;cursor:not-allowed;text-decoration:line-through;border-color:#e2e8f0}.time.past{opacity:.45;cursor:not-allowed}
+.primary{width:100%;border:0;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:14px;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;margin-top:10px;box-shadow:0 9px 20px #2563eb2b;transition:.2s}.primary:hover{transform:translateY(-1px)}.primary:disabled{opacity:.6;cursor:not-allowed;transform:none}.message{padding:13px 15px;border-radius:12px;margin:15px 0;display:none;font-weight:700}.success{background:#dcfce7;color:#166534;display:block;border:1px solid #bbf7d0}.error{background:#fee2e2;color:#991b1b;display:block;border:1px solid #fecaca}.loading{text-align:center;padding:18px;color:var(--muted)}
+.booking-list{display:flex;flex-direction:column;gap:10px}.booking{border:1px solid #e5eaf1;border-radius:13px;padding:14px;background:#f8fbff;display:flex;justify-content:space-between;align-items:center;gap:12px}.badge{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:9px;padding:5px 10px;font-weight:900;white-space:nowrap}.owner-login{max-width:520px;margin:auto}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}.stat{background:linear-gradient(145deg,#f8fbff,#eef4ff);border:1px solid #dbeafe;border-radius:15px;padding:18px;text-align:center}.stat span{color:#64748b;font-weight:700}.stat strong{display:block;font-size:30px;color:#2563eb}.owner-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.owner-tools button{border:0;border-radius:10px;padding:10px 15px;cursor:pointer;font-weight:800;background:#e8eef7;color:#334155}.danger{background:#fee2e2!important;color:#b91c1c!important}.warning{background:#fef3c7!important;color:#92400e!important}.table-wrap{overflow-x:auto;border:1px solid #e5eaf1;border-radius:13px}table{width:100%;border-collapse:collapse;min-width:700px;background:#fff}th,td{padding:12px;border-bottom:1px solid #e5e9ef;text-align:right}th{background:#f8fafc;color:#1d4ed8}tr:last-child td{border-bottom:0}.renew-btn{border:0;background:#16a34a;color:#fff;padding:11px 15px;border-radius:10px;font-weight:bold;cursor:pointer}.delete-btn{border:0;background:#dc2626;color:white;border-radius:8px;padding:7px 12px;cursor:pointer}.hidden{display:none!important}.confirm{text-align:center;border:2px solid #86efac;background:linear-gradient(145deg,#f0fff5,#fff)}.confirm-number{font-size:52px;color:#2563eb;font-weight:900;margin:10px 0}footer{text-align:center;padding:26px;background:#111c35;color:#cbd5e1;margin-top:30px}
+@media(max-width:800px){.hero{grid-template-columns:1fr;text-align:center;padding-top:25px}.hero h1{font-size:32px}.days{grid-template-columns:repeat(3,1fr)}.times{grid-template-columns:repeat(3,1fr)}.stats{grid-template-columns:1fr}.profile{width:210px;height:210px}}@media(max-width:500px){header{padding:12px 4%;flex-direction:column;gap:10px}.logo{font-size:19px}.hero{padding:20px 16px}.hero h1{font-size:27px}.hero p{font-size:15px}.days{grid-template-columns:repeat(2,1fr)}.times{grid-template-columns:repeat(2,1fr)}.card{padding:18px}.booking{align-items:flex-start}.profile{width:180px;height:180px}}
+</style>>
 </head>
 <body>
 <header>
-<div class="logo">📅 Queue System</div>
+<div class="logo">Sartka Barber</div>
 <div class="langs">
 <button onclick="changeLanguage('ku')">کوردی</button>
 <button onclick="changeLanguage('ar')">العربية</button>
@@ -205,8 +185,18 @@ function formatKurdishTime(time){
   if(hour>12)hour-=12;
   return toKurdishDigits(hour)+":"+toKurdishDigits(minute);
 }
-function displayTime(time){return language==="ku"?formatKurdishTime(time):time}
+function displayTime(time){return language==="ku"?formatKurdishTime(time):String(time).slice(0,5)}
 function timeIsPast(time,date){return false}
+
+// کاتێک بۆ یەک ڕۆژ گیرا، هەر لەسەر هەمان ڕۆژ قەدەغە دەبێت
+// تا ڕۆژی هەڵبژێردراو بگۆڕدرێت.
+function isSlotBooked(date,time){
+  return bookings.some(b =>
+    String(b.booking_date) === String(date) &&
+    String(b.time).slice(0,5) === String(time).slice(0,5)
+  );
+}
+
 function getSelectedDateObj(){return generateDates().find(x=>x.date===selectedDate)||null}
 function getBookingDayLabel(b){const d=generateDates().find(x=>x.date===b.booking_date);return d?d.label:DAYS[language][Number(b.day_index)]}
 
@@ -226,13 +216,13 @@ async function renderTimes(){
  const box=$("times");box.innerHTML="";
  if(!selectedDate){box.innerHTML=`<div class="loading">${TEXT[language].selectDay}</div>`;return}
  const obj=getSelectedDateObj();if(!obj)return;
- const bookedTimes=new Set(bookings.filter(b=>String(b.booking_date)===selectedDate).map(b=>String(b.time)));
+ const bookedTimes=new Set(bookings.filter(b=>String(b.booking_date)===selectedDate).map(b=>String(b.time).slice(0,5)));
  generateTimes().forEach(time=>{
   const b=document.createElement("button");b.type="button";b.className="time";b.textContent=displayTime(time);
   const past=timeIsPast(time,selectedDate);
-  if(bookedTimes.has(time)||past){if(bookedTimes.has(time))b.classList.add("booked");if(past)b.classList.add("past");b.disabled=true;b.title=bookedTimes.has(time)?"Booked":"Past"}
+  if(isSlotBooked(selectedDate,time)||bookedTimes.has(String(time).slice(0,5))||past){if(bookedTimes.has(String(time).slice(0,5)))b.classList.add("booked");if(past)b.classList.add("past");b.disabled=true;b.title=(isSlotBooked(selectedDate,time)||bookedTimes.has(String(time).slice(0,5)))?TEXT[language].booked:"Past"}
   else b.onclick=()=>{selectedTime=time;document.querySelectorAll(".time").forEach(x=>x.classList.remove("active"));b.classList.add("active")};
-  if(selectedTime===time&&!bookedTimes.has(time)&&!past)b.classList.add("active");box.appendChild(b);
+  if(selectedTime===time&&!isSlotBooked(selectedDate,time)&&!bookedTimes.has(String(time).slice(0,5))&&!past)b.classList.add("active");box.appendChild(b);
  });
 }
 
@@ -250,7 +240,7 @@ async function renderPublicBookings(){
  const box=$("publicList");
  const list=[...bookings].filter(b=>generateDates().some(d=>d.date===String(b.booking_date))).sort((a,b)=>String(a.booking_date).localeCompare(String(b.booking_date))||String(a.time).localeCompare(String(b.time)));
  if(!list.length){box.innerHTML=`<div class="loading">${TEXT[language].noBookings}</div>`;return}
- box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${getBookingDayLabel(b)} — ${escapeHTML(b.booking_date)} — 🕐 ${escapeHTML(b.time)}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
+ box.innerHTML=list.map(b=>`<div class="booking"><div><b>👤 ${escapeHTML(b.name)}</b><div>📅 ${getBookingDayLabel(b)} — ${escapeHTML(b.booking_date)} — 🕐 ${escapeHTML(displayTime(b.time))}</div></div><div><span class="badge">#${String(b.queue).padStart(3,"0")}</span></div></div>`).join("");
 }
 
 
@@ -265,9 +255,31 @@ $("bookingForm").addEventListener("submit",async e=>{
  const btn=$("submitBtn");btn.disabled=true;btn.textContent="چاوەڕوان بە...";
  try{
   if(timeIsPast(selectedTime,selectedDate)){showMessage("memberMessage","ئەم کاتە تێپەڕیوە.","error");return}
-  const {data:existing,error:checkError}=await db.from("bookings").select("id").eq("booking_date",selectedDate).eq("time",selectedTime).maybeSingle();
+  // پێش هەر حجزێک داتای نوێ لە Supabase وەردەگرین،
+  // بۆ ئەوەی ئەگەر کەسێکی تر هەمان کاتێکی حجز کردبێت،
+  // ئەم کاتە بەدەست بەردەست نەکرێت.
+  await refreshBookings();
+
+  if(isSlotBooked(selectedDate,selectedTime)){
+    selectedTime=null;
+    await renderTimes();
+    showMessage("memberMessage",TEXT[language].booked,"error");
+    return;
+  }
+
+  const {data:existing,error:checkError}=await db.from("bookings")
+    .select("id")
+    .eq("booking_date",selectedDate)
+    .eq("time",selectedTime)
+    .limit(1)
+    .maybeSingle();
   if(checkError)throw checkError;
-  if(existing){showMessage("memberMessage",TEXT[language].booked,"error");await refreshBookings();return}
+  if(existing){
+    selectedTime=null;
+    await refreshBookings();
+    showMessage("memberMessage",TEXT[language].booked,"error");
+    return;
+  }
 
   const {data:lastBooking,error:lastError}=await db.from("bookings").select("queue").eq("booking_date",selectedDate).order("queue",{ascending:false}).limit(1).maybeSingle();
   if(lastError)throw lastError;
@@ -275,7 +287,15 @@ $("bookingForm").addEventListener("submit",async e=>{
 
   let newBooking=null,insertError=null;
   for(let attempt=0;attempt<3;attempt++){
-   const res=await db.from("bookings").insert({queue:nextQueue,name,phone,day_index:selectedDay,time:selectedTime,booking_date:selectedDate,registration_time:currentTimeString()}).select().single();
+   const res=await db.from("bookings").insert({
+    queue:nextQueue,
+    name,
+    phone,
+    day_index:selectedDay,
+    time:String(selectedTime).slice(0,5),
+    booking_date:selectedDate,
+    registration_time:currentTimeString()
+   }).select().single();
    newBooking=res.data;insertError=res.error;
    if(!insertError)break;
    if(insertError.code==="23505" && attempt<2){
@@ -311,7 +331,7 @@ function renderOwnerTable(){
  if(filter!=="")list=list.filter(b=>String(b.booking_date)===String(filter));
  list.sort((a,b)=>String(a.booking_date).localeCompare(String(b.booking_date))||String(a.time).localeCompare(String(b.time)));
  if(!list.length){table.innerHTML='<tr><td colspan="7" style="text-align:center">هیچ نۆرەیەک نییە.</td></tr>';return}
- table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${getBookingDayLabel(b)}</td><td>${escapeHTML(b.time)}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
+ table.innerHTML=list.map(b=>`<tr><td><b>#${String(b.queue).padStart(3,"0")}</b></td><td>${escapeHTML(b.name)}</td><td>${escapeHTML(b.phone)}</td><td>${getBookingDayLabel(b)}</td><td>${escapeHTML(displayTime(b.time))}</td><td>${escapeHTML(b.booking_date)}</td><td><button class="delete-btn" onclick="deleteBooking(${Number(b.id)})">سڕینەوە</button></td></tr>`).join("");
 }
 
 function renewDays(){const dates=generateDates();selectedDate=dates[0]?.date||todayString();selectedDay=dates[0]?.dayIndex??null;selectedTime=null;setupDays();renderTimes();renderPublicBookings();if(ownerLoggedIn)renderOwnerTable();}
@@ -359,7 +379,8 @@ function showTab(tab){
 }
 
 setupDays();renderTimes();refreshBookings();
-setInterval(refreshBookings,3000);
+const liveChannel=db.channel("bookings-live").on("postgres_changes",{event:"*",schema:"public",table:"bookings"},()=>refreshBookings()).subscribe();
+setInterval(refreshBookings,5000);
 </script>
 </body>
 </html>
