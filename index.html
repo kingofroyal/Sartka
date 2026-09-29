@@ -11,7 +11,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--p:#2563eb;--p2:#4f46e5;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--bg:#f4f7fb;--card:#ffffffee;--soft:#f8fbff;--shadow:0 14px 40px #0f172a14}
 html{scroll-behavior:smooth}
-body{:Tahoma,"Noto Sans Arabic",Arial,sans-serif;background:linear-gradient(135deg,#eef5ff,#f7f5ff);color:var(--ink);line-height:1.75;min-height:100vh}
+body{font-family:Tahoma,"Noto Sans Arabic",Arial,sans-serif;background:linear-gradient(135deg,#eef5ff,#f7f5ff);color:var(--ink);line-height:1.75;min-height:100vh}
 body.dark{--ink:#e5edf9;--muted:#a7b3c8;--line:#263449;--bg:#080d18;--card:#101827ee;--soft:#0d1523;background:radial-gradient(circle at 10% 0%,#102a55,transparent 35%),#080d18}
 button,input,select{font:inherit}
 button{cursor:pointer}
@@ -425,15 +425,96 @@ table tr:last-child td{border-bottom:0}
   .toast{left:12px;right:12px;bottom:12px;max-width:none}
 }
 
-/* OTP booking gate */
 
-.otp-booking-gate{display:flex;align-items:center;gap:13px;margin-bottom:18px;padding:14px 15px;border:1px solid rgba(37,99,235,.18);border-radius:18px;background:linear-gradient(135deg,rgba(239,246,255,.92),rgba(245,243,255,.88));box-shadow:0 10px 28px rgba(37,99,235,.07)}
-.otp-gate-icon{width:44px;height:44px;display:grid;place-items:center;flex:0 0 44px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#7c3aed);font-size:21px;box-shadow:0 8px 18px rgba(37,99,235,.18)}
-.otp-gate-content{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}.otp-gate-content b{font-size:14px}.otp-gate-content span{font-size:12px;color:#64748b}.otp-gate-btn{white-space:nowrap;padding:10px 13px;font-size:12px}
-.otp-booking-gate.verified{border-color:rgba(22,163,74,.22);background:linear-gradient(135deg,rgba(240,253,244,.94),rgba(236,253,245,.78))}.otp-booking-gate.verified .otp-gate-icon{background:linear-gradient(135deg,#16a34a,#059669)}
-.dark .otp-booking-gate{background:linear-gradient(135deg,rgba(15,35,65,.82),rgba(31,25,60,.72));border-color:rgba(96,165,250,.18)}.dark .otp-gate-content span{color:#94a3b8}.dark .otp-booking-gate.verified{background:linear-gradient(135deg,rgba(6,50,30,.75),rgba(6,78,59,.55))}
-@media(max-width:600px){.otp-booking-gate{align-items:flex-start;flex-wrap:wrap}.otp-gate-content{flex:1 1 calc(100% - 60px)}.otp-gate-btn{width:100%;margin-top:2px}}
+/* ===== PREMIUM 2026 UI REDESIGN ===== */
+:root{
+  --p:#6d5dfc;--p2:#8b5cf6;--p3:#22d3ee;--ok:#22c55e;--bad:#f43f5e;--warn:#f59e0b;
+  --ink:#172033;--muted:#718096;--line:#e6eaf2;--bg:#f5f7fc;
+  --card:rgba(255,255,255,.78);--soft:rgba(248,250,255,.9);
+  --shadow:0 22px 60px rgba(30,41,59,.10);--shadow2:0 10px 30px rgba(109,93,252,.14)
+}
+body{
+  background:
+    radial-gradient(circle at 8% 8%,rgba(109,93,252,.16),transparent 26%),
+    radial-gradient(circle at 92% 14%,rgba(34,211,238,.13),transparent 24%),
+    radial-gradient(circle at 50% 92%,rgba(139,92,246,.09),transparent 30%),
+    linear-gradient(145deg,#f8faff 0%,#f3f6ff 48%,#fbfbff 100%);
+  color:var(--ink);overflow-x:hidden
+}
+body.dark{
+  --ink:#eef2ff;--muted:#9aa8c1;--line:#24314a;--bg:#070b15;
+  --card:rgba(13,20,36,.76);--soft:rgba(15,24,42,.9);
+  --shadow:0 24px 70px rgba(0,0,0,.30);--shadow2:0 12px 36px rgba(109,93,252,.16);
+  background:
+    radial-gradient(circle at 8% 5%,rgba(109,93,252,.20),transparent 28%),
+    radial-gradient(circle at 92% 12%,rgba(34,211,238,.10),transparent 25%),#070b15
+}
+.bg{opacity:.9;background:radial-gradient(circle at 20% 20%,rgba(109,93,252,.13),transparent 25%),radial-gradient(circle at 80% 30%,rgba(34,211,238,.10),transparent 24%);filter:blur(4px)}
+header{
+  padding:10px 18px;background:rgba(8,14,30,.72);border-bottom:1px solid rgba(255,255,255,.12);
+  box-shadow:0 10px 35px rgba(15,23,42,.14);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%)
+}
+.nav{max-width:1240px;min-height:52px}.logo{font-size:18px;letter-spacing:.1px}.logo:first-letter{font-size:22px}
+.nav-actions{gap:6px}.nav-actions button{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);border-radius:12px;padding:7px 11px;transition:.22s ease}
+.nav-actions button:hover{transform:translateY(-1px);background:rgba(255,255,255,.17)}
+main{max-width:1240px;padding:0 16px 70px}
+.hero{
+  position:relative;display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:30px;align-items:center;
+  margin:22px 0 18px;padding:42px 40px;border:1px solid rgba(255,255,255,.72);border-radius:32px;
+  background:linear-gradient(135deg,rgba(255,255,255,.76),rgba(255,255,255,.42));box-shadow:var(--shadow);overflow:hidden;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.dark .hero{background:linear-gradient(135deg,rgba(17,26,45,.84),rgba(10,17,31,.62));border-color:rgba(148,163,184,.12)}
+.hero:before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(109,93,252,.14);filter:blur(45px);left:-120px;top:-150px;pointer-events:none}
+.hero>div{position:relative;z-index:1}.hero h1{font-size:clamp(30px,4.2vw,48px);font-weight:950;letter-spacing:-1px;line-height:1.18;color:#27367c;margin-bottom:14px}.dark .hero h1{color:#dbe5ff}
+.hero p{font-size:16px;max-width:680px;line-height:1.9}.profile{width:190px;height:190px;border-radius:50%;border:6px solid rgba(255,255,255,.9);box-shadow:0 24px 70px rgba(79,70,229,.22);position:relative;z-index:1}
+.quick{gap:9px;margin-top:22px}.btn{border-radius:14px;padding:12px 17px;min-height:46px;box-shadow:none;transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}.btn:hover{transform:translateY(-2px);box-shadow:0 12px 25px rgba(30,41,59,.10)}
+.primary{background:linear-gradient(135deg,#6757f5,#8b5cf6);box-shadow:0 12px 28px rgba(109,93,252,.25)}.primary:hover{filter:brightness(1.04)}
+.secondary{background:rgba(255,255,255,.72);color:#5547c9;border:1px solid rgba(109,93,252,.16)}.dark .secondary{background:rgba(20,29,48,.8);color:#c4baff;border-color:#2d3a57}
+.tabs{position:sticky;top:72px;z-index:20;max-width:760px;margin:0 auto 22px;padding:6px;border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.66);box-shadow:0 12px 35px rgba(30,41,59,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.dark .tabs{background:rgba(13,20,36,.78);border-color:#22304a}.tab{padding:12px 14px;border-radius:13px}.tab.active{box-shadow:0 8px 24px rgba(109,93,252,.24);background:linear-gradient(135deg,#6757f5,#8b5cf6)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:20px;align-items:start}
+.card,.feature-card,.pro-card,.notice-stat,.kpi{
+  background:var(--card);border:1px solid rgba(255,255,255,.76);border-radius:24px;padding:22px;box-shadow:var(--shadow);
+  backdrop-filter:blur(18px) saturate(125%);-webkit-backdrop-filter:blur(18px) saturate(125%)
+}
+.dark .card,.dark .feature-card,.dark .pro-card,.dark .notice-stat,.dark .kpi{border-color:rgba(71,85,105,.35)}
+.card{margin-bottom:18px}.card h2{font-size:20px;color:#35448e;margin-bottom:16px}.dark .card h2{color:#cbd7ff}
+#bookCard{position:relative;overflow:hidden}.card#bookCard:after{content:"";position:absolute;width:170px;height:170px;right:-80px;top:-80px;background:rgba(34,211,238,.09);border-radius:50%;filter:blur(10px);pointer-events:none}
+.form-group{margin-bottom:15px}label{font-size:14px;margin-bottom:7px}input,select{min-height:46px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.72);border:1px solid var(--line);transition:.2s}.dark input,.dark select{background:rgba(12,19,33,.72)}
+input:focus,select:focus{border-color:#8b7ff8;box-shadow:0 0 0 4px rgba(109,93,252,.10)}
+.days{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.day,.time{border:1px solid var(--line);background:rgba(255,255,255,.62);color:#4b46a6;border-radius:13px;padding:10px 6px;min-height:48px}.dark .day,.dark .time{background:rgba(17,27,45,.72);border-color:#293752;color:#c3caff}.day.active,.time.active{background:linear-gradient(135deg,#6757f5,#8b5cf6);box-shadow:0 10px 22px rgba(109,93,252,.22)}
+.times{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.time{min-height:45px}.time.booked{background:rgba(148,163,184,.12)}
+#submitBtn{min-height:52px;font-size:15px;letter-spacing:.1px}
+.confirm{border:1px solid rgba(34,197,94,.30);background:linear-gradient(145deg,rgba(236,253,245,.84),rgba(255,255,255,.58));box-shadow:0 18px 45px rgba(34,197,94,.10)}.dark .confirm{background:linear-gradient(145deg,rgba(9,39,25,.72),rgba(13,20,36,.72))}.confirm-number{font-size:54px;color:#6557ee}
+.booking-list{gap:9px}.booking{padding:12px 13px;border-radius:14px;background:rgba(248,250,252,.72);border:1px solid var(--line);transition:.2s}.booking:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,23,42,.06)}.dark .booking{background:rgba(15,24,42,.72)}
+.badge{background:linear-gradient(135deg,#6757f5,#8b5cf6);border-radius:10px;padding:5px 9px}
+.container{max-width:1240px;margin:0 auto;padding:0 0 2px}.feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.feature-card{padding:19px}.feature-big{font-size:30px;font-weight:950;color:#6255e9;margin:5px 0}.progress{height:8px;border-radius:99px;background:#e8ecf5;overflow:hidden;margin:10px 0}.dark .progress{background:#1c2940}.progress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#6757f5,#22d3ee)}
+.action-row,.pro-actions,.tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.tools{margin-bottom:14px}.tools button{border-radius:12px;padding:9px 13px;background:rgba(226,232,240,.72);transition:.2s}.tools button:hover{transform:translateY(-1px)}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat{border-radius:18px;padding:17px;background:var(--soft);border:1px solid var(--line)}.stat strong{font-size:29px;color:#6757f5}
+.pro-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.pro-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.pro-card{padding:16px}.pro-number{font-size:28px;font-weight:950;color:#6757f5}.kpi{padding:16px;text-align:center}.kpi b{display:block;font-size:28px;color:#6757f5}
+.notice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.notice-stat{text-align:center;padding:16px}.notice-stat span{font-size:22px}.notice-stat b{display:block;font-size:26px;color:#6757f5}
+.table-wrap{border-radius:16px;border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}table{background:transparent}th,td{padding:12px 11px}th{background:var(--soft);color:#5549c5}.delete{border-radius:10px}
+.notice-box,.mini-list,.lookup-result,.reminder-box{border-radius:14px}.footer{background:rgba(7,12,24,.92);border-top:1px solid rgba(255,255,255,.08);margin-top:38px;padding:32px 20px}
+.owner-login{max-width:560px;margin:10px auto}.admin-panel{position:relative}.hidden{display:none!important}
+#extraFeatures,#proTools,#ultimateTools,#reportsBox,#v2ProCenter{margin-top:10px}
+#extraFeatures>.card,#proTools>.card,#ultimateTools>.card,#reportsBox>.card,#v2ProCenter>.card{margin-bottom:16px}
+.tv-overlay{background:radial-gradient(circle at 50% 0%,#172554,#020617 70%);backdrop-filter:blur(16px)}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding:34px 26px}.profile{width:150px;height:150px}.hero>div:last-child{grid-row:1;justify-self:center}.grid2{grid-template-columns:1fr}.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pro-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.notice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tabs{top:64px}
+}
+@media(max-width:640px){
+  main{padding:0 10px 48px}.hero{margin:12px 0 14px;padding:26px 18px;border-radius:24px;text-align:center}.hero h1{font-size:31px}.hero p{font-size:14px}.profile{width:116px;height:116px;border-width:4px}.quick{justify-content:center}.quick .btn{flex:1;min-width:145px}
+  .tabs{top:58px;border-radius:15px;margin-bottom:15px}.tab{font-size:13px;padding:10px 8px}.card{padding:17px;border-radius:20px}.card h2{font-size:18px}.days{grid-template-columns:repeat(3,1fr)}.times{grid-template-columns:repeat(3,1fr)}
+  .feature-grid,.pro-grid,.pro-grid-3,.notice-grid,.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.feature-card,.pro-card,.notice-stat,.kpi{padding:13px;border-radius:17px}.stat{padding:13px}.stat strong{font-size:24px}.feature-big,.pro-number{font-size:24px}.action-row>*{flex:1 1 145px}.tools>*{flex:1 1 145px}.table-wrap{border-radius:13px}
+}
+@media(max-width:390px){.feature-grid,.pro-grid,.pro-grid-3,.notice-grid,.stats{grid-template-columns:1fr}.days{grid-template-columns:repeat(2,1fr)}.times{grid-template-columns:repeat(2,1fr)}.nav-actions button{padding:6px 8px}.logo{font-size:15px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
+
+<style>
+</style>
+
 </head>
 <body>
 <div class="bg"></div>
@@ -470,14 +551,6 @@ table tr:last-child td{border-bottom:0}
 <section id="publicTab">
   <div class="grid2">
     <div class="card" id="bookCard">
-      <div id="otpBookingGate" class="otp-booking-gate">
-        <div class="otp-gate-icon">🔐</div>
-        <div class="otp-gate-content">
-          <b>پێش حجزکردن، ژمارەی مۆبایل پشتڕاست بکەرەوە</b>
-          <span id="otpGateStatus">ژمارەکەت بنووسە و کۆدی 6 ژمارەیی بۆت دەنێرین.</span>
-        </div>
-        <button type="button" class="btn primary otp-gate-btn" onclick="document.getElementById('v2Phone')?.focus();document.getElementById('v2ProCenter')?.scrollIntoView({behavior:'smooth',block:'center'})">🔑 پشتڕاستکردنەوە</button>
-      </div>
       <h2 data-i18n="makeBooking">📅 حجزکردنی نۆرە</h2>
       <div id="bookMsg" class="message"></div>
 
@@ -487,7 +560,8 @@ table tr:last-child td{border-bottom:0}
       </div>
       <div class="form-group">
         <label data-i18n="phone">ژمارەی مۆبایل</label>
-        <input id="phone" inputmode="tel" maxlength="15" placeholder="07xxxxxxxxx">
+        <input id="phone" inputmode="tel" maxlength="15" placeholder="07xxxxxxxxx" autocomplete="tel" required>
+        <div class="small muted" style="margin-top:6px">📱 ژمارەی مۆبایل پێویستە بۆ حجزکردن.</div>
       </div>
 
       <div class="form-group">
@@ -737,26 +811,7 @@ table tr:last-child td{border-bottom:0}
 
 <!-- ===== QUEUE SYSTEM V2 PRO CONTROL CENTER ===== -->
 <section class="container" id="v2ProCenter">
-  <div class="card">
-    <h2>👤 هەژماری بەشداربوو</h2>
-    <div class="pro-grid">
-      <div>
-        <input id="v2Phone" class="pro-input" inputmode="tel" placeholder="ژمارەی مۆبایل 07xxxxxxxx">
-        <button class="btn primary" style="margin-top:8px" onclick="v2RequestOTP()">🔑 ناردنی OTP</button>
-        <div id="v2OtpArea" class="hidden" style="margin-top:8px">
-          <input id="v2Otp" class="pro-input" inputmode="numeric" maxlength="6" placeholder="کۆدی 6 ژمارەیی">
-          <button class="btn success" style="margin-top:8px" onclick="v2VerifyOTP()">✅ پشتڕاستکردنەوە</button>
-        </div>
-      </div>
-      <div class="feature-card">
-        <b id="v2AccountStatus">🔴 میوان</b>
-        <div id="v2AccountInfo" class="pro-small pro-muted" style="margin-top:6px">بۆ هەژمار، ژمارەکەت پشتڕاست بکەوە.</div>
-        <button type="button" class="btn secondary" style="margin-top:9px" onclick="v2LogoutPhone()">🚪 دەرچوون</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
+<div class="card">
     <h2>🔔 ئاگاداریی نۆرە</h2>
     <div class="pro-grid-3">
       <div class="kpi"><b id="v2Ahead">-</b><span>کەس پێش تۆ</span></div>
@@ -1430,10 +1485,6 @@ function renderPublicBookings(){
 }
 async function createBooking(){
   const msg=document.getElementById("bookMsg"),btn=document.getElementById("submitBtn");
-  if(sb){
-    const ok=await v2RequireVerifiedPhone();
-    if(!ok)return showMsg(msg,"تکایە سەرەتا ژمارەی مۆبایل بە OTP پشتڕاست بکەرەوە، پاشان حجز بکە.","error");
-  }
   if(!bookingIsOpen())return showMsg(msg,"حجزکردن ئێستا داخراوە.","error");
   if(currentBookingDate()<localDateKey())return showMsg(msg,"ئەم بەروارە تێپەڕیوە.","error");
   if(bookingDateDayId(currentBookingDate())==="fri")return showMsg(msg,"هەینی ڕۆژی حجز نییە.","error");
@@ -1442,8 +1493,8 @@ async function createBooking(){
   const name=document.getElementById("name").value.trim(),phone=document.getElementById("phone").value.trim();
   if(name.length<2)return showMsg(msg,"تکایە ناوی تەواو بنووسە.","error");
   const clean=phone.replace(/[\s-]/g,"");
+  if(!clean)return showMsg(msg,"تکایە ژمارەی مۆبایل بنووسە.","error");
   if(!/^07\d{8,13}$/.test(clean))return showMsg(msg,"ژمارەی مۆبایل بە شێوەی 07xxxxxxxx بنووسە.","error");
-  if(sb && clean!==v2State.userPhone)return showMsg(msg,"ژمارەی حجز دەبێت هەمان ژمارەی پشتڕاستکراوە بێت.","error");
   if(isBlacklisted(clean))return showMsg(msg,"ئەم ژمارەیە لە لیستی قەدەغەکراودایە.","error");
   if(!selectedTime)return showMsg(msg,"تکایە کاتێک هەڵبژێرە.","error");
   await getBookings();
@@ -1684,70 +1735,16 @@ let v2State=JSON.parse(localStorage.getItem(V2KEY)||'{"userPhone":"","otp":"","o
 function v2Save(){localStorage.setItem(V2KEY,JSON.stringify(v2State))}
 function v2Toast(m){if(typeof toast==="function")toast(m);else alert(m)}
 function v2CleanPhone(v){return String(v||"").replace(/[\\s-]/g,"")}
-function v2RequestOTP(){
-  const phone=v2CleanPhone(document.getElementById("v2Phone")?.value);
-  if(!/^07\d{8,13}$/.test(phone)){v2Toast("ژمارەی مۆبایل هەڵەیە");return}
-  /* Demo-safe flow: real SMS OTP requires Supabase Phone Auth configuration. */
-  if(sb && sb.auth?.signInWithOtp){
-    sb.auth.signInWithOtp({phone:"+964"+phone.slice(1)}).then(({error})=>{
-      if(error){v2Toast("OTP نەنێردرا. Supabase Phone Auth پێویستی بە ڕێکخستن هەیە.");return}
-      v2State.userPhone=phone;v2Save();document.getElementById("v2OtpArea")?.classList.remove("hidden");v2Toast("OTP نێردرا")}
-    );return;
-  }
-  v2State.userPhone=phone;v2State.otp=String(Math.floor(100000+Math.random()*900000));v2State.otpAt=Date.now();v2Save();
-  document.getElementById("v2OtpArea")?.classList.remove("hidden");
-  v2Toast("Demo OTP: "+v2State.otp);
-}
-async function v2VerifyOTP(){
-  const otp=String(document.getElementById("v2Otp")?.value||"").trim();
-  if(!/^\d{6}$/.test(otp)){v2Toast("کۆدی OTP دەبێت 6 ژمارە بێت");return}
-  if(sb && v2State.userPhone){
-    const {data,error}=await sb.auth.verifyOtp({phone:"+964"+v2State.userPhone.slice(1),token:otp,type:"sms"});
-    if(error){v2Toast("OTP هەڵەیە یان بەسەرچووە");return}
-    v2State.authenticated=true;v2State.userId=data?.user?.id||data?.session?.user?.id||null;
-  }else if(otp!==v2State.otp || Date.now()-v2State.otpAt>5*60*1000){v2Toast("OTP هەڵەیە یان بەسەرچووە");return}
-  v2Save();v2RenderAccount();v2UpdateOtpGate();
-  const ph=document.getElementById("phone");if(ph&&v2State.userPhone)ph.value=v2State.userPhone;
-  v2Toast("✅ ژمارەکەت پشتڕاست کراوە؛ ئێستا دەتوانیت حجز بکەیت");
-}
-async function v2RequireVerifiedPhone(){
-  if(!sb)return true;
-  try{
-    const {data}=await sb.auth.getSession();
-    const u=data?.session?.user;
-    if(u?.phone){v2State.authenticated=true;v2State.userId=u.id;v2State.userPhone=v2CleanPhone(u.phone.replace(/^\+964/,"0"));v2Save();v2UpdateOtpGate();return true}
-  }catch(e){}
-  return !!v2State.authenticated && !!v2State.userId && !!v2State.userPhone;
-}
-async function v2RefreshAuth(){
-  if(!sb?.auth){v2RenderAccount();v2UpdateOtpGate();return}
-  try{
-    const {data}=await sb.auth.getSession();
-    const u=data?.session?.user;
-    if(u?.phone){v2State.authenticated=true;v2State.userId=u.id;v2State.userPhone=v2CleanPhone(u.phone.replace(/^\+964/,"0"));v2Save()}
-    else if(!u){v2State.authenticated=false;v2State.userId="";v2Save()}
-  }catch(e){}
-  v2RenderAccount();v2UpdateOtpGate();
-}
-function v2UpdateOtpGate(){
-  const gate=document.getElementById("otpBookingGate"),st=document.getElementById("otpGateStatus"),btn=gate?.querySelector(".otp-gate-btn");
-  if(!gate)return;
-  const ok=!!v2State.authenticated&&!!v2State.userPhone;
-  gate.classList.toggle("verified",ok);
-  if(ok){gate.querySelector(".otp-gate-icon").textContent="✅";if(st)st.textContent=`ژمارەی ${v2State.userPhone} پشتڕاستکراوەتەوە.`;if(btn){btn.textContent="🟢 پشتڕاستکراوە";btn.disabled=true}}
-  else{gate.querySelector(".otp-gate-icon").textContent="🔐";if(st)st.textContent="ژمارەکەت بنووسە و کۆدی 6 ژمارەیی بۆت دەنێرین.";if(btn){btn.textContent="🔑 پشتڕاستکردنەوە";btn.disabled=false}}
-}
-function v2LogoutPhone(){
-  if(sb?.auth)sb.auth.signOut();
-  v2State.authenticated=false;v2State.userId="";v2State.userPhone="";v2Save();
-  const ph=document.getElementById("phone");if(ph)ph.value="";v2RenderAccount();v2UpdateOtpGate();v2Toast("چوویتە دەرەوە");
-}
-function v2RenderAccount(){
-  const st=document.getElementById("v2AccountStatus"),info=document.getElementById("v2AccountInfo");
-  if(!st)return;
-  if(v2State.authenticated){st.textContent="🟢 هەژمار چالاکە";info.textContent=`${v2State.userPhone} · ${v2State.role||"owner"}`}
-  else{st.textContent="🔴 میوان";info.textContent="بۆ هەژمار، ژمارەکەت پشتڕاست بکەوە."}
-}
+
+
+
+function v2RequestOTP(){ v2Toast("OTP لابراوە؛ تەنها ژمارەی مۆبایل بۆ حجز پێویستە."); }
+async function v2VerifyOTP(){ return false; }
+async function v2RequireVerifiedPhone(){ return true; }
+async function v2RefreshAuth(){ return true; }
+function v2UpdateOtpGate(){ return true; }
+function v2LogoutPhone(){ return true; }
+function v2RenderAccount(){ return true; }
 function v2EnableReminders(){
   if("Notification" in window)Notification.requestPermission().then(x=>{v2State.reminders=x==="granted";v2Save();v2Toast(x==="granted"?"🔔 ئاگاداری چالاک کرا":"ئاگاداری ڕەتکرایەوە")});
   else v2Toast("ئەم وێبگەڕە Notification پشتگیری ناکات");
@@ -1841,7 +1838,7 @@ function v2Network(){
 }
 async function v2SyncNow(){if(!navigator.onLine){v2Toast("ئێستا Offline ـە");return}try{await getBookings();renderDays();renderTimes();renderPublicBookings();renderAdmin();updateUltimateStats();v2Refresh();v2Toast("⚡ Sync تەواو بوو")}catch(e){v2Toast("Sync سەرکەوتوو نەبوو")}}
 function v2Refresh(){
-  v2RenderAccount();v2UpdateOtpGate();v2UpdateReminder();v2PopulateNotes();v2Stats();v2LoadAutomation();v2ApplyLogo();
+  v2UpdateReminder();v2PopulateNotes();v2Stats();v2LoadAutomation();v2ApplyLogo();
   const ac=localStorage.getItem("queueAccent");if(ac)document.documentElement.style.setProperty("--p",ac);
 }
 function v2AutoVoiceCheck(){
