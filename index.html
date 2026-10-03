@@ -123,8 +123,10 @@ const DAYS=[
  {id:"wed",ku:"چوارشەممە",ar:"الأربعاء",en:"Wednesday"},
  {id:"thu",ku:"پێنجشەممە",ar:"الخميس",en:"Thursday"}
 ];
-const TIMES=[];
-for(let m=15*60;m<=23*60;m+=30) TIMES.push(`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`);
+const TIMES = Array.from({length:17}, (_,i) => {
+  const m = 15*60 + i*30;
+  return `${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+});
 
 const T={
 ku:{title:"سیستەمی نۆرە و حجز",heroTitle:"نۆرە و حجز",heroText:"کاتەکەت هەڵبژێرە و نۆرەکەت تۆمار بکە",member:"بەشداربوو",admin:"بەڕێوەبەر",bookTitle:"حجزی نۆرە",nameLabel:"ناوی تەواو",phoneLabel:"ژمارەی مۆبایل",dayLabel:"ڕۆژ هەڵبژێرە",timeLabel:"کات هەڵبژێرە",bookBtn:"تۆمارکردنی نۆرە",todayTitle:"نۆرەکانی ڕۆژەکە",adminLogin:"چوونەژوورەوەی بەڕێوەبەر",password:"وشەی نهێنی",login:"چوونەژوورەوە",defaultPass:"وشەی نهێنی سەرەتایی: 123456",total:"هەموو نۆرەکان",taken:"کاتە گیراوەکان",today:"نۆرەکانی ئەمڕۆ",manage:"بەڕێوەبردنی نۆرەکان",clearAll:"سڕینەوەی هەموو",clearDay:"سڕینەوەی ئەم ڕۆژە",filterDay:"فلتەر بە ڕۆژ",date:"بەروار",action:"کردار",logout:"دەرچوون",required:"تکایە ناو و مۆبایل بنووسە و ڕۆژ و کات هەڵبژێرە.",success:"نۆرەکەت بە سەرکەوتوویی تۆمار کرا.",takenMsg:"ئەم کاتە پێشتر گیراوە. تکایە کاتێکی تر هەڵبژێرە.",loginBad:"وشەی نهێنی هەڵەیە.",empty:"هیچ نۆرەیەک نییە.",confirmAll:"دڵنیایت دەتەوێت هەموو نۆرەکان بسڕیتەوە؟",confirmDay:"دڵنیایت دەتەوێت نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟",deleted:"نۆرەکە سڕایەوە.",dbError:"کێشەیەک لەگەڵ Supabase ڕوویدا."},
@@ -140,9 +142,23 @@ function showPanel(p){document.getElementById("memberPanel").classList.toggle("h
 function dayName(id){return DAYS.find(d=>d.id===id)?.[lang]||id}
 function todayKey(){return new Date().toISOString().slice(0,10)}
 function renderDays(){document.getElementById("days").innerHTML=DAYS.map(d=>`<button class="option ${selectedDay===d.id?"selected":""}" onclick="selectDay('${d.id}')">${d[lang]}</button>`).join("")}
-function renderTimes(){const taken=new Set(bookings.filter(b=>b.day_id===selectedDay).map(b=>b.time));document.getElementById("times").innerHTML=TIMES.map(t=>{let off=taken.has(t);return `<button class="option ${selectedTime===t?"selected":""} ${off?"disabled":""}" ${off?"disabled":""} onclick="selectTime('${t}')">${t}</button>`}).join("")}
+function renderTimes(){
+  const taken=new Set(
+    bookings.filter(b=>b.day_id===selectedDay)
+      .map(b=>String(b.time).slice(0,5))
+  );
+  if(taken.has(selectedTime)) selectedTime="";
+  document.getElementById("times").innerHTML=[...new Set(TIMES)].map(t=>{
+    const off=taken.has(t);
+    return `<button type="button" class="option ${selectedTime===t?"selected":""} ${off?"disabled":""}" ${off?"disabled":""} onclick="selectTime('${t}')">${t}</button>`;
+  }).join("");
+}
 function selectDay(d){selectedDay=d;selectedTime="";renderDays();renderTimes();renderPublic()}
-function selectTime(t){selectedTime=t;renderTimes()}
+function selectTime(t){
+  if(!TIMES.includes(t)) return;
+  if(bookings.some(b=>b.day_id===selectedDay && b.time===t)) return;
+  selectedTime=t;renderTimes();
+}
 function notice(id,msg,type="info"){document.getElementById(id).innerHTML=msg?`<div class="notice ${type}">${msg}</div>`:""}
 function renderPublic(){const list=bookings.filter(b=>!selectedDay||b.day_id===selectedDay).sort((a,b)=>a.time.localeCompare(b.time));document.getElementById("publicCount").textContent=list.length;document.getElementById("publicBookings").innerHTML=list.length?list.map((b,i)=>`<div class="booking"><div><strong>${esc(b.name)}</strong><span class="muted">📱 ${esc(b.phone)} • 📅 ${dayName(b.day_id)} • 🕒 ${b.time}</span></div></div>`).join(""):`<div class="notice info">${tr("empty")}</div>`}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -150,16 +166,46 @@ function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&l
 async function loadBookings(){
  const {data,error}=await db.from("bookings").select("*").order("time",{ascending:true});
  if(error){console.error(error);notice("memberNotice",tr("dbError")+" "+esc(error.message),"error");return}
- bookings=data||[];renderDays();renderTimes();renderPublic();if(admin)renderAdmin()
+ bookings=(data||[]).map(b=>({...b,time:String(b.time||"").slice(0,5)}));
+renderDays();renderTimes();renderPublic();if(admin)renderAdmin()
 }
 async function book(){
- const name=document.getElementById("name").value.trim(), phone=document.getElementById("phone").value.trim();
- if(!name||!phone||!selectedDay||!selectedTime){notice("memberNotice",tr("required"),"error");return}
- const {data:existing}=await db.from("bookings").select("id").eq("day_id",selectedDay).eq("time",selectedTime).limit(1);
- if(existing?.length){notice("memberNotice",tr("takenMsg"),"error");await loadBookings();return}
- const {error}=await db.from("bookings").insert({name,phone,day_id:selectedDay,time:selectedTime});
- if(error){if(error.code==="23505")notice("memberNotice",tr("takenMsg"),"error");else notice("memberNotice",tr("dbError")+" "+esc(error.message),"error");await loadBookings();return}
- notice("memberNotice",tr("success"),"success");document.getElementById("name").value="";document.getElementById("phone").value="";selectedTime="";await loadBookings()
+ const name=document.getElementById("name").value.trim();
+ const phone=document.getElementById("phone").value.trim().replace(/\\s+/g,"");
+ if(!name||!phone||!selectedDay||!selectedTime){
+   notice("memberNotice",tr("required"),"error"); return;
+ }
+ if(phone.length < 7){
+   notice("memberNotice",tr("required"),"error"); return;
+ }
+ const time=selectedTime;
+ const {data:existing,error:checkError}=await db.from("bookings")
+   .select("id").eq("day_id",selectedDay).eq("time",time).limit(1);
+ if(checkError){
+   notice("memberNotice",tr("dbError")+" "+esc(checkError.message),"error"); return;
+ }
+ if(existing?.length){
+   notice("memberNotice",tr("takenMsg"),"error"); await loadBookings(); return;
+ }
+
+ const {error}=await db.from("bookings").insert({
+   name, phone, day_id:selectedDay, time
+ });
+
+ if(error){
+   if(error.code==="23505"){
+     notice("memberNotice",tr("takenMsg"),"error");
+   }else{
+     notice("memberNotice",tr("dbError")+" "+esc(error.message),"error");
+   }
+   await loadBookings();
+   return;
+ }
+ notice("memberNotice",tr("success"),"success");
+ document.getElementById("name").value="";
+ document.getElementById("phone").value="";
+ selectedTime="";
+ await loadBookings();
 }
 function adminLogin(){if(document.getElementById("adminPassword").value==="123456"){admin=true;document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminDashboard").classList.remove("hidden");notice("adminNotice","", "info");renderAdmin()}else notice("adminNotice",tr("loginBad"),"error")}
 function adminLogout(){admin=false;document.getElementById("adminDashboard").classList.add("hidden");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPassword").value=""}
@@ -169,7 +215,7 @@ function renderAdmin(){
  document.getElementById("statTotal").textContent=total;document.getElementById("statTaken").textContent=taken;document.getElementById("statToday").textContent=today;
  const sel=document.getElementById("filterDay"), old=sel.value;sel.innerHTML=`<option value="">${tr("manage")}</option>`+DAYS.map(d=>`<option value="${d.id}">${d[lang]}</option>`).join("");sel.value=old;
  const filter=sel.value, list=bookings.filter(b=>!filter||b.day_id===filter).sort((a,b)=>(a.day_id+b.time).localeCompare(b.day_id+a.time));
- document.getElementById("adminRows").innerHTML=list.map((b,i)=>`<tr><td>${i+1}</td><td>${esc(b.name)}</td><td>${esc(b.phone)}</td><td>${dayName(b.day_id)}</td><td>${b.time}</td><td>${esc((b.created_at||"").slice(0,10))}</td><td><button class="btn danger small" style="width:auto" onclick="deleteBooking('${b.id}')">🗑️</button></td></tr>`).join("")||`<tr><td colspan="7">${tr("empty")}</td></tr>`
+ document.getElementById("adminRows").innerHTML=list.map((b,i)=>`<tr><td>${i+1}</td><td>${esc(b.name)}</td><td>${esc(b.phone)}</td><td>${dayName(b.day_id)}</td><td>${esc(String(b.time||"").slice(0,5))}</td><td>${esc((b.created_at||"").slice(0,10))}</td><td><button class="btn danger small" style="width:auto" onclick="deleteBooking('${b.id}')">🗑️</button></td></tr>`).join("")||`<tr><td colspan="7">${tr("empty")}</td></tr>`
 }
 async function deleteBooking(id){const {error}=await db.from("bookings").delete().eq("id",id);if(error){notice("adminNotice",tr("dbError")+" "+esc(error.message),"error");return}notice("adminNotice",tr("deleted"),"success");await loadBookings()}
 async function clearAll(){if(!confirm(tr("confirmAll")))return;const {error}=await db.from("bookings").delete().not("id","is",null);if(error)notice("adminNotice",tr("dbError")+" "+esc(error.message),"error");else await loadBookings()}
