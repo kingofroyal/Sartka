@@ -4,40 +4,396 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>سیستەمی نۆرە و حجز</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--p:#2563eb;--p2:#7c3aed;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--bg:#f4f7fb;--card:#fff;--shadow:0 14px 40px rgba(15,23,42,.10)}
-body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:linear-gradient(135deg,#eef4ff,#f8f5ff);color:var(--ink);min-height:100vh}
+
+:root{
+  --p:#2563eb;
+  --p2:#7c3aed;
+  --ok:#16a34a;
+  --bad:#dc2626;
+  --warn:#d97706;
+  --ink:#172033;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --bg:#f4f7fb;
+  --card:#fff;
+  --shadow:0 14px 40px rgba(15,23,42,.10)
+}
+
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  background:linear-gradient(135deg,#eef4ff,#f8f5ff);
+  color:var(--ink);
+  min-height:100vh
+}
+
 button,input,select{font:inherit}
 button{cursor:pointer;border:0}
-.app{max-width:1180px;margin:auto;padding:18px}
-header{position:sticky;top:10px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid #ffffffaa;border-radius:22px;background:#ffffffdc;backdrop-filter:blur(18px);box-shadow:var(--shadow);margin-bottom:18px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px}.brand span{font-size:28px}
-.langs{display:flex;gap:6px;flex-wrap:wrap}.lang{background:#eef2ff;color:#334155;padding:8px 11px;border-radius:12px;font-size:13px}.lang.active{background:linear-gradient(120deg,var(--p),var(--p2));color:#fff}
-.hero{padding:30px 20px;text-align:center;border-radius:28px;background:linear-gradient(135deg,#2563eb,#4f46e5 55%,#7c3aed);color:#fff;box-shadow:0 24px 70px rgba(37,99,235,.22);margin-bottom:18px}
-.hero .avatar{width:82px;height:82px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:#ffffff22;border:2px solid #ffffff66;font-size:38px}
-.hero h1{font-size:clamp(25px,5vw,40px);margin-bottom:8px}.hero p{opacity:.9}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}.tab{padding:14px;border-radius:16px;background:#fff;color:#334155;font-weight:800;box-shadow:0 8px 25px #0f172a0d}.tab.active{background:linear-gradient(120deg,var(--p),var(--p2));color:#fff;box-shadow:0 12px 30px rgba(37,99,235,.24)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}.card h2{font-size:20px;margin-bottom:15px}
-.grid{display:grid;gap:12px}.days{grid-template-columns:repeat(6,1fr)}.times{grid-template-columns:repeat(5,1fr)}
-.option{padding:12px 8px;border:1px solid var(--line);border-radius:14px;background:#fff;color:#334155;font-weight:750;min-height:48px;transition:.2s}.option:hover{transform:translateY(-1px);border-color:#93c5fd}.option.selected{background:linear-gradient(120deg,var(--p),var(--p2));color:#fff;border-color:transparent}.option.disabled{opacity:.42;cursor:not-allowed;text-decoration:line-through;background:#f1f5f9}
-label{display:block;font-weight:800;margin:0 0 7px}input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:14px;outline:none;background:#fff;color:var(--ink);margin-bottom:14px}input:focus{border-color:var(--p);box-shadow:0 0 0 4px #2563eb18}
-.btn{width:100%;padding:14px 18px;border-radius:15px;font-weight:900}.primary{background:linear-gradient(120deg,var(--p),var(--p2));color:#fff}.secondary{background:#eef2ff;color:#334155}.danger{background:#fee2e2;color:#991b1b}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.notice{padding:13px 15px;border-radius:14px;margin-bottom:14px;font-weight:700}.success{background:#dcfce7;color:#166534}.error{background:#fee2e2;color:#991b1b}.info{background:#e0f2fe;color:#075985}
-.booking{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fff;margin-bottom:9px}.booking strong{display:block;margin-bottom:4px}.muted{color:var(--muted);font-size:13px}
-.admin-login{max-width:480px;margin:auto}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.stat{padding:17px;border-radius:18px;background:#f8fafc;border:1px solid var(--line);text-align:center}.stat b{display:block;font-size:27px;color:var(--p);margin-top:4px}
-.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{padding:11px;border-bottom:1px solid var(--line);text-align:right}.table th{background:#f8fafc}
-.hidden{display:none!important}.small{font-size:12px}.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
-footer{text-align:center;color:var(--muted);padding:18px}
-@media(max-width:800px){.days{grid-template-columns:repeat(3,1fr)}.times{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:560px){.app{padding:10px}.row,.stats{grid-template-columns:1fr}.times{grid-template-columns:repeat(2,1fr)}header{position:static;border-radius:18px}.hero{padding:24px 15px}.card{padding:15px}.booking{align-items:flex-start;flex-direction:column}.booking .btn{width:auto;padding:9px 13px}.langs .lang{padding:7px 8px}}
+
+.app{
+  max-width:1180px;
+  margin:auto;
+  padding:18px
+}
+
+header{
+  position:sticky;
+  top:10px;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 16px;
+  border:1px solid #ffffffaa;
+  border-radius:22px;
+  background:#ffffffdc;
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
+  margin-bottom:18px
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  font-size:18px
+}
+
+.brand span{font-size:28px}
+
+.langs{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap
+}
+
+.lang{
+  background:#eef2ff;
+  color:#334155;
+  padding:8px 11px;
+  border-radius:12px;
+  font-size:13px
+}
+
+.lang.active{
+  background:linear-gradient(120deg,var(--p),var(--p2));
+  color:#fff
+}
+
+.hero{
+  padding:30px 20px;
+  text-align:center;
+  border-radius:28px;
+  background:linear-gradient(135deg,#2563eb,#4f46e5 55%,#7c3aed);
+  color:#fff;
+  box-shadow:0 24px 70px rgba(37,99,235,.22);
+  margin-bottom:18px
+}
+
+.hero .avatar{
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  margin:0 auto 12px;
+  background:#ffffff22;
+  border:2px solid #ffffff66;
+  font-size:38px
+}
+
+.hero h1{
+  font-size:clamp(25px,5vw,40px);
+  margin-bottom:8px
+}
+
+.hero p{opacity:.9}
+
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:18px
+}
+
+.tab{
+  padding:14px;
+  border-radius:16px;
+  background:#fff;
+  color:#334155;
+  font-weight:800;
+  box-shadow:0 8px 25px #0f172a0d
+}
+
+.tab.active{
+  background:linear-gradient(120deg,var(--p),var(--p2));
+  color:#fff;
+  box-shadow:0 12px 30px rgba(37,99,235,.24)
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px
+}
+
+.card h2{
+  font-size:20px;
+  margin-bottom:15px
+}
+
+.grid{
+  display:grid;
+  gap:12px
+}
+
+.days{grid-template-columns:repeat(6,1fr)}
+.times{grid-template-columns:repeat(5,1fr)}
+
+.option{
+  padding:12px 8px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  color:#334155;
+  font-weight:750;
+  min-height:48px;
+  transition:.2s
+}
+
+.option:hover{
+  transform:translateY(-1px);
+  border-color:#93c5fd
+}
+
+.option.selected{
+  background:linear-gradient(120deg,var(--p),var(--p2));
+  color:#fff;
+  border-color:transparent
+}
+
+.option.disabled{
+  opacity:.42;
+  cursor:not-allowed;
+  text-decoration:line-through;
+  background:#f1f5f9
+}
+
+label{
+  display:block;
+  font-weight:800;
+  margin:0 0 7px
+}
+
+input,select{
+  width:100%;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  outline:none;
+  background:#fff;
+  color:var(--ink);
+  margin-bottom:14px
+}
+
+input:focus,select:focus{
+  border-color:var(--p);
+  box-shadow:0 0 0 4px #2563eb18
+}
+
+.btn{
+  width:100%;
+  padding:14px 18px;
+  border-radius:15px;
+  font-weight:900
+}
+
+.primary{
+  background:linear-gradient(120deg,var(--p),var(--p2));
+  color:#fff
+}
+
+.secondary{
+  background:#eef2ff;
+  color:#334155
+}
+
+.danger{
+  background:#fee2e2;
+  color:#991b1b
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+
+.notice{
+  padding:13px 15px;
+  border-radius:14px;
+  margin-bottom:14px;
+  font-weight:700
+}
+
+.success{background:#dcfce7;color:#166534}
+.error{background:#fee2e2;color:#991b1b}
+.info{background:#e0f2fe;color:#075985}
+
+.booking{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  margin-bottom:9px
+}
+
+.booking strong{
+  display:block;
+  margin-bottom:4px
+}
+
+.muted{
+  color:var(--muted);
+  font-size:13px
+}
+
+.admin-login{
+  max-width:480px;
+  margin:auto
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:16px
+}
+
+.stat{
+  padding:17px;
+  border-radius:18px;
+  background:#f8fafc;
+  border:1px solid var(--line);
+  text-align:center
+}
+
+.stat b{
+  display:block;
+  font-size:27px;
+  color:var(--p);
+  margin-top:4px
+}
+
+.table-wrap{overflow:auto}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px
+}
+
+.table th,.table td{
+  padding:11px;
+  border-bottom:1px solid var(--line);
+  text-align:right
+}
+
+.table th{background:#f8fafc}
+
+.hidden{display:none!important}
+
+.small{font-size:12px}
+
+.topline{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:12px
+}
+
+.loading{
+  padding:18px;
+  text-align:center;
+  color:var(--muted)
+}
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:18px
+}
+
+@media(max-width:800px){
+  .days{grid-template-columns:repeat(3,1fr)}
+  .times{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:560px){
+  .app{padding:10px}
+
+  .row,.stats{
+    grid-template-columns:1fr
+  }
+
+  .times{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  header{
+    position:static;
+    border-radius:18px
+  }
+
+  .hero{
+    padding:24px 15px
+  }
+
+  .card{
+    padding:15px
+  }
+
+  .booking{
+    align-items:flex-start;
+    flex-direction:column
+  }
+
+  .booking .btn{
+    width:auto;
+    padding:9px 13px
+  }
+
+  .langs .lang{
+    padding:7px 8px
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <header>
-  <div class="brand"><span>📅</span><div data-i18n="title">سیستەمی نۆرە و حجز</div></div>
+  <div class="brand">
+    <span>📅</span>
+    <div data-i18n="title">سیستەمی نۆرە و حجز</div>
+  </div>
+
   <div class="langs">
     <button class="lang active" onclick="changeLanguage('ku')">کوردی</button>
     <button class="lang" onclick="changeLanguage('ar')">العربية</button>
@@ -52,177 +408,1435 @@ footer{text-align:center;color:var(--muted);padding:18px}
 </section>
 
 <div class="tabs">
-  <button id="memberTab" class="tab active" onclick="showPanel('member')">👤 <span data-i18n="member">بەشداربوو</span></button>
-  <button id="adminTab" class="tab" onclick="showPanel('admin')">🔐 <span data-i18n="admin">بەڕێوەبەر</span></button>
+  <button id="memberTab" class="tab active" onclick="showPanel('member')">
+    👤 <span data-i18n="member">بەشداربوو</span>
+  </button>
+
+  <button id="adminTab" class="tab" onclick="showPanel('admin')">
+    🔐 <span data-i18n="admin">بەڕێوەبەر</span>
+  </button>
 </div>
 
 <section id="memberPanel">
+
   <div id="memberNotice"></div>
+
   <div class="card">
+
     <h2 data-i18n="bookTitle">حجزی نۆرە</h2>
+
     <div class="row">
-      <div><label data-i18n="nameLabel">ناوی تەواو</label><input id="name" placeholder="ناوی تەواوت بنووسە"></div>
-      <div><label data-i18n="phoneLabel">ژمارەی مۆبایل</label><input id="phone" inputmode="tel" placeholder="07xxxxxxxxx"></div>
+
+      <div>
+        <label data-i18n="nameLabel">ناوی تەواو</label>
+        <input
+          id="name"
+          maxlength="100"
+          autocomplete="name"
+          placeholder="ناوی تەواوت بنووسە">
+      </div>
+
+      <div>
+        <label data-i18n="phoneLabel">ژمارەی مۆبایل</label>
+        <input
+          id="phone"
+          inputmode="tel"
+          maxlength="20"
+          autocomplete="tel"
+          placeholder="07xxxxxxxxx">
+      </div>
+
     </div>
+
     <label data-i18n="dayLabel">ڕۆژ هەڵبژێرە</label>
     <div id="days" class="grid days"></div>
+
     <br>
+
     <label data-i18n="timeLabel">کات هەڵبژێرە</label>
     <div id="times" class="grid times"></div>
+
     <br>
-    <button class="btn primary" onclick="book()" data-i18n="bookBtn">تۆمارکردنی نۆرە</button>
+
+    <button
+      id="bookButton"
+      class="btn primary"
+      onclick="book()"
+      data-i18n="bookBtn">
+      تۆمارکردنی نۆرە
+    </button>
+
   </div>
 
   <div class="card">
-    <div class="topline"><h2 data-i18n="todayTitle">نۆرەکانی ڕۆژەکە</h2><span id="publicCount" class="muted"></span></div>
+
+    <div class="topline">
+      <h2 data-i18n="todayTitle">نۆرەکانی ڕۆژەکە</h2>
+      <span id="publicCount" class="muted"></span>
+    </div>
+
     <div id="publicBookings"></div>
+
   </div>
+
 </section>
 
 <section id="adminPanel" class="hidden">
+
   <div id="adminLogin" class="card admin-login">
+
     <h2 data-i18n="adminLogin">چوونەژوورەوەی بەڕێوەبەر</h2>
+
     <label data-i18n="password">وشەی نهێنی</label>
-    <input id="adminPassword" type="password" placeholder="••••••••">
-    <button class="btn primary" onclick="adminLogin()" data-i18n="login">چوونەژوورەوە</button>
-    <p class="muted small" style="margin-top:10px" data-i18n="defaultPass">وشەی نهێنی سەرەتایی: 123456</p>
+
+    <input
+      id="adminPassword"
+      type="password"
+      placeholder="••••••••">
+
+    <button
+      class="btn primary"
+      onclick="adminLogin()"
+      data-i18n="login">
+      چوونەژوورەوە
+    </button>
+
+    <p
+      class="muted small"
+      style="margin-top:10px"
+      data-i18n="defaultPass">
+      وشەی نهێنی سەرەتایی: 123456
+    </p>
+
   </div>
 
   <div id="adminDashboard" class="hidden">
+
     <div id="adminNotice"></div>
+
     <div class="stats">
-      <div class="stat"><span data-i18n="total">هەموو نۆرەکان</span><b id="statTotal">0</b></div>
-      <div class="stat"><span data-i18n="taken">کاتە گیراوەکان</span><b id="statTaken">0</b></div>
-      <div class="stat"><span data-i18n="today">نۆرەکانی ئەمڕۆ</span><b id="statToday">0</b></div>
-    </div>
-    <div class="card">
-      <div class="topline"><h2 data-i18n="manage">بەڕێوەبردنی نۆرەکان</h2><button class="btn danger" style="width:auto" onclick="clearAll()" data-i18n="clearAll">سڕینەوەی هەموو</button></div>
-      <div class="row">
-        <div><label data-i18n="filterDay">فلتەر بە ڕۆژ</label><select id="filterDay" onchange="renderAdmin()"></select></div>
-        <div style="display:flex;align-items:end"><button class="btn secondary" onclick="clearSelectedDay()" data-i18n="clearDay">سڕینەوەی ئەم ڕۆژە</button></div>
+
+      <div class="stat">
+        <span data-i18n="total">هەموو نۆرەکان</span>
+        <b id="statTotal">0</b>
       </div>
-      <div class="table-wrap"><table class="table"><thead><tr><th>#</th><th data-i18n="nameLabel">ناو</th><th data-i18n="phoneLabel">مۆبایل</th><th data-i18n="dayLabel">ڕۆژ</th><th data-i18n="timeLabel">کات</th><th data-i18n="date">بەروار</th><th data-i18n="action">کردار</th></tr></thead><tbody id="adminRows"></tbody></table></div>
+
+      <div class="stat">
+        <span data-i18n="taken">کاتە گیراوەکان</span>
+        <b id="statTaken">0</b>
+      </div>
+
+      <div class="stat">
+        <span data-i18n="today">نۆرەکانی ئەمڕۆ</span>
+        <b id="statToday">0</b>
+      </div>
+
     </div>
-    <button class="btn secondary" onclick="adminLogout()" data-i18n="logout">دەرچوون</button>
+
+    <div class="card">
+
+      <div class="topline">
+        <h2 data-i18n="manage">بەڕێوەبردنی نۆرەکان</h2>
+
+        <button
+          class="btn danger"
+          style="width:auto"
+          onclick="clearAll()"
+          data-i18n="clearAll">
+          سڕینەوەی هەموو
+        </button>
+      </div>
+
+      <div class="row">
+
+        <div>
+          <label data-i18n="filterDay">فلتەر بە ڕۆژ</label>
+          <select id="filterDay" onchange="renderAdmin()"></select>
+        </div>
+
+        <div style="display:flex;align-items:end">
+          <button
+            class="btn secondary"
+            onclick="clearSelectedDay()"
+            data-i18n="clearDay">
+            سڕینەوەی ئەم ڕۆژە
+          </button>
+        </div>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table class="table">
+
+          <thead>
+            <tr>
+              <th>#</th>
+              <th data-i18n="nameLabel">ناو</th>
+              <th data-i18n="phoneLabel">مۆبایل</th>
+              <th data-i18n="dayLabel">ڕۆژ</th>
+              <th data-i18n="timeLabel">کات</th>
+              <th data-i18n="date">بەروار</th>
+              <th data-i18n="action">کردار</th>
+            </tr>
+          </thead>
+
+          <tbody id="adminRows"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+    <button
+      class="btn secondary"
+      onclick="adminLogout()"
+      data-i18n="logout">
+      دەرچوون
+    </button>
+
   </div>
+
 </section>
+
 <footer>Queue System • Supabase</footer>
+
 </div>
 
 <script>
-const SUPABASE_URL = "https://iwqcphkxqoreleibyssk.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6Sp";
-const {createClient} = supabase;
-const db = createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-const DAYS=[
- {id:"sat",ku:"شەمە",ar:"السبت",en:"Saturday"},
- {id:"sun",ku:"یەکشەممە",ar:"الأحد",en:"Sunday"},
- {id:"mon",ku:"دووشەممە",ar:"الإثنين",en:"Monday"},
- {id:"tue",ku:"سێشەممە",ar:"الثلاثاء",en:"Tuesday"},
- {id:"wed",ku:"چوارشەممە",ar:"الأربعاء",en:"Wednesday"},
- {id:"thu",ku:"پێنجشەممە",ar:"الخميس",en:"Thursday"}
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  "https://iwqcphkxqoreleibyssk.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6Sp";
+
+const { createClient } = supabase;
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+
+/* =========================================================
+   DAYS
+========================================================= */
+
+const DAYS = [
+  {
+    id:"sat",
+    ku:"شەمە",
+    ar:"السبت",
+    en:"Saturday"
+  },
+  {
+    id:"sun",
+    ku:"یەکشەممە",
+    ar:"الأحد",
+    en:"Sunday"
+  },
+  {
+    id:"mon",
+    ku:"دووشەممە",
+    ar:"الإثنين",
+    en:"Monday"
+  },
+  {
+    id:"tue",
+    ku:"سێشەممە",
+    ar:"الثلاثاء",
+    en:"Tuesday"
+  },
+  {
+    id:"wed",
+    ku:"چوارشەممە",
+    ar:"الأربعاء",
+    en:"Wednesday"
+  },
+  {
+    id:"thu",
+    ku:"پێنجشەممە",
+    ar:"الخميس",
+    en:"Thursday"
+  }
 ];
-const TIMES = Array.from({length:17}, (_,i) => {
-  const m = 15*60 + i*30;
-  return `${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
-});
 
-const T={
-ku:{title:"سیستەمی نۆرە و حجز",heroTitle:"نۆرە و حجز",heroText:"کاتەکەت هەڵبژێرە و نۆرەکەت تۆمار بکە",member:"بەشداربوو",admin:"بەڕێوەبەر",bookTitle:"حجزی نۆرە",nameLabel:"ناوی تەواو",phoneLabel:"ژمارەی مۆبایل",dayLabel:"ڕۆژ هەڵبژێرە",timeLabel:"کات هەڵبژێرە",bookBtn:"تۆمارکردنی نۆرە",todayTitle:"نۆرەکانی ڕۆژەکە",adminLogin:"چوونەژوورەوەی بەڕێوەبەر",password:"وشەی نهێنی",login:"چوونەژوورەوە",defaultPass:"وشەی نهێنی سەرەتایی: 123456",total:"هەموو نۆرەکان",taken:"کاتە گیراوەکان",today:"نۆرەکانی ئەمڕۆ",manage:"بەڕێوەبردنی نۆرەکان",clearAll:"سڕینەوەی هەموو",clearDay:"سڕینەوەی ئەم ڕۆژە",filterDay:"فلتەر بە ڕۆژ",date:"بەروار",action:"کردار",logout:"دەرچوون",required:"تکایە ناو و مۆبایل بنووسە و ڕۆژ و کات هەڵبژێرە.",success:"نۆرەکەت بە سەرکەوتوویی تۆمار کرا.",takenMsg:"ئەم کاتە پێشتر گیراوە. تکایە کاتێکی تر هەڵبژێرە.",loginBad:"وشەی نهێنی هەڵەیە.",empty:"هیچ نۆرەیەک نییە.",confirmAll:"دڵنیایت دەتەوێت هەموو نۆرەکان بسڕیتەوە؟",confirmDay:"دڵنیایت دەتەوێت نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟",deleted:"نۆرەکە سڕایەوە.",dbError:"کێشەیەک لەگەڵ Supabase ڕوویدا."},
-ar:{title:"نظام الطوابير والحجز",heroTitle:"الحجز والطابور",heroText:"اختر وقتك وسجل حجزك",member:"المشارك",admin:"المدير",bookTitle:"حجز موعد",nameLabel:"الاسم الكامل",phoneLabel:"رقم الهاتف",dayLabel:"اختر اليوم",timeLabel:"اختر الوقت",bookBtn:"تسجيل الحجز",todayTitle:"حجوزات اليوم",adminLogin:"دخول المدير",password:"كلمة المرور",login:"دخول",defaultPass:"كلمة المرور الافتراضية: 123456",total:"كل الحجوزات",taken:"الأوقات المحجوزة",today:"حجوزات اليوم",manage:"إدارة الحجوزات",clearAll:"حذف الكل",clearDay:"حذف هذا اليوم",filterDay:"تصفية حسب اليوم",date:"التاريخ",action:"إجراء",logout:"خروج",required:"أدخل الاسم والهاتف واختر اليوم والوقت.",success:"تم تسجيل الحجز بنجاح.",takenMsg:"هذا الوقت محجوز مسبقاً. اختر وقتاً آخر.",loginBad:"كلمة المرور غير صحيحة.",empty:"لا توجد حجوزات.",confirmAll:"هل أنت متأكد من حذف كل الحجوزات؟",confirmDay:"هل أنت متأكد من حذف حجوزات هذا اليوم؟",deleted:"تم حذف الحجز.",dbError:"حدث خطأ مع Supabase."},
-en:{title:"Queue & Booking System",heroTitle:"Queue & Booking",heroText:"Choose your time and book your slot",member:"Member",admin:"Admin",bookTitle:"Book a Slot",nameLabel:"Full name",phoneLabel:"Mobile number",dayLabel:"Choose a day",timeLabel:"Choose a time",bookBtn:"Book slot",todayTitle:"Today's bookings",adminLogin:"Admin login",password:"Password",login:"Login",defaultPass:"Default password: 123456",total:"All bookings",taken:"Taken slots",today:"Today's bookings",manage:"Manage bookings",clearAll:"Clear all",clearDay:"Clear this day",filterDay:"Filter by day",date:"Date",action:"Action",logout:"Logout",required:"Enter name and phone, then choose a day and time.",success:"Booking saved successfully.",takenMsg:"This time is already booked. Please choose another.",loginBad:"Incorrect password.",empty:"No bookings.",confirmAll:"Are you sure you want to delete all bookings?",confirmDay:"Are you sure you want to delete this day's bookings?",deleted:"Booking deleted.",dbError:"A Supabase error occurred."}
+
+/* =========================================================
+   TIMES
+   3:00 PM -> 11:00 PM
+========================================================= */
+
+const TIMES = [];
+
+for(let minutes = 15 * 60; minutes <= 23 * 60; minutes += 30){
+
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+
+  TIMES.push(
+    String(h).padStart(2,"0") +
+    ":" +
+    String(m).padStart(2,"0")
+  );
+
+}
+
+
+/* =========================================================
+   TRANSLATIONS
+========================================================= */
+
+const T = {
+
+ku:{
+  title:"سیستەمی نۆرە و حجز",
+  heroTitle:"نۆرە و حجز",
+  heroText:"کاتەکەت هەڵبژێرە و نۆرەکەت تۆمار بکە",
+  member:"بەشداربوو",
+  admin:"بەڕێوەبەر",
+  bookTitle:"حجزی نۆرە",
+  nameLabel:"ناوی تەواو",
+  phoneLabel:"ژمارەی مۆبایل",
+  dayLabel:"ڕۆژ هەڵبژێرە",
+  timeLabel:"کات هەڵبژێرە",
+  bookBtn:"تۆمارکردنی نۆرە",
+  todayTitle:"نۆرەکانی ڕۆژەکە",
+  adminLogin:"چوونەژوورەوەی بەڕێوەبەر",
+  password:"وشەی نهێنی",
+  login:"چوونەژوورەوە",
+  defaultPass:"وشەی نهێنی سەرەتایی: 123456",
+  total:"هەموو نۆرەکان",
+  taken:"کاتە گیراوەکان",
+  today:"نۆرەکانی ئەمڕۆ",
+  manage:"بەڕێوەبردنی نۆرەکان",
+  clearAll:"سڕینەوەی هەموو",
+  clearDay:"سڕینەوەی ئەم ڕۆژە",
+  filterDay:"فلتەر بە ڕۆژ",
+  date:"بەروار",
+  action:"کردار",
+  logout:"دەرچوون",
+  required:"تکایە ناو و مۆبایل بنووسە و ڕۆژ و کات هەڵبژێرە.",
+  success:"نۆرەکەت بە سەرکەوتوویی تۆمار کرا.",
+  takenMsg:"ئەم کاتە پێشتر گیراوە. تکایە کاتێکی تر هەڵبژێرە.",
+  loginBad:"وشەی نهێنی هەڵەیە.",
+  empty:"هیچ نۆرەیەک نییە.",
+  confirmAll:"دڵنیایت دەتەوێت هەموو نۆرەکان بسڕیتەوە؟",
+  confirmDay:"دڵنیایت دەتەوێت نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟",
+  deleted:"نۆرەکە سڕایەوە.",
+  dbError:"کێشەیەک لەگەڵ Supabase ڕوویدا.",
+  loading:"چاوەڕێ بکە...",
+  selectDay:"هەموو ڕۆژەکان",
+  connection:"پەیوەندی بە Supabase نەکرا."
+},
+
+ar:{
+  title:"نظام الطوابير والحجز",
+  heroTitle:"الحجز والطابور",
+  heroText:"اختر وقتك وسجل حجزك",
+  member:"المشارك",
+  admin:"المدير",
+  bookTitle:"حجز موعد",
+  nameLabel:"الاسم الكامل",
+  phoneLabel:"رقم الهاتف",
+  dayLabel:"اختر اليوم",
+  timeLabel:"اختر الوقت",
+  bookBtn:"تسجيل الحجز",
+  todayTitle:"حجوزات اليوم",
+  adminLogin:"دخول المدير",
+  password:"كلمة المرور",
+  login:"دخول",
+  defaultPass:"كلمة المرور الافتراضية: 123456",
+  total:"كل الحجوزات",
+  taken:"الأوقات المحجوزة",
+  today:"حجوزات اليوم",
+  manage:"إدارة الحجوزات",
+  clearAll:"حذف الكل",
+  clearDay:"حذف هذا اليوم",
+  filterDay:"تصفية حسب اليوم",
+  date:"التاريخ",
+  action:"إجراء",
+  logout:"خروج",
+  required:"أدخل الاسم والهاتف واختر اليوم والوقت.",
+  success:"تم تسجيل الحجز بنجاح.",
+  takenMsg:"هذا الوقت محجوز مسبقاً. اختر وقتاً آخر.",
+  loginBad:"كلمة المرور غير صحيحة.",
+  empty:"لا توجد حجوزات.",
+  confirmAll:"هل أنت متأكد من حذف كل الحجوزات؟",
+  confirmDay:"هل أنت متأكد من حذف حجوزات هذا اليوم؟",
+  deleted:"تم حذف الحجز.",
+  dbError:"حدث خطأ مع Supabase.",
+  loading:"جاري التحميل...",
+  selectDay:"كل الأيام",
+  connection:"تعذر الاتصال بـ Supabase."
+},
+
+en:{
+  title:"Queue & Booking System",
+  heroTitle:"Queue & Booking",
+  heroText:"Choose your time and book your slot",
+  member:"Member",
+  admin:"Admin",
+  bookTitle:"Book a Slot",
+  nameLabel:"Full name",
+  phoneLabel:"Mobile number",
+  dayLabel:"Choose a day",
+  timeLabel:"Choose a time",
+  bookBtn:"Book slot",
+  todayTitle:"Today's bookings",
+  adminLogin:"Admin login",
+  password:"Password",
+  login:"Login",
+  defaultPass:"Default password: 123456",
+  total:"All bookings",
+  taken:"Taken slots",
+  today:"Today's bookings",
+  manage:"Manage bookings",
+  clearAll:"Clear all",
+  clearDay:"Clear this day",
+  filterDay:"Filter by day",
+  date:"Date",
+  action:"Action",
+  logout:"Logout",
+  required:"Enter name and phone, then choose a day and time.",
+  success:"Booking saved successfully.",
+  takenMsg:"This time is already booked. Please choose another.",
+  loginBad:"Incorrect password.",
+  empty:"No bookings.",
+  confirmAll:"Are you sure you want to delete all bookings?",
+  confirmDay:"Are you sure you want to delete this day's bookings?",
+  deleted:"Booking deleted.",
+  dbError:"A Supabase error occurred.",
+  loading:"Loading...",
+  selectDay:"All days",
+  connection:"Could not connect to Supabase."
+}
+
 };
 
-let lang=localStorage.getItem("queueLang")||"ku", selectedDay="", selectedTime="", bookings=[], admin=false;
 
-function tr(k){return T[lang][k]||k}
-function changeLanguage(x){lang=x;localStorage.setItem("queueLang",x);document.documentElement.lang=x;document.documentElement.dir=x==="en"?"ltr":"rtl";document.querySelectorAll("[data-i18n]").forEach(e=>e.textContent=tr(e.dataset.i18n));document.querySelectorAll(".lang").forEach(b=>b.classList.toggle("active",b.textContent.includes(x==="ku"?"کوردی":x==="ar"?"العربية":"English")));renderDays();renderTimes();renderPublic();if(admin)renderAdmin();document.getElementById("adminPassword").placeholder="••••••••"}
-function showPanel(p){document.getElementById("memberPanel").classList.toggle("hidden",p!=="member");document.getElementById("adminPanel").classList.toggle("hidden",p!=="admin");document.getElementById("memberTab").classList.toggle("active",p==="member");document.getElementById("adminTab").classList.toggle("active",p==="admin");if(p==="admin")renderAdmin()}
-function dayName(id){return DAYS.find(d=>d.id===id)?.[lang]||id}
-function todayKey(){return new Date().toISOString().slice(0,10)}
-function renderDays(){document.getElementById("days").innerHTML=DAYS.map(d=>`<button class="option ${selectedDay===d.id?"selected":""}" onclick="selectDay('${d.id}')">${d[lang]}</button>`).join("")}
-function renderTimes(){
-  const taken=new Set(
-    bookings.filter(b=>b.day_id===selectedDay)
-      .map(b=>String(b.time).slice(0,5))
+/* =========================================================
+   STATE
+========================================================= */
+
+let lang =
+  localStorage.getItem("queueLang") || "ku";
+
+let selectedDay = "";
+let selectedTime = "";
+let bookings = [];
+let admin = false;
+let loading = false;
+
+
+/* =========================================================
+   TRANSLATION
+========================================================= */
+
+function tr(key){
+
+  return T[lang]?.[key] || key;
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function esc(value){
+
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    char => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[char])
   );
-  if(taken.has(selectedTime)) selectedTime="";
-  document.getElementById("times").innerHTML=[...new Set(TIMES)].map(t=>{
-    const off=taken.has(t);
-    return `<button type="button" class="option ${selectedTime===t?"selected":""} ${off?"disabled":""}" ${off?"disabled":""} onclick="selectTime('${t}')">${t}</button>`;
-  }).join("");
+
 }
-function selectDay(d){selectedDay=d;selectedTime="";renderDays();renderTimes();renderPublic()}
-function selectTime(t){
-  if(!TIMES.includes(t)) return;
-  if(bookings.some(b=>b.day_id===selectedDay && b.time===t)) return;
-  selectedTime=t;renderTimes();
+
+
+/* =========================================================
+   LOCAL IRAQ DATE
+========================================================= */
+
+function localDate(){
+
+  const now = new Date();
+
+  const parts = new Intl.DateTimeFormat(
+    "en-CA",
+    {
+      timeZone:"Asia/Baghdad",
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit"
+    }
+  ).formatToParts(now);
+
+  const obj = {};
+
+  parts.forEach(p => {
+
+    if(p.type !== "literal"){
+      obj[p.type] = p.value;
+    }
+
+  });
+
+  return `${obj.year}-${obj.month}-${obj.day}`;
+
 }
-function notice(id,msg,type="info"){document.getElementById(id).innerHTML=msg?`<div class="notice ${type}">${msg}</div>`:""}
-function renderPublic(){const list=bookings.filter(b=>!selectedDay||b.day_id===selectedDay).sort((a,b)=>a.time.localeCompare(b.time));document.getElementById("publicCount").textContent=list.length;document.getElementById("publicBookings").innerHTML=list.length?list.map((b,i)=>`<div class="booking"><div><strong>${esc(b.name)}</strong><span class="muted">📱 ${esc(b.phone)} • 📅 ${dayName(b.day_id)} • 🕒 ${b.time}</span></div></div>`).join(""):`<div class="notice info">${tr("empty")}</div>`}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+
+/* =========================================================
+   CURRENT DAY
+========================================================= */
+
+function currentDayId(){
+
+  const weekday =
+    new Intl.DateTimeFormat(
+      "en-US",
+      {
+        timeZone:"Asia/Baghdad",
+        weekday:"short"
+      }
+    ).format(new Date());
+
+  const map = {
+    Sat:"sat",
+    Sun:"sun",
+    Mon:"mon",
+    Tue:"tue",
+    Wed:"wed",
+    Thu:"thu"
+  };
+
+  return map[weekday] || "sat";
+
+}
+
+
+/* =========================================================
+   DAY NAME
+========================================================= */
+
+function dayName(id){
+
+  const day = DAYS.find(d => d.id === id);
+
+  return day ? day[lang] : id;
+
+}
+
+
+/* =========================================================
+   CHANGE LANGUAGE
+========================================================= */
+
+function changeLanguage(newLang){
+
+  lang = newLang;
+
+  localStorage.setItem("queueLang",newLang);
+
+  document.documentElement.lang = newLang;
+
+  document.documentElement.dir =
+    newLang === "en" ? "ltr" : "rtl";
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+
+    el.textContent = tr(el.dataset.i18n);
+
+  });
+
+  document.querySelectorAll(".lang").forEach(button => {
+
+    const active =
+      (newLang === "ku" && button.textContent.includes("کوردی")) ||
+      (newLang === "ar" && button.textContent.includes("العربية")) ||
+      (newLang === "en" && button.textContent.includes("English"));
+
+    button.classList.toggle("active",active);
+
+  });
+
+  renderDays();
+  renderTimes();
+  renderPublic();
+
+  if(admin){
+    renderAdmin();
+  }
+
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+function showPanel(panel){
+
+  document
+    .getElementById("memberPanel")
+    .classList.toggle("hidden",panel !== "member");
+
+  document
+    .getElementById("adminPanel")
+    .classList.toggle("hidden",panel !== "admin");
+
+  document
+    .getElementById("memberTab")
+    .classList.toggle("active",panel === "member");
+
+  document
+    .getElementById("adminTab")
+    .classList.toggle("active",panel === "admin");
+
+  if(panel === "admin"){
+    renderAdmin();
+  }
+
+}
+
+
+/* =========================================================
+   NOTICE
+========================================================= */
+
+function notice(id,message,type="info"){
+
+  const el = document.getElementById(id);
+
+  if(!el) return;
+
+  el.innerHTML =
+    message
+      ? `<div class="notice ${type}">${message}</div>`
+      : "";
+
+}
+
+
+/* =========================================================
+   RENDER DAYS
+========================================================= */
+
+function renderDays(){
+
+  const container =
+    document.getElementById("days");
+
+  container.innerHTML =
+    DAYS.map(day => {
+
+      const selected =
+        selectedDay === day.id
+          ? "selected"
+          : "";
+
+      return `
+        <button
+          type="button"
+          class="option ${selected}"
+          onclick="selectDay('${day.id}')">
+          ${esc(day[lang])}
+        </button>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   RENDER TIMES
+========================================================= */
+
+function renderTimes(){
+
+  const container =
+    document.getElementById("times");
+
+  const taken = new Set(
+    bookings
+      .filter(b => b.day_id === selectedDay)
+      .map(b => normalizeTime(b.time))
+  );
+
+  if(taken.has(selectedTime)){
+    selectedTime = "";
+  }
+
+  container.innerHTML =
+    TIMES.map(time => {
+
+      const isTaken = taken.has(time);
+
+      return `
+        <button
+          type="button"
+          class="option
+          ${selectedTime === time ? "selected" : ""}
+          ${isTaken ? "disabled" : ""}"
+          ${isTaken ? "disabled" : ""}
+          onclick="selectTime('${time}')">
+          ${time}
+        </button>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   NORMALIZE TIME
+========================================================= */
+
+function normalizeTime(value){
+
+  if(!value) return "";
+
+  return String(value).slice(0,5);
+
+}
+
+
+/* =========================================================
+   SELECT DAY
+========================================================= */
+
+function selectDay(day){
+
+  selectedDay = day;
+
+  selectedTime = "";
+
+  renderDays();
+  renderTimes();
+  renderPublic();
+
+}
+
+
+/* =========================================================
+   SELECT TIME
+========================================================= */
+
+function selectTime(time){
+
+  if(!selectedDay) return;
+
+  if(!TIMES.includes(time)) return;
+
+  const alreadyTaken =
+    bookings.some(
+      b =>
+        b.day_id === selectedDay &&
+        normalizeTime(b.time) === time
+    );
+
+  if(alreadyTaken){
+
+    notice(
+      "memberNotice",
+      tr("takenMsg"),
+      "error"
+    );
+
+    return;
+
+  }
+
+  selectedTime = time;
+
+  renderTimes();
+
+}
+
+
+/* =========================================================
+   RENDER PUBLIC BOOKINGS
+========================================================= */
+
+function renderPublic(){
+
+  const list =
+    bookings
+      .filter(b =>
+        !selectedDay ||
+        b.day_id === selectedDay
+      )
+      .sort(
+        (a,b) =>
+          normalizeTime(a.time)
+          .localeCompare(normalizeTime(b.time))
+      );
+
+  document.getElementById("publicCount")
+    .textContent = list.length;
+
+  document.getElementById("publicBookings")
+    .innerHTML =
+
+      list.length
+
+      ? list.map(b => `
+          <div class="booking">
+
+            <div>
+
+              <strong>${esc(b.name)}</strong>
+
+              <span class="muted">
+                📱 ${esc(b.phone)}
+                • 📅 ${esc(dayName(b.day_id))}
+                • 🕒 ${esc(normalizeTime(b.time))}
+              </span>
+
+            </div>
+
+          </div>
+        `).join("")
+
+      : `
+        <div class="notice info">
+          ${tr("empty")}
+        </div>
+      `;
+
+}
+
+
+/* =========================================================
+   LOAD BOOKINGS
+========================================================= */
 
 async function loadBookings(){
- const {data,error}=await db.from("bookings").select("*").order("time",{ascending:true});
- if(error){console.error(error);notice("memberNotice",tr("dbError")+" "+esc(error.message),"error");return}
- bookings=(data||[]).map(b=>({...b,time:String(b.time||"").slice(0,5)}));
-renderDays();renderTimes();renderPublic();if(admin)renderAdmin()
+
+  if(loading) return;
+
+  loading = true;
+
+  try{
+
+    const {
+      data,
+      error
+    } = await db
+      .from("bookings")
+      .select("id,name,phone,day_id,time,created_at")
+      .order("time",{ascending:true});
+
+    if(error){
+
+      console.error(error);
+
+      notice(
+        "memberNotice",
+        tr("dbError") +
+        "<br>" +
+        esc(error.message),
+        "error"
+      );
+
+      return;
+
+    }
+
+    bookings =
+      (data || []).map(b => ({
+        ...b,
+        time:normalizeTime(b.time)
+      }));
+
+    renderDays();
+    renderTimes();
+    renderPublic();
+
+    if(admin){
+      renderAdmin();
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    notice(
+      "memberNotice",
+      tr("connection"),
+      "error"
+    );
+
+  }finally{
+
+    loading = false;
+
+  }
+
 }
+
+
+/* =========================================================
+   BOOK
+========================================================= */
+
 async function book(){
- const name=document.getElementById("name").value.trim();
- const phone=document.getElementById("phone").value.trim().replace(/\\s+/g,"");
- if(!name||!phone||!selectedDay||!selectedTime){
-   notice("memberNotice",tr("required"),"error"); return;
- }
- if(phone.length < 7){
-   notice("memberNotice",tr("required"),"error"); return;
- }
- const time=selectedTime;
- const {data:existing,error:checkError}=await db.from("bookings")
-   .select("id").eq("day_id",selectedDay).eq("time",time).limit(1);
- if(checkError){
-   notice("memberNotice",tr("dbError")+" "+esc(checkError.message),"error"); return;
- }
- if(existing?.length){
-   notice("memberNotice",tr("takenMsg"),"error"); await loadBookings(); return;
- }
 
- const {error}=await db.from("bookings").insert({
-   name, phone, day_id:selectedDay, time
- });
+  const name =
+    document
+      .getElementById("name")
+      .value
+      .trim();
 
- if(error){
-   if(error.code==="23505"){
-     notice("memberNotice",tr("takenMsg"),"error");
-   }else{
-     notice("memberNotice",tr("dbError")+" "+esc(error.message),"error");
-   }
-   await loadBookings();
-   return;
- }
- notice("memberNotice",tr("success"),"success");
- document.getElementById("name").value="";
- document.getElementById("phone").value="";
- selectedTime="";
- await loadBookings();
+  const phone =
+    document
+      .getElementById("phone")
+      .value
+      .trim()
+      .replace(/\s+/g,"");
+
+  if(
+    !name ||
+    !phone ||
+    !selectedDay ||
+    !selectedTime
+  ){
+
+    notice(
+      "memberNotice",
+      tr("required"),
+      "error"
+    );
+
+    return;
+
+  }
+
+  if(phone.length < 7){
+
+    notice(
+      "memberNotice",
+      tr("required"),
+      "error"
+    );
+
+    return;
+
+  }
+
+  const button =
+    document.getElementById("bookButton");
+
+  button.disabled = true;
+  button.style.opacity = ".65";
+
+  try{
+
+    /*
+      IMPORTANT:
+      The database unique index on
+      day_id + time is the final protection.
+
+      Even if two phones book at exactly
+      the same moment, only one insert
+      can succeed.
+    */
+
+    const {
+      error
+    } = await db
+      .from("bookings")
+      .insert({
+        name:name,
+        phone:phone,
+        day_id:selectedDay,
+        time:selectedTime
+      });
+
+    if(error){
+
+      console.error(error);
+
+      if(error.code === "23505"){
+
+        notice(
+          "memberNotice",
+          tr("takenMsg"),
+          "error"
+        );
+
+      }else{
+
+        notice(
+          "memberNotice",
+          tr("dbError") +
+          "<br>" +
+          esc(error.message),
+          "error"
+        );
+
+      }
+
+      await loadBookings();
+
+      return;
+
+    }
+
+    notice(
+      "memberNotice",
+      tr("success"),
+      "success"
+    );
+
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+
+    selectedTime = "";
+
+    await loadBookings();
+
+  }catch(error){
+
+    console.error(error);
+
+    notice(
+      "memberNotice",
+      tr("connection"),
+      "error"
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.style.opacity = "1";
+
+  }
+
 }
-function adminLogin(){if(document.getElementById("adminPassword").value==="123456"){admin=true;document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminDashboard").classList.remove("hidden");notice("adminNotice","", "info");renderAdmin()}else notice("adminNotice",tr("loginBad"),"error")}
-function adminLogout(){admin=false;document.getElementById("adminDashboard").classList.add("hidden");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPassword").value=""}
+
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+function adminLogin(){
+
+  const password =
+    document
+      .getElementById("adminPassword")
+      .value;
+
+  if(password === "123456"){
+
+    admin = true;
+
+    document
+      .getElementById("adminLogin")
+      .classList.add("hidden");
+
+    document
+      .getElementById("adminDashboard")
+      .classList.remove("hidden");
+
+    notice(
+      "adminNotice",
+      "",
+      "info"
+    );
+
+    renderAdmin();
+
+  }else{
+
+    notice(
+      "adminNotice",
+      tr("loginBad"),
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ADMIN LOGOUT
+========================================================= */
+
+function adminLogout(){
+
+  admin = false;
+
+  document
+    .getElementById("adminDashboard")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminLogin")
+    .classList.remove("hidden");
+
+  document.getElementById("adminPassword").value = "";
+
+}
+
+
+/* =========================================================
+   ADMIN RENDER
+========================================================= */
+
 function renderAdmin(){
- if(!admin)return;
- const total=bookings.length, taken=new Set(bookings.map(b=>b.day_id+"|"+b.time)).size, today=bookings.filter(b=>b.created_at?.slice(0,10)===todayKey()).length;
- document.getElementById("statTotal").textContent=total;document.getElementById("statTaken").textContent=taken;document.getElementById("statToday").textContent=today;
- const sel=document.getElementById("filterDay"), old=sel.value;sel.innerHTML=`<option value="">${tr("manage")}</option>`+DAYS.map(d=>`<option value="${d.id}">${d[lang]}</option>`).join("");sel.value=old;
- const filter=sel.value, list=bookings.filter(b=>!filter||b.day_id===filter).sort((a,b)=>(a.day_id+b.time).localeCompare(b.day_id+a.time));
- document.getElementById("adminRows").innerHTML=list.map((b,i)=>`<tr><td>${i+1}</td><td>${esc(b.name)}</td><td>${esc(b.phone)}</td><td>${dayName(b.day_id)}</td><td>${esc(String(b.time||"").slice(0,5))}</td><td>${esc((b.created_at||"").slice(0,10))}</td><td><button class="btn danger small" style="width:auto" onclick="deleteBooking('${b.id}')">🗑️</button></td></tr>`).join("")||`<tr><td colspan="7">${tr("empty")}</td></tr>`
-}
-async function deleteBooking(id){const {error}=await db.from("bookings").delete().eq("id",id);if(error){notice("adminNotice",tr("dbError")+" "+esc(error.message),"error");return}notice("adminNotice",tr("deleted"),"success");await loadBookings()}
-async function clearAll(){if(!confirm(tr("confirmAll")))return;const {error}=await db.from("bookings").delete().not("id","is",null);if(error)notice("adminNotice",tr("dbError")+" "+esc(error.message),"error");else await loadBookings()}
-async function clearSelectedDay(){const d=document.getElementById("filterDay").value;if(!d)return; if(!confirm(tr("confirmDay")))return;const {error}=await db.from("bookings").delete().eq("day_id",d);if(error)notice("adminNotice",tr("dbError")+" "+esc(error.message),"error");else await loadBookings()}
 
-db.channel("queue-live").on("postgres_changes",{event:"*",schema:"public",table:"bookings"},()=>loadBookings()).subscribe();
-changeLanguage(lang);loadBookings();
+  if(!admin) return;
+
+  const total =
+    bookings.length;
+
+  const taken =
+    new Set(
+      bookings.map(
+        b => b.day_id + "|" + normalizeTime(b.time)
+      )
+    ).size;
+
+  const today =
+    bookings.filter(
+      b =>
+        b.created_at &&
+        localDateFromISO(b.created_at) === localDate()
+    ).length;
+
+  document.getElementById("statTotal")
+    .textContent = total;
+
+  document.getElementById("statTaken")
+    .textContent = taken;
+
+  document.getElementById("statToday")
+    .textContent = today;
+
+
+  const select =
+    document.getElementById("filterDay");
+
+  const oldValue =
+    select.value;
+
+  select.innerHTML =
+    `<option value="">${tr("selectDay")}</option>` +
+    DAYS.map(day =>
+      `<option value="${day.id}">
+        ${esc(day[lang])}
+      </option>`
+    ).join("");
+
+  if(
+    DAYS.some(day => day.id === oldValue)
+  ){
+    select.value = oldValue;
+  }else{
+    select.value = "";
+  }
+
+
+  const filter =
+    select.value;
+
+  const list =
+    bookings
+      .filter(
+        b =>
+          !filter ||
+          b.day_id === filter
+      )
+      .sort(
+        (a,b) =>
+          (a.day_id + normalizeTime(a.time))
+          .localeCompare(
+            b.day_id + normalizeTime(b.time)
+          )
+      );
+
+
+  document.getElementById("adminRows")
+    .innerHTML =
+
+      list.length
+
+      ? list.map((b,index) => `
+
+          <tr>
+
+            <td>${index + 1}</td>
+
+            <td>${esc(b.name)}</td>
+
+            <td>${esc(b.phone)}</td>
+
+            <td>${esc(dayName(b.day_id))}</td>
+
+            <td>${esc(normalizeTime(b.time))}</td>
+
+            <td>
+              ${esc(formatDate(b.created_at))}
+            </td>
+
+            <td>
+
+              <button
+                class="btn danger small"
+                style="width:auto"
+                onclick="deleteBooking('${esc(b.id)}')">
+                🗑️
+              </button>
+
+            </td>
+
+          </tr>
+
+        `).join("")
+
+      : `
+        <tr>
+          <td colspan="7">
+            ${tr("empty")}
+          </td>
+        </tr>
+      `;
+
+}
+
+
+/* =========================================================
+   DATE FROM SUPABASE TIMESTAMP
+========================================================= */
+
+function localDateFromISO(value){
+
+  if(!value) return "";
+
+  return new Intl.DateTimeFormat(
+    "en-CA",
+    {
+      timeZone:"Asia/Baghdad",
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit"
+    }
+  ).format(new Date(value));
+
+}
+
+
+/* =========================================================
+   FORMAT DATE
+========================================================= */
+
+function formatDate(value){
+
+  if(!value) return "";
+
+  const date =
+    new Date(value);
+
+  return new Intl.DateTimeFormat(
+    lang === "en"
+      ? "en-US"
+      : lang === "ar"
+        ? "ar-IQ"
+        : "en-GB",
+    {
+      timeZone:"Asia/Baghdad",
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit"
+    }
+  ).format(date);
+
+}
+
+
+/* =========================================================
+   DELETE ONE
+========================================================= */
+
+async function deleteBooking(id){
+
+  if(!admin) return;
+
+  const {
+    error
+  } = await db
+    .from("bookings")
+    .delete()
+    .eq("id",id);
+
+  if(error){
+
+    notice(
+      "adminNotice",
+      tr("dbError") +
+      "<br>" +
+      esc(error.message),
+      "error"
+    );
+
+    return;
+
+  }
+
+  notice(
+    "adminNotice",
+    tr("deleted"),
+    "success"
+  );
+
+  await loadBookings();
+
+}
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+async function clearAll(){
+
+  if(!admin) return;
+
+  if(!confirm(tr("confirmAll"))){
+    return;
+  }
+
+  const {
+    error
+  } = await db
+    .from("bookings")
+    .delete()
+    .not("id","is",null);
+
+  if(error){
+
+    notice(
+      "adminNotice",
+      tr("dbError") +
+      "<br>" +
+      esc(error.message),
+      "error"
+    );
+
+    return;
+
+  }
+
+  await loadBookings();
+
+}
+
+
+/* =========================================================
+   CLEAR SELECTED DAY
+========================================================= */
+
+async function clearSelectedDay(){
+
+  if(!admin) return;
+
+  const day =
+    document.getElementById("filterDay").value;
+
+  if(!day) return;
+
+  if(!confirm(tr("confirmDay"))){
+    return;
+  }
+
+  const {
+    error
+  } = await db
+    .from("bookings")
+    .delete()
+    .eq("day_id",day);
+
+  if(error){
+
+    notice(
+      "adminNotice",
+      tr("dbError") +
+      "<br>" +
+      esc(error.message),
+      "error"
+    );
+
+    return;
+
+  }
+
+  await loadBookings();
+
+}
+
+
+/* =========================================================
+   REALTIME
+========================================================= */
+
+db
+.channel("queue-live")
+.on(
+  "postgres_changes",
+  {
+    event:"*",
+    schema:"public",
+    table:"bookings"
+  },
+  () => {
+
+    loadBookings();
+
+  }
+)
+.subscribe();
+
+
+/* =========================================================
+   INITIAL START
+========================================================= */
+
+changeLanguage(lang);
+
+
+/*
+  Automatically select today's day.
+
+  Friday is excluded from the system.
+  If today is Friday, Saturday is selected.
+*/
+
+selectedDay = currentDayId();
+
+renderDays();
+renderTimes();
+renderPublic();
+
+loadBookings();
+
 </script>
+
 </body>
 </html>
