@@ -3,1840 +3,207 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>سیستەمی نۆرە و حجز</title>
-
+<meta name="theme-color" content="#0a0a0a">
+<title>Sartka Barber | ناوەندی حەلاقی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#090909;--panel:#11110f;--panel2:#171713;--gold:#d8b56d;--gold2:#f2d99b;--text:#f7f3e9;--muted:#a8a397;--line:#ffffff16;--red:#e46f6f;--green:#7bc7a1;--radius:22px;--shadow:0 24px 70px #0008}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--text);font-family:Cairo,Manrope,sans-serif;line-height:1.7}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 80% 0%,#d8b56d13,transparent 38%),radial-gradient(ellipse at 0% 55%,#d8b56d0a,transparent 35%)}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer}.container{width:min(1160px,calc(100% - 34px));margin:auto}.gold{color:var(--gold)}.eyebrow{color:var(--gold);font-size:.78rem;letter-spacing:2px;font-weight:800;text-transform:uppercase}.section{padding:78px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:28px}.section-head h2{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;margin:8px 0}.section-head p{color:var(--muted);margin:8px 0 0;max-width:560px}.btn{border:1px solid transparent;border-radius:999px;padding:12px 21px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s;min-height:46px}.btn:hover{transform:translateY(-2px)}.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#17130a;box-shadow:0 8px 25px #d8b56d22}.btn-ghost{background:#ffffff08;border-color:var(--line);color:var(--text)}.btn-small{padding:7px 13px;min-height:35px;font-size:.85rem}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}.header{position:sticky;top:0;z-index:20;background:#090909dd;backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-family:Manrope,Cairo,sans-serif;font-weight:900;letter-spacing:1px}.brand-mark{width:42px;height:42px;border:1px solid #d8b56d88;border-radius:14px;display:grid;place-items:center;color:var(--gold);font-size:1.3rem;background:linear-gradient(135deg,#d8b56d1c,#ffffff04)}.nav-links{display:flex;align-items:center;gap:24px;color:#c7c2b7;font-size:.9rem}.nav-links a:hover{color:var(--gold)}.nav-actions{display:flex;gap:8px;align-items:center}.lang{background:#171713;border:1px solid var(--line);border-radius:999px;color:var(--text);padding:8px 10px}.menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:8px 12px}.hero{min-height:610px;display:grid;grid-template-columns:1.02fr .98fr;gap:42px;align-items:center;padding:60px 0 72px}.hero-copy h1{font-size:clamp(2.7rem,6.2vw,5.4rem);line-height:1.12;letter-spacing:-2px;margin:15px 0 20px}.hero-copy p{color:var(--muted);font-size:1.04rem;max-width:560px}.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.hero-stats{display:flex;gap:30px;flex-wrap:wrap;margin-top:36px}.stat strong{display:block;color:var(--gold2);font:800 1.5rem Manrope}.stat span{font-size:.8rem;color:var(--muted)}.hero-art{position:relative;min-height:480px;border:1px solid #d8b56d33;border-radius:30px;overflow:hidden;background:#17130d;box-shadow:var(--shadow)}.hero-art img{width:100%;height:100%;min-height:480px;object-fit:cover;display:block;filter:brightness(.8)}.hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#090909e8,transparent 60%),linear-gradient(90deg,#09090930,transparent)}.hero-label{position:absolute;z-index:1;bottom:25px;right:25px;left:25px;display:flex;justify-content:space-between;align-items:end;gap:15px}.hero-label strong{font-size:1.35rem}.hero-label span{color:var(--gold2);font-size:.82rem}.trust-row{border-block:1px solid var(--line);padding:19px 0;color:var(--muted);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;font-size:.88rem}.trust-row span{display:flex;gap:8px;align-items:center}.dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.service-card,.review-card,.booking-card,.admin-card,.contact-card{background:linear-gradient(145deg,#171713,#10100e);border:1px solid var(--line);border-radius:var(--radius);padding:23px;transition:.22s}.service-card:hover,.review-card:hover{transform:translateY(-4px);border-color:#d8b56d55}.service-icon{width:49px;height:49px;border-radius:16px;background:#d8b56d14;border:1px solid #d8b56d2b;display:grid;place-items:center;font-size:1.4rem}.service-card h3{margin:18px 0 7px}.service-card p{color:var(--muted);font-size:.9rem;min-height:52px;margin:0}.service-bottom{border-top:1px solid var(--line);margin-top:18px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:8px}.price{font-weight:900;color:var(--gold2);font-size:1.2rem}.duration{color:var(--muted);font-size:.8rem}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.gallery-item{position:relative;border:1px solid var(--line);border-radius:19px;overflow:hidden;min-height:260px;background:var(--panel2)}.gallery-item img{width:100%;height:100%;min-height:260px;object-fit:cover;display:block;transition:transform .4s}.gallery-item:hover img{transform:scale(1.05)}.gallery-item span{position:absolute;bottom:0;right:0;left:0;padding:30px 16px 14px;background:linear-gradient(transparent,#000d);font-weight:800}.booking-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:22px;align-items:start}.booking-intro{padding:28px 0}.booking-intro h2{font-size:clamp(2rem,4vw,3rem);line-height:1.2}.booking-intro p{color:var(--muted)}.info-line{display:flex;gap:12px;align-items:center;margin:17px 0;color:#d9d3c5}.info-icon{color:var(--gold);font-size:1.25rem}.booking-card{padding:clamp(18px,3vw,30px)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:.86rem;color:#ddd6c7;font-weight:700}.field input,.field select,.field textarea{width:100%;min-width:0;background:#0b0b09;border:1px solid #ffffff1c;border-radius:12px;padding:12px 13px;color:var(--text);outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#d8b56d99;box-shadow:0 0 0 3px #d8b56d12}.field textarea{resize:vertical;min-height:85px}.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.slot{padding:9px 5px;border:1px solid var(--line);background:#0b0b09;color:#e8e2d5;border-radius:10px;font-size:.85rem}.slot:hover{border-color:var(--gold)}.slot.selected{background:var(--gold);color:#18130a;border-color:var(--gold);font-weight:900}.slot.taken{opacity:.3;text-decoration:line-through;cursor:not-allowed}.form-message{display:none;padding:12px 14px;border-radius:12px;margin-top:14px;font-size:.9rem}.form-message.show{display:block}.form-message.error{background:#e46f6f16;color:#ffaaaa;border:1px solid #e46f6f44}.form-message.success{background:#7bc7a116;color:#a8edc8;border:1px solid #7bc7a144}.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.stars{color:var(--gold);letter-spacing:3px}.review-card p{color:#d1cbbf}.reviewer{display:flex;gap:10px;align-items:center;margin-top:18px}.avatar{width:38px;height:38px;border-radius:50%;background:#d8b56d22;color:var(--gold2);display:grid;place-items:center;font-weight:900}.reviewer small{display:block;color:var(--muted)}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.contact-card h3{margin-top:0}.hours-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:9px 0;color:#d5cfc2}.hours-row:last-child{border:0}.footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.85rem}.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;align-items:center}.admin-wrap{display:none;padding:60px 0}.admin-wrap.active{display:block}.admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0}.admin-stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}.admin-stat span{color:var(--muted);font-size:.85rem}.admin-stat strong{display:block;font-size:1.7rem;color:var(--gold2)}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px;margin-top:15px}table{border-collapse:collapse;width:100%;min-width:760px;background:#11110f}th,td{text-align:right;padding:12px 14px;border-bottom:1px solid var(--line);font-size:.87rem}th{color:var(--gold2);background:#191811}td{color:#ddd7ca}.status{display:inline-block;padding:3px 9px;border-radius:99px;background:#d8b56d18;color:var(--gold2);font-size:.77rem}.admin-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.admin-tools input,.admin-tools select{background:#0b0b09;border:1px solid var(--line);color:var(--text);padding:10px;border-radius:10px}.hidden{display:none!important}.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:18px;z-index:50}.modal.open{display:grid}.modal-box{width:min(430px,100%);background:#141410;border:1px solid #d8b56d55;border-radius:22px;padding:26px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center}.close{background:none;border:0;color:var(--muted);font-size:1.5rem}.small-note{font-size:.8rem;color:var(--muted)}barber-card{background:linear-gradient(145deg,#171713,#10100e);border:1px solid var(--line);border-radius:18px;padding:18px}.barber-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.barber-card img{width:100%;height:210px;object-fit:cover;border-radius:13px;background:#222}.barber-card h3{margin:12px 0 4px}.barber-card p{color:var(--muted);font-size:.9rem;margin:0}loading{opacity:.65;pointer-events:none}
+@media(max-width:850px){.nav-links{display:none;position:absolute;top:76px;right:0;left:0;background:#0d0d0bf7;padding:20px;flex-direction:column;border-bottom:1px solid var(--line)}.nav-links.open{display:flex}.menu-btn{display:block}.nav-actions>.btn{display:none}.hero{grid-template-columns:1fr;padding-top:40px;gap:25px}.hero-art,.hero-art img{min-height:360px}.cards,.reviews{grid-template-columns:repeat(2,1fr)}.booking-layout{grid-template-columns:1fr}.booking-intro{padding:0}.admin-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.container{width:min(100% - 24px,1160px)}.nav{height:68px}.nav-links{top:68px}.brand{font-size:.86rem}.brand-mark{width:37px;height:37px}.hero-copy h1{letter-spacing:-1px}.hero-art,.hero-art img{min-height:300px}.section{padding:55px 0}.section-head{display:block}.cards,.reviews,.gallery-grid,.contact-grid{grid-template-columns:1fr}.service-card{padding:20px}.gallery-item,.gallery-item img{min-height:290px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.slots{grid-template-columns:repeat(3,1fr)}.hero-stats{gap:20px}.trust-row{justify-content:flex-start}.admin-grid{grid-template-columns:repeat(2,1fr)}}
 
-:root{
-  --p:#2563eb;
-  --p2:#7c3aed;
-  --ok:#16a34a;
-  --bad:#dc2626;
-  --warn:#d97706;
-  --ink:#172033;
-  --muted:#64748b;
-  --line:#e2e8f0;
-  --bg:#f4f7fb;
-  --card:#fff;
-  --shadow:0 14px 40px rgba(15,23,42,.10)
-}
+/* GOLDEN CUT refined Kurdish-only visual pass */
+:root{--bg:#08090b;--panel:#101216;--panel2:#15181d;--gold:#d8b56d;--gold2:#f4dda4;--text:#f7f5ef;--muted:#a7a7a2;--line:#ffffff12;--radius:20px;--shadow:0 24px 65px #0009}
+body{background:radial-gradient(ellipse at 82% 2%,#d8b56d10,transparent 34%),#08090b;letter-spacing:0} .container{width:min(1080px,calc(100% - 30px))}
+.section{padding:60px 0}.nav{height:70px}.brand-mark{border-radius:13px}.hero{min-height:520px;padding:44px 0 54px;gap:30px}.hero-art,.hero-art img{min-height:420px}.hero-art{border-radius:25px}.hero-copy h1{letter-spacing:-1px}.hero-copy p{max-width:500px}.trust-row{padding:14px 0}.cards{gap:14px}.service-card,.review-card,.booking-card,.admin-card,.contact-card{background:linear-gradient(150deg,#15171a,#0e1013);border-color:#ffffff14;border-radius:19px;padding:20px}.service-card:hover,.review-card:hover{transform:translateY(-3px);border-color:#d8b56d66}.service-card p{min-height:unset}.service-bottom{margin-top:14px;padding-top:13px}.gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.gallery-item{min-height:230px;border-radius:16px}.gallery-item img{min-height:230px}.booking-layout{grid-template-columns:.75fr 1.25fr;gap:26px}.booking-card{padding:24px}.form-grid{gap:12px}.field input,.field select,.field textarea{border-radius:11px;background:#090a0c;padding:11px 12px}.slot{border-radius:9px}.barber-grid{gap:12px}.barber-card{border-radius:16px;background:#111317;border-color:#ffffff14}.barber-card img{height:190px}.section-head{margin-bottom:22px}.section-head p{font-size:.93rem}.footer{padding:24px 0}.eyebrow{letter-spacing:1px;font-size:.72rem}.nav-actions .btn{min-height:42px;padding:9px 16px}.nav-links{gap:18px}.admin-stat{background:#111317;border-color:#ffffff14}.modal-box{background:#111317;border-color:#d8b56d44}
+/* Keep the page readable and uncluttered on phones */
+@media(max-width:850px){.section{padding:46px 0}.hero{min-height:auto;grid-template-columns:1fr;gap:24px;padding:38px 0}.hero-copy h1{font-size:clamp(2.55rem,11vw,4rem)}.hero-art,.hero-art img{min-height:320px}.hero-art{max-height:390px}.trust-row{justify-content:flex-start;gap:10px 18px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.booking-layout{grid-template-columns:1fr;gap:12px}.booking-intro{padding:0}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reviews{grid-template-columns:1fr}.barber-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-grid{grid-template-columns:1fr}.nav-actions .btn{font-size:.83rem;padding:8px 12px}}
+@media(max-width:520px){.container{width:calc(100% - 24px)}.nav{height:64px;gap:8px}.brand{gap:7px;font-size:.9rem}.brand-mark{width:37px;height:37px}.brand small{letter-spacing:1.5px!important}.nav-links{top:64px}.hero{padding:28px 0 34px}.hero-art,.hero-art img{min-height:275px}.hero-label{right:16px;left:16px;bottom:16px}.hero-label strong{font-size:1.05rem}.hero-stats{gap:18px;margin-top:24px}.stat strong{font-size:1.25rem}.trust-row{font-size:.78rem}.cards{grid-template-columns:1fr}.service-card{padding:18px}.gallery-grid{gap:9px}.gallery-item,.gallery-item img{min-height:190px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.slots{grid-template-columns:repeat(3,minmax(0,1fr))}.booking-card{padding:16px}.barber-grid{grid-template-columns:1fr 1fr}.barber-card{padding:12px}.barber-card img{height:155px}.section-head{display:block}.section-head>.btn{margin-top:12px}.footer-inner{justify-content:center;text-align:center}.admin-grid{grid-template-columns:1fr 1fr}.admin-stat{padding:13px}.admin-stat strong{font-size:1.4rem}}
 
-body{
-  font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
-  background:linear-gradient(135deg,#eef4ff,#f8f5ff);
-  color:var(--ink);
-  min-height:100vh
-}
 
-button,input,select{font:inherit}
-button{cursor:pointer;border:0}
+/* GOLDEN CUT signature interactions */
+:root{--gold:#d8b56d;--gold2:#f5dfa6}
+html{scroll-behavior:smooth}body{overflow-x:hidden}.hero-copy,.hero-art,.service-card,.gallery-item,.booking-card,.contact-card,.review-card,.barber-card{animation:gcRise .65s both;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+@keyframes gcRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes gcGlow{0%,100%{box-shadow:0 0 0 0 #d8b56d00}50%{box-shadow:0 0 0 5px #d8b56d12}}
+.live-card{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:linear-gradient(120deg,#171713,#0d0d0b);border:1px solid #d8b56d44;border-radius:22px;padding:22px 25px;position:relative;overflow:hidden}
+.live-card:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(transparent,var(--gold),transparent)}
+.live-pulse{display:inline-flex;align-items:center;gap:8px;color:#b9e9c9;font-size:.82rem;font-weight:800}.live-pulse i{width:8px;height:8px;border-radius:50%;background:#6ed39b;box-shadow:0 0 0 5px #6ed39b18;animation:gcGlow 2s infinite}
+.live-number{font:800 clamp(1.7rem,4vw,2.4rem) Manrope,Cairo,sans-serif;color:var(--gold2);line-height:1.2}.live-meta{color:var(--muted);font-size:.88rem}.live-next{border:1px solid #d8b56d3d;border-radius:15px;padding:12px 18px;text-align:center;min-width:118px;background:#d8b56d0a}.style-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.style-option{position:relative;display:block;cursor:pointer}.style-option input{position:absolute;opacity:0;pointer-events:none}.style-tile{height:100%;min-height:110px;border:1px solid var(--line);border-radius:15px;overflow:hidden;background:#0d0d0b;transition:.22s;display:flex;flex-direction:column}.style-tile img{width:100%;height:82px;object-fit:cover;filter:brightness(.8);transition:.25s}.style-tile span{padding:8px 10px;font-size:.84rem;font-weight:800}.style-option input:checked+.style-tile{border-color:var(--gold);box-shadow:0 0 0 2px #d8b56d20,0 10px 28px #d8b56d0d;transform:translateY(-2px)}.style-option input:checked+.style-tile img,.style-option:hover .style-tile img{filter:brightness(1);transform:scale(1.025)}.style-option input:focus-visible+.style-tile{outline:2px solid var(--gold);outline-offset:3px}
+.announcement-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.announcement-card{position:relative;background:linear-gradient(145deg,#19170f,#10100e);border:1px solid #d8b56d35;border-radius:18px;padding:20px;overflow:hidden;transition:transform .22s,border-color .22s}.announcement-card:hover{transform:translateY(-3px);border-color:#d8b56d88}.announcement-card:before{content:"✦";position:absolute;left:15px;top:5px;color:#d8b56d35;font-size:2.3rem}.announcement-card h3{margin:0 0 8px;color:var(--gold2);font-size:1.05rem}.announcement-card p{margin:0;color:#d5cfc2;font-size:.9rem;white-space:pre-wrap}.announcement-card time{display:block;color:var(--muted);font-size:.76rem;margin-top:13px}.empty-state{border:1px dashed #d8b56d3b;border-radius:16px;padding:22px;color:var(--muted);text-align:center;grid-column:1/-1}.admin-announcement-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.admin-announcement-row:last-child{border-bottom:0}.admin-announcement-row small{color:var(--muted)}.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}.reveal.is-visible{opacity:1;transform:none}
+@media(max-width:700px){.style-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.announcement-list{grid-template-columns:1fr}.live-card{padding:18px;grid-template-columns:1fr auto}.live-next{min-width:96px;padding:10px}.live-number{font-size:1.8rem}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
-.app{
-  max-width:1180px;
-  margin:auto;
-  padding:18px
-}
-
-header{
-  position:sticky;
-  top:10px;
-  z-index:20;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:14px 16px;
-  border:1px solid #ffffffaa;
-  border-radius:22px;
-  background:#ffffffdc;
-  backdrop-filter:blur(18px);
-  box-shadow:var(--shadow);
-  margin-bottom:18px
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:900;
-  font-size:18px
-}
-
-.brand span{font-size:28px}
-
-.langs{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap
-}
-
-.lang{
-  background:#eef2ff;
-  color:#334155;
-  padding:8px 11px;
-  border-radius:12px;
-  font-size:13px
-}
-
-.lang.active{
-  background:linear-gradient(120deg,var(--p),var(--p2));
-  color:#fff
-}
-
-.hero{
-  padding:30px 20px;
-  text-align:center;
-  border-radius:28px;
-  background:linear-gradient(135deg,#2563eb,#4f46e5 55%,#7c3aed);
-  color:#fff;
-  box-shadow:0 24px 70px rgba(37,99,235,.22);
-  margin-bottom:18px
-}
-
-.hero .avatar{
-  width:82px;
-  height:82px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  margin:0 auto 12px;
-  background:#ffffff22;
-  border:2px solid #ffffff66;
-  font-size:38px
-}
-
-.hero h1{
-  font-size:clamp(25px,5vw,40px);
-  margin-bottom:8px
-}
-
-.hero p{opacity:.9}
-
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:18px
-}
-
-.tab{
-  padding:14px;
-  border-radius:16px;
-  background:#fff;
-  color:#334155;
-  font-weight:800;
-  box-shadow:0 8px 25px #0f172a0d
-}
-
-.tab.active{
-  background:linear-gradient(120deg,var(--p),var(--p2));
-  color:#fff;
-  box-shadow:0 12px 30px rgba(37,99,235,.24)
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:20px;
-  box-shadow:var(--shadow);
-  margin-bottom:18px
-}
-
-.card h2{
-  font-size:20px;
-  margin-bottom:15px
-}
-
-.grid{
-  display:grid;
-  gap:12px
-}
-
-.days{grid-template-columns:repeat(6,1fr)}
-.times{grid-template-columns:repeat(5,1fr)}
-
-.option{
-  padding:12px 8px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:#fff;
-  color:#334155;
-  font-weight:750;
-  min-height:48px;
-  transition:.2s
-}
-
-.option:hover{
-  transform:translateY(-1px);
-  border-color:#93c5fd
-}
-
-.option.selected{
-  background:linear-gradient(120deg,var(--p),var(--p2));
-  color:#fff;
-  border-color:transparent
-}
-
-.option.disabled{
-  opacity:.42;
-  cursor:not-allowed;
-  text-decoration:line-through;
-  background:#f1f5f9
-}
-
-label{
-  display:block;
-  font-weight:800;
-  margin:0 0 7px
-}
-
-input,select{
-  width:100%;
-  padding:13px 14px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  outline:none;
-  background:#fff;
-  color:var(--ink);
-  margin-bottom:14px
-}
-
-input:focus,select:focus{
-  border-color:var(--p);
-  box-shadow:0 0 0 4px #2563eb18
-}
-
-.btn{
-  width:100%;
-  padding:14px 18px;
-  border-radius:15px;
-  font-weight:900
-}
-
-.primary{
-  background:linear-gradient(120deg,var(--p),var(--p2));
-  color:#fff
-}
-
-.secondary{
-  background:#eef2ff;
-  color:#334155
-}
-
-.danger{
-  background:#fee2e2;
-  color:#991b1b
-}
-
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px
-}
-
-.notice{
-  padding:13px 15px;
-  border-radius:14px;
-  margin-bottom:14px;
-  font-weight:700
-}
-
-.success{background:#dcfce7;color:#166534}
-.error{background:#fee2e2;color:#991b1b}
-.info{background:#e0f2fe;color:#075985}
-
-.booking{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:14px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:#fff;
-  margin-bottom:9px
-}
-
-.booking strong{
-  display:block;
-  margin-bottom:4px
-}
-
-.muted{
-  color:var(--muted);
-  font-size:13px
-}
-
-.admin-login{
-  max-width:480px;
-  margin:auto
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-bottom:16px
-}
-
-.stat{
-  padding:17px;
-  border-radius:18px;
-  background:#f8fafc;
-  border:1px solid var(--line);
-  text-align:center
-}
-
-.stat b{
-  display:block;
-  font-size:27px;
-  color:var(--p);
-  margin-top:4px
-}
-
-.table-wrap{overflow:auto}
-
-.table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:700px
-}
-
-.table th,.table td{
-  padding:11px;
-  border-bottom:1px solid var(--line);
-  text-align:right
-}
-
-.table th{background:#f8fafc}
-
-.hidden{display:none!important}
-
-.small{font-size:12px}
-
-.topline{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-  margin-bottom:12px
-}
-
-.loading{
-  padding:18px;
-  text-align:center;
-  color:var(--muted)
-}
-
-footer{
-  text-align:center;
-  color:var(--muted);
-  padding:18px
-}
-
-@media(max-width:800px){
-  .days{grid-template-columns:repeat(3,1fr)}
-  .times{grid-template-columns:repeat(3,1fr)}
-}
-
-@media(max-width:560px){
-  .app{padding:10px}
-
-  .row,.stats{
-    grid-template-columns:1fr
-  }
-
-  .times{
-    grid-template-columns:repeat(2,1fr)
-  }
-
-  header{
-    position:static;
-    border-radius:18px
-  }
-
-  .hero{
-    padding:24px 15px
-  }
-
-  .card{
-    padding:15px
-  }
-
-  .booking{
-    align-items:flex-start;
-    flex-direction:column
-  }
-
-  .booking .btn{
-    width:auto;
-    padding:9px 13px
-  }
-
-  .langs .lang{
-    padding:7px 8px
-  }
-}
 </style>
 </head>
-
 <body>
-
-<div class="app">
-
-<header>
-  <div class="brand">
-    <span>📅</span>
-    <div data-i18n="title">سیستەمی نۆرە و حجز</div>
-  </div>
-
-  <div class="langs">
-    <button class="lang active" onclick="changeLanguage('ku')">کوردی</button>
-    <button class="lang" onclick="changeLanguage('ar')">العربية</button>
-    <button class="lang" onclick="changeLanguage('en')">English</button>
+<header class="header">
+  <div class="container nav">
+    <a class="brand" href="#home"><span class="brand-mark">✦</span><span>GOLDEN <span class="gold">CUT</span><small style="display:block;color:var(--muted);font-size:.62rem;letter-spacing:3px;font-weight:600">ناوەندی حەلاقی</small></span></a>
+    <nav class="nav-links" id="navLinks"><a href="#home" data-i18n="navHome">سەرەتا</a><a href="#services" data-i18n="navServices">خزمەتگوزاری</a><a href="#gallery" data-i18n="navGallery">گەلەری</a><a href="#announcements">ڕاگەیاندن</a><a href="#booking" data-i18n="navBooking">حجزکردن</a><a href="#contact" data-i18n="navContact">پەیوەندی</a></nav>
+    <div class="nav-actions"><input type="hidden" id="languageSelect" value="ku" aria-hidden="true"><a class="btn btn-gold" href="#booking" data-i18n="bookNow">حجزکردنی کات</a><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button></div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="avatar">📅</div>
-  <h1 data-i18n="heroTitle">نۆرە و حجز</h1>
-  <p data-i18n="heroText">کاتەکەت هەڵبژێرە و نۆرەکەت تۆمار بکە</p>
+<main id="publicSite">
+<section class="container hero" id="home">
+  <div class="hero-copy"><div class="eyebrow">✦ ئەزموونی تایبەتی حەلاقی</div><h1 data-i18n="heroTitle">شێوازی خۆت،<br><span class="gold">ئاستێکی تر</span></h1><p data-i18n="heroText">ئەزموونێکی تایبەت لە قژبڕین و ڕێکخستنی ڕیش. وردەکاری، پاکوخاوێنی و ستایلی تایبەت لە هەر دانیشتنێکدا.</p><div class="hero-buttons"><a class="btn btn-gold" href="#booking" data-i18n="bookAppointment">✦ حجزکردنی کات</a><a class="btn btn-ghost" href="#services" data-i18n="viewServices">بینینی خزمەتگوزاری</a></div><div class="hero-stats"><div class="stat"><strong>5★</strong><span data-i18n="statQuality">کوالێتی پڕۆفیشناڵ</span></div><div class="stat"><strong>100%</strong><span data-i18n="statCare">گرنگیدان بە وردەکاری</span></div><div class="stat"><strong>✦</strong><span data-i18n="statStyle">ستایلی تایبەت بە تۆ</span></div></div></div>
+  <div class="hero-art"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1100&q=85" alt="ناوەندی حەلاقی GOLDEN CUT" fetchpriority="high"><div class="hero-label"><div><strong>بە وردەکاری دروستکراوە</strong><br><span>ستایلی تۆ، هونەری ئێمە</span></div><span>دامەزراوە ٢٠٢٦</span></div></div>
+</section>
+<div class="container trust-row"><span><i class="dot"></i><span data-i18n="trust1">کاتی حجزکراو و ڕێکخراو</span></span><span><i class="dot"></i><span data-i18n="trust2">ئامرازە پاک و پڕۆفیشناڵەکان</span></span><span><i class="dot"></i><span data-i18n="trust3">ئەزموونی تایبەت بە کڕیار</span></span><span><i class="dot"></i><span data-i18n="trust4">نرخە ڕوونەکان</span></span></div>
+
+<section class="section container" id="services">
+  <div class="section-head"><div><div class="eyebrow">خزمەتگوزارییەکانمان</div><h2 data-i18n="servicesTitle">خزمەتگوزاری <span class="gold">ئێمە</span></h2><p data-i18n="servicesText">خزمەتگوزاری پڕۆفیشناڵ، نرخێکی ڕوون و کاتێک کە بۆ تۆ ڕێکخراوە.</p></div><a class="btn btn-ghost" href="#booking" data-i18n="bookNow">حجزی کات ↗</a></div>
+  <div class="cards" id="serviceCards">
+    <article class="service-card"><div class="service-icon">✂</div><h3>قژبڕینی کلاسیکی</h3><p>قژبڕینی کلاسیکی بە وردەکاری و شێوەی گونجاو بە ڕووخسارت.</p><div class="service-bottom"><div><div class="price">١٠,٠٠٠ دینار</div><div class="duration">٣٠ خولەک</div></div><button class="btn btn-gold btn-small choose-service" data-service="Classic Haircut">حجز بکە</button></div></article>
+    <article class="service-card"><div class="service-icon">◈</div><h3>فەیدی مۆدێرن</h3><p>Fade ـێکی پاک و ورد بۆ شێوازێکی مۆدێرن و خاوێن.</p><div class="service-bottom"><div><div class="price">١٢,٠٠٠ دینار</div><div class="duration">٤٠ خولەک</div></div><button class="btn btn-gold btn-small choose-service" data-service="Skin Fade">حجز بکە</button></div></article>
+    <article class="service-card"><div class="service-icon">♜</div><h3>ڕێکخستنی ڕیش</h3><p>ڕێکخستن و شێوەدان بە ڕیش بە پێی ستایلی دڵخوازت.</p><div class="service-bottom"><div><div class="price">٦,٠٠٠ دینار</div><div class="duration">٢٠ خولەک</div></div><button class="btn btn-gold btn-small choose-service" data-service="Beard Trim">حجز بکە</button></div></article>
+    <article class="service-card"><div class="service-icon">✦</div><h3>شێوازدانی قژ</h3><p>شێوازدان و تەواوکردنی قژ بۆ ڕۆژێکی تایبەت یان بەکارهێنانی ڕۆژانە.</p><div class="service-bottom"><div><div class="price">٨,٠٠٠ دینار</div><div class="duration">٢٥ خولەک</div></div><button class="btn btn-gold btn-small choose-service" data-service="Hair Styling">حجز بکە</button></div></article>
+    <article class="service-card"><div class="service-icon">♛</div><h3>قژ و ڕیش پێکەوە</h3><p>قژبڕین و ڕێکخستنی ڕیش لە یەک دانیشتنی تەواودا.</p><div class="service-bottom"><div><div class="price">١٥,٠٠٠ دینار</div><div class="duration">٥٠ خولەک</div></div><button class="btn btn-gold btn-small choose-service" data-service="Hair + Beard Combo">حجز بکە</button></div></article>
+    <article class="service-card"><div class="service-icon">◆</div><h3>پاکێجی تایبەت</h3><p>ئەزموونی تەواو: قژ، ڕیش و تەواوکردنی ستایل بە گرنگیدانی زیاتر.</p><div class="service-bottom"><div><div class="price">٢٠,٠٠٠ دینار</div><div class="duration">٦٠ خولەک</div></div><button class="btn btn-gold btn-small choose-service" data-service="Premium Package">حجز بکە</button></div></article>
+  </div>
+  <p class="small-note" data-i18n="priceNote">تێبینی: ئەم نرخانە نموونەن؛ دەتوانیت لە کۆدەکەدا بگۆڕیت.</p>
 </section>
 
-<div class="tabs">
-  <button id="memberTab" class="tab active" onclick="showPanel('member')">
-    👤 <span data-i18n="member">بەشداربوو</span>
-  </button>
+<section class="section" id="gallery" style="background:linear-gradient(180deg,transparent,#d8b56d06,transparent)">
+<div class="container"><div class="section-head"><div><div class="eyebrow">هونەری قژبڕین</div><h2 data-i18n="galleryTitle">گەلەری <span class="gold">ستایل</span></h2><p data-i18n="galleryText">هەندێک لە ستایل و وردەکارییەکانی جیهانی حەلاقی.</p></div></div>
+<div class="gallery-grid">
+<a class="gallery-item" href="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1000&q=85" target="_blank" rel="noopener"><img loading="lazy" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=80" alt="قژبڕینی فەیدی مۆدێرن"><span>فەیدی مۆدێرن</span></a>
+<a class="gallery-item" href="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1000&q=85" target="_blank" rel="noopener"><img loading="lazy" src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=80" alt="شێوازدانی قژ"><span>شێوازدانی ورد</span></a>
+<a class="gallery-item" href="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1000&q=85" target="_blank" rel="noopener"><img loading="lazy" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80" alt="ناوەندی حەلاقی"><span>ناوەندی حەلاقی</span></a>
+<a class="gallery-item" href="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1000&q=85" target="_blank" rel="noopener"><img loading="lazy" src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=80" alt="وردەکاری قژبڕین"><span>وردەکاریی پاک</span></a>
+<a class="gallery-item" href="https://images.unsplash.com/photo-1593702295094-aea6c6b7e9c8?auto=format&fit=crop&w=1000&q=85" target="_blank" rel="noopener"><img loading="lazy" src="https://images.unsplash.com/photo-1593702295094-aea6c6b7e9c8?auto=format&fit=crop&w=800&q=80" alt="کورسی حەلاقی کلاسیکی"><span>ئەزموونی کلاسیکی</span></a>
+<a class="gallery-item" href="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1000&q=85" target="_blank" rel="noopener"><img loading="lazy" src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=800&q=80" alt="ئامرازەکانی حەلاقی"><span>ئامراز و هونەر</span></a>
+</div></div></section>
 
-  <button id="adminTab" class="tab" onclick="showPanel('admin')">
-    🔐 <span data-i18n="admin">بەڕێوەبەر</span>
-  </button>
+<section class="section container" id="barbers"><div class="section-head"><div><div class="eyebrow">تیمەکەمان بناسە</div><h2 data-i18n="barbersTitle">حەلاقەکانی <span class="gold">GOLDEN CUT</span></h2><p data-i18n="barbersText">حەلاقەکەت هەڵبژێرە و کاتەکەت پێشتر حجز بکە.</p></div></div><div class="barber-grid" id="barberProfiles"><article class="barber-card"><img loading="lazy" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80" alt="Barber profile"><h3>حەلاق 1</h3><p>قژبڕینی مۆدێرن و فەیدی مۆدێرن</p></article><article class="barber-card"><img loading="lazy" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=700&q=80" alt="Barber profile"><h3>حەلاق 2</h3><p>قژ و ڕیش و ستایل</p></article><article class="barber-card"><img loading="lazy" src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=80" alt="Barber profile"><h3>هەر حەلاقێکی بەردەست</h3><p>بەردەستترین حەلاق بۆ کاتەکەت</p></article></div></section>
+
+<section class="section container" id="announcements"><div class="section-head"><div><div class="eyebrow">زانیاری نوێ</div><h2>ڕاگەیاندنەکانی <span class="gold">GOLDEN CUT</span></h2><p>نوێترین هەواڵ، گۆڕانی کات و ئاگادارییەکانی دوکان لێرە ببینە.</p></div><span class="live-pulse"><i></i> نوێ دەبێتەوە</span></div><div class="announcement-list" id="announcementList"><div class="empty-state">ڕاگەیاندنەکان لێرە دەردەکەون.</div></div></section>
+
+<section class="section container" id="liveQueue"><div class="section-head"><div><div class="eyebrow">دۆخی زیندوو</div><h2>نۆرەی <span class="gold">ئەمڕۆ</span></h2><p>ژمارەی حجزە چالاکەکانی ئەمڕۆ و نزیکترین کاتی حجز ببینە. زانیاری تایبەتی کڕیاران نیشان نادرێت.</p></div><button class="btn btn-ghost btn-small" id="refreshQueue">↻ نوێکردنەوە</button></div><div class="live-card"><div><div class="live-pulse"><i></i><span id="queueStatus">پەیوەندی بە داتابەیسەوە چاوەڕوانە</span></div><div class="live-number" id="queueCount">—</div><div class="live-meta">حجزێکی چالاک بۆ ئەمڕۆ</div></div><div class="live-next"><div class="small-note">نزیکترین کات</div><strong class="gold" id="queueNextTime">—</strong></div></div><p class="small-note" id="queueUpdated" style="margin-top:10px">زانیاری بە شێوەی خۆکار نوێ دەبێتەوە.</p></section>
+
+<section class="section container" id="booking">
+<div class="booking-layout"><div class="booking-intro"><div class="eyebrow">کاتی خۆت حجز بکە</div><h2 data-i18n="bookingTitle">کاتێک بۆ <span class="gold">خۆت</span> حجز بکە</h2><p data-i18n="bookingText">خزمەتگوزاری و کاتی بەردەست هەڵبژێرە. کاتە بەردەستەکان لە داتابەیسەوە نوێ دەبنەوە کاتێک Supabase ڕێکخرابێت.</p><div class="info-line"><span class="info-icon">◷</span><span data-i18n="bookingInfo1">کاتی حجزکراو بۆ تۆ دەپارێزرێت</span></div><div class="info-line"><span class="info-icon">✦</span><span data-i18n="bookingInfo2">پشتڕاستکردنەوەی حجز لە دوای ناردن</span></div><div class="info-line"><span class="info-icon">✓</span><span data-i18n="bookingInfo3">نرخ و ماوەی خزمەتگوزاری ڕوونە</span></div><p class="small-note" id="connectionStatus">دۆخی داتابەیس: تاقی نەکراوەتەوە</p></div>
+<form class="booking-card" id="bookingForm">
+<div class="form-grid">
+<div class="field full"><label for="customerName" data-i18n="nameLabel">ناوی تەواو</label><input id="customerName" name="name" autocomplete="name" required maxlength="100" placeholder="ناوت بنووسە"></div>
+<div class="field"><label for="customerPhone" data-i18n="phoneLabel">ژمارەی مۆبایل</label><input id="customerPhone" name="phone" autocomplete="tel" required maxlength="25" placeholder="07xxxxxxxxx"></div>
+<div class="field"><label for="serviceSelect" data-i18n="serviceLabel">خزمەتگوزاری</label><select id="serviceSelect" name="service" required><option value="">خزمەتگوزاری هەڵبژێرە</option><option value="Classic Haircut">قژبڕینی کلاسیکی</option><option value="Skin Fade">فەیدی مۆدێرن</option><option value="Beard Trim">ڕێکخستنی ڕیش</option><option value="Hair Styling">شێوازدانی قژ</option><option value="Hair + Beard Combo">قژ و ڕیش پێکەوە</option><option value="Premium Package">پاکێجی تایبەت</option></select></div>
+<div class="field"><label for="bookingDate" data-i18n="dateLabel">ڕۆژ</label><input type="date" id="bookingDate" name="date" required></div>
+<div class="field"><label for="barberSelect" data-i18n="barberLabel">حەلاق</label><select id="barberSelect" name="barber"><option value="Any available">هەر حەلاقێکی بەردەست</option><option value="Barber 1">حەلاق ١</option><option value="Barber 2">حەلاق ٢</option></select></div>
+
+<div class="field full"><label>ستایلی قژی دڵخوازت هەڵبژێرە</label><div class="style-grid" id="stylePicker">
+<label class="style-option"><input type="radio" name="haircutStyle" value="Modern Fade" checked><span class="style-tile"><img loading="lazy" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=420&q=75" alt="فەیدی مۆدێرن"><span>فەیدی مۆدێرن</span></span></label>
+<label class="style-option"><input type="radio" name="haircutStyle" value="Classic Cut"><span class="style-tile"><img loading="lazy" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=420&q=75" alt="قژبڕینی کلاسیکی"><span>قژبڕینی کلاسیکی</span></span></label>
+<label class="style-option"><input type="radio" name="haircutStyle" value="Textured Crop"><span class="style-tile"><img loading="lazy" src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=420&q=75" alt="تێکستەرد کراپ"><span>تێکستەرد کراپ</span></span></label>
+<label class="style-option"><input type="radio" name="haircutStyle" value="Beard Style"><span class="style-tile"><img loading="lazy" src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=420&q=75" alt="ستایلی ڕیش"><span>ستایلی ڕیش</span></span></label>
+</div><p class="small-note">وێنەکان نموونەن؛ دەتوانیت ستایلی دڵخوازت دیاری بکەیت بۆ ئەوەی حەلاق پێشتر بیزانێت.</p></div>
+<div class="field full"><label data-i18n="timeLabel">کاتی بەردەست</label><div class="slots" id="timeSlots"><button class="slot" type="button" data-time="15:00">15:00</button><button class="slot" type="button" data-time="15:30">15:30</button><button class="slot" type="button" data-time="16:00">16:00</button><button class="slot" type="button" data-time="16:30">16:30</button><button class="slot" type="button" data-time="17:00">17:00</button><button class="slot" type="button" data-time="17:30">17:30</button><button class="slot" type="button" data-time="18:00">18:00</button><button class="slot" type="button" data-time="18:30">18:30</button><button class="slot" type="button" data-time="19:00">19:00</button><button class="slot" type="button" data-time="19:30">19:30</button><button class="slot" type="button" data-time="20:00">20:00</button><button class="slot" type="button" data-time="20:30">20:30</button><button class="slot" type="button" data-time="21:00">21:00</button><button class="slot" type="button" data-time="21:30">21:30</button><button class="slot" type="button" data-time="22:00">22:00</button><button class="slot" type="button" data-time="22:30">22:30</button></div><input type="hidden" id="selectedTime" name="time" required></div>
+<div class="field full"><label for="customerNotes" data-i18n="notesLabel">تێبینی (ئارەزوومەندانە)</label><textarea id="customerNotes" name="notes" maxlength="500" placeholder="ئەگەر تێبینییەکت هەیە..."></textarea></div>
+<div class="field full"><button class="btn btn-gold" id="submitBooking" type="submit" style="width:100%" data-i18n="submitBooking">پشتڕاستکردنەوە و ناردنی حجز ↗</button><div class="small-note" data-i18n="bookingDisclaimer">حجز دوای پەسەندکردنی بەڕێوەبەر پشتڕاست دەکرێتەوە.</div><div class="form-message" id="bookingMessage" role="status"></div></div>
+</div></form></div></section>
+
+<section class="section container" id="reviews"><div class="section-head"><div><div class="eyebrow">ڕای کڕیاران</div><h2 data-i18n="reviewsTitle">ئەزموونی <span class="gold">کڕیاران</span></h2><p data-i18n="reviewsText">جوانی لە وردەکارییەکاندا دەردەکەوێت.</p></div></div><div class="reviews"><article class="review-card"><div class="stars">★★★★★</div><p>«خزمەتگوزاری زۆر پاک و پڕۆفیشناڵ بوو، ستایلی قژەکەم زۆر بە دڵم بوو.»</p><div class="reviewer"><div class="avatar">A</div><div><strong>Aram</strong><small>کڕیار</small></div></div></article><article class="review-card"><div class="stars">★★★★★</div><p>«حجزکردن ئاسان بوو و لە کاتی دیاریکراودا وەرگیرام. شوێنەکەش زۆر جوانە.»</p><div class="reviewer"><div class="avatar">D</div><div><strong>Dilan</strong><small>کڕیار</small></div></div></article><article class="review-card"><div class="stars">★★★★★</div><p>«وردەکاری و پاکوخاوێنی بەرزە. بۆ قژبڕینی مۆدێرن پێشنیاری دەکەم.»</p><div class="reviewer"><div class="avatar">K</div><div><strong>Kawa</strong><small>کڕیار</small></div></div></article></div><p class="small-note">تێبینی: ئەم هەڵسەنگاندنانە نموونەن؛ پێش بڵاوکردنەوە بە هەڵسەنگاندنی ڕاستەقینە بگۆڕدرێن.</p></section>
+
+<section class="section container" id="contact"><div class="section-head"><div><div class="eyebrow">شوێن و پەیوەندی</div><h2 data-i18n="contactTitle">سەردانمان <span class="gold">بکە</span></h2><p data-i18n="contactText">بۆ دانانی کات یان زانیاری زیاتر پەیوەندیمان پێوە بکە.</p></div></div><div class="contact-grid"><div class="contact-card"><h3 data-i18n="hoursTitle">کاتەکانی کارکردن</h3><div class="hours-row"><span>شەممە – پێنجشەممە</span><strong>15:00 – 23:00</strong></div><div class="hours-row"><span>هەینی</span><strong data-i18n="closed">داخراو</strong></div><p class="small-note">کاتەکان نموونەن؛ دەتوانیت بەپێی کاتی کارکردنت بیانگۆڕیت.</p></div><div class="contact-card"><h3 data-i18n="contactUs">پەیوەندیمان پێوە بکە</h3><div class="info-line"><span class="info-icon">⌖</span><span data-i18n="addressPlaceholder">ناونیشانی دوکانەکەت لێرە بنووسە</span></div><div class="info-line"><span class="info-icon">☎</span><span>07XX XXX XXXX</span></div><div class="info-line"><span class="info-icon">◎</span><span>@goldencut.barber</span></div><a class="btn btn-ghost" href="#booking" data-i18n="bookNow">حجزی کات ↗</a></div></div></section>
+</main>
+
+<section class="admin-wrap container" id="adminPanel">
+<div class="section-head"><div><div class="eyebrow">بەشی تایبەتی</div><h2>داشبۆردی <span class="gold">بەڕێوەبەر</span></h2><p>بەڕێوەبردنی حجزەکان و دۆخیان.</p></div><button class="btn btn-ghost" id="adminLogout">چوونەدەرەوە</button></div>
+<div class="admin-grid"><div class="admin-stat"><span>هەموو حجزەکان</span><strong id="statTotal">—</strong></div><div class="admin-stat"><span>چاوەڕوانی</span><strong id="statPending">—</strong></div><div class="admin-stat"><span>پەسەندکراو</span><strong id="statConfirmed">—</strong></div><div class="admin-stat"><span>داهاتی حجزە پەسەندکراوەکان</span><strong id="statRevenue">—</strong></div></div>
+<div class="admin-card"><div class="admin-tools"><input id="adminSearch" placeholder="گەڕان بە ناو یان ژمارە"><input id="adminDateFilter" type="date"><select id="adminStatusFilter"><option value="">هەموو دۆخەکان</option><option value="pending">چاوەڕوان</option><option value="confirmed">پەسەندکراو</option><option value="cancelled">هەڵوەشاوە</option><option value="completed">تەواوبوو</option></select><button class="btn btn-ghost btn-small" id="refreshBookings">نوێکردنەوە</button></div><div class="table-wrap"><table><thead><tr><th>کڕیار</th><th>مۆبایل</th><th>خزمەتگوزاری</th><th>ستایلی قژ</th><th>ڕۆژ</th><th>کات</th><th>نرخ</th><th>دۆخ</th><th>کردار</th></tr></thead><tbody id="bookingRows"><tr><td colspan="8">تکایە بچۆرە ژوورەوە.</td></tr></tbody></table></div><p class="small-note">داهات تەنها لەسەر حجزە پەسەندکراوەکان هەژمار دەکرێت. هەموو گۆڕانکارییەکان لە Supabase تۆمار دەکرێن.</p></div>
+<div class="cards" style="margin-top:18px;grid-template-columns:repeat(2,minmax(0,1fr))">
+  <form class="admin-card" id="barberAdminForm"><h3>➕ زیادکردنی حەلاق</h3><div class="field"><label for="newBarberName">ناوی حەلاق</label><input id="newBarberName" required maxlength="80" placeholder="ناوی حەلاق"></div><div class="field" style="margin-top:10px"><label for="newBarberSpecialty">پسپۆڕی</label><input id="newBarberSpecialty" maxlength="120" placeholder="فەیدی مۆدێرن, Beard... "></div><div class="field" style="margin-top:10px"><label for="newBarberPhoto">لینکی وێنە</label><input id="newBarberPhoto" type="url" placeholder="https://..."></div><button class="btn btn-gold btn-small" style="margin-top:12px" type="submit">زیادکردنی حەلاق</button></form>
+  <form class="admin-card" id="galleryAdminForm"><h3>➕ زیادکردنی وێنەی گەلەری</h3><div class="field"><label for="newGalleryTitle">ناونیشانی وێنە</label><input id="newGalleryTitle" required maxlength="100" placeholder="فەیدی مۆدێرن"></div><div class="field" style="margin-top:10px"><label for="newGalleryUrl">لینکی وێنە</label><input id="newGalleryUrl" type="url" required placeholder="https://..."></div><button class="btn btn-gold btn-small" style="margin-top:12px" type="submit">زیادکردنی وێنە</button><p class="small-note">لینکی وێنە دەبێت گشتی بێت، یان وێنەکە لە Supabase Storage بڵاوکرابێتەوە.</p></form>
+  <form class="admin-card" id="announcementAdminForm"><h3>✦ بڵاوکردنەوەی ڕاگەیاندنی نوێ</h3><div class="field"><label for="newAnnouncementTitle">ناونیشان</label><input id="newAnnouncementTitle" required maxlength="120" placeholder="بۆ نموونە: گۆڕانی کاتەکانی کار"></div><div class="field" style="margin-top:10px"><label for="newAnnouncementBody">دەقی ڕاگەیاندن</label><textarea id="newAnnouncementBody" required maxlength="1200" placeholder="زانیارییەکەت لێرە بنووسە"></textarea></div><div class="field" style="margin-top:10px"><label for="announcementExpiry">بەرواری کۆتایی (ئارەزوومەندانە)</label><input id="announcementExpiry" type="date"></div><button class="btn btn-gold btn-small" style="margin-top:12px" type="submit">بڵاوکردنەوە</button><div id="announcementAdminMessage" class="form-message" role="status"></div><div id="adminAnnouncementList" style="margin-top:14px"></div></form>
 </div>
-
-<section id="memberPanel">
-
-  <div id="memberNotice"></div>
-
-  <div class="card">
-
-    <h2 data-i18n="bookTitle">حجزی نۆرە</h2>
-
-    <div class="row">
-
-      <div>
-        <label data-i18n="nameLabel">ناوی تەواو</label>
-        <input
-          id="name"
-          maxlength="100"
-          autocomplete="name"
-          placeholder="ناوی تەواوت بنووسە">
-      </div>
-
-      <div>
-        <label data-i18n="phoneLabel">ژمارەی مۆبایل</label>
-        <input
-          id="phone"
-          inputmode="tel"
-          maxlength="20"
-          autocomplete="tel"
-          placeholder="07xxxxxxxxx">
-      </div>
-
-    </div>
-
-    <label data-i18n="dayLabel">ڕۆژ هەڵبژێرە</label>
-    <div id="days" class="grid days"></div>
-
-    <br>
-
-    <label data-i18n="timeLabel">کات هەڵبژێرە</label>
-    <div id="times" class="grid times"></div>
-
-    <br>
-
-    <button
-      id="bookButton"
-      class="btn primary"
-      onclick="book()"
-      data-i18n="bookBtn">
-      تۆمارکردنی نۆرە
-    </button>
-
-  </div>
-
-  <div class="card">
-
-    <div class="topline">
-      <h2 data-i18n="todayTitle">نۆرەکانی ڕۆژەکە</h2>
-      <span id="publicCount" class="muted"></span>
-    </div>
-
-    <div id="publicBookings"></div>
-
-  </div>
-
 </section>
 
-<section id="adminPanel" class="hidden">
+<footer class="footer"><div class="container footer-inner"><a class="brand" href="#home"><span class="brand-mark">✦</span><span>GOLDEN <span class="gold">CUT</span></span></a><span>© 2026 ناوەندی حەلاقی GOLDEN CUT. <span data-i18n="rights">هەموو مافەکان پارێزراون.</span></span><a href="#home" class="gold">گەڕانەوە بۆ سەرەوە ↑</a><button class="btn btn-ghost btn-small" id="openAdmin">🔐 بەڕێوەبەر</button></div></footer>
 
-  <div id="adminLogin" class="card admin-login">
-
-    <h2 data-i18n="adminLogin">چوونەژوورەوەی بەڕێوەبەر</h2>
-
-    <label data-i18n="password">وشەی نهێنی</label>
-
-    <input
-      id="adminPassword"
-      type="password"
-      placeholder="••••••••">
-
-    <button
-      class="btn primary"
-      onclick="adminLogin()"
-      data-i18n="login">
-      چوونەژوورەوە
-    </button>
-
-    <p
-      class="muted small"
-      style="margin-top:10px"
-      data-i18n="defaultPass">
-      وشەی نهێنی سەرەتایی: 123456
-    </p>
-
-  </div>
-
-  <div id="adminDashboard" class="hidden">
-
-    <div id="adminNotice"></div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <span data-i18n="total">هەموو نۆرەکان</span>
-        <b id="statTotal">0</b>
-      </div>
-
-      <div class="stat">
-        <span data-i18n="taken">کاتە گیراوەکان</span>
-        <b id="statTaken">0</b>
-      </div>
-
-      <div class="stat">
-        <span data-i18n="today">نۆرەکانی ئەمڕۆ</span>
-        <b id="statToday">0</b>
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <div class="topline">
-        <h2 data-i18n="manage">بەڕێوەبردنی نۆرەکان</h2>
-
-        <button
-          class="btn danger"
-          style="width:auto"
-          onclick="clearAll()"
-          data-i18n="clearAll">
-          سڕینەوەی هەموو
-        </button>
-      </div>
-
-      <div class="row">
-
-        <div>
-          <label data-i18n="filterDay">فلتەر بە ڕۆژ</label>
-          <select id="filterDay" onchange="renderAdmin()"></select>
-        </div>
-
-        <div style="display:flex;align-items:end">
-          <button
-            class="btn secondary"
-            onclick="clearSelectedDay()"
-            data-i18n="clearDay">
-            سڕینەوەی ئەم ڕۆژە
-          </button>
-        </div>
-
-      </div>
-
-      <div class="table-wrap">
-
-        <table class="table">
-
-          <thead>
-            <tr>
-              <th>#</th>
-              <th data-i18n="nameLabel">ناو</th>
-              <th data-i18n="phoneLabel">مۆبایل</th>
-              <th data-i18n="dayLabel">ڕۆژ</th>
-              <th data-i18n="timeLabel">کات</th>
-              <th data-i18n="date">بەروار</th>
-              <th data-i18n="action">کردار</th>
-            </tr>
-          </thead>
-
-          <tbody id="adminRows"></tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-    <button
-      class="btn secondary"
-      onclick="adminLogout()"
-      data-i18n="logout">
-      دەرچوون
-    </button>
-
-  </div>
-
-</section>
-
-<footer>Queue System • Supabase</footer>
-
-</div>
+<div class="modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle"><div class="modal-box"><div class="modal-head"><h3 id="adminModalTitle">🔐 چوونەژوورەوەی بەڕێوەبەر</h3><button class="close" id="closeAdmin" aria-label="Close">×</button></div><form id="adminLoginForm"><div class="field"><label for="adminEmail">ئیمەیڵ</label><input type="email" id="adminEmail" autocomplete="username" required></div><div class="field" style="margin-top:12px"><label for="adminPassword">وشەی نهێنی</label><input type="password" id="adminPassword" autocomplete="current-password" required></div><button class="btn btn-gold" style="width:100%;margin-top:18px" type="submit" id="adminLoginBtn">چوونەژوورەوە</button><div class="form-message" id="adminMessage"></div><p class="small-note">ئەکاونتی بەڕێوەبەر دەبێت لە Supabase Auth دروست کرابێت و لە خشتەی profiles بە is_admin=true نیشان کرابێت.</p></form></div></div>
 
 <script>
+/* =========================
+   SUPABASE CONFIGURATION
+   Paste your Project URL and anon/public key below.
+   NEVER put the service_role key in this file.
+========================= */
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY";
+const supabaseReady = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("PASTE_") && SUPABASE_ANON_KEY.length > 30 && !SUPABASE_ANON_KEY.includes("PASTE_");
+const sb = supabaseReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-/* =========================================================
-   SUPABASE
-========================================================= */
+const SERVICE_DATA = {
+ "Classic Haircut":{price:10000,duration:30},"Skin Fade":{price:12000,duration:40},"Beard Trim":{price:6000,duration:20},
+ "Hair Styling":{price:8000,duration:25},"Hair + Beard Combo":{price:15000,duration:50},"Premium Package":{price:20000,duration:60}
+};
+const TIMES = ["15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30"];
+const $ = id => document.getElementById(id);
+let chosenTime = "";
+let adminBookings = [];
+let lang = "ku";
 
-const SUPABASE_URL =
-  "https://iwqcphkxqoreleibyssk.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6Sp";
-
-const { createClient } = supabase;
-
-const db = createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
-
-/* =========================================================
-   DAYS
-========================================================= */
-
-const DAYS = [
-  {
-    id:"sat",
-    ku:"شەمە",
-    ar:"السبت",
-    en:"Saturday"
-  },
-  {
-    id:"sun",
-    ku:"یەکشەممە",
-    ar:"الأحد",
-    en:"Sunday"
-  },
-  {
-    id:"mon",
-    ku:"دووشەممە",
-    ar:"الإثنين",
-    en:"Monday"
-  },
-  {
-    id:"tue",
-    ku:"سێشەممە",
-    ar:"الثلاثاء",
-    en:"Tuesday"
-  },
-  {
-    id:"wed",
-    ku:"چوارشەممە",
-    ar:"الأربعاء",
-    en:"Wednesday"
-  },
-  {
-    id:"thu",
-    ku:"پێنجشەممە",
-    ar:"الخميس",
-    en:"Thursday"
-  }
-];
-
-
-/* =========================================================
-   TIMES
-   3:00 PM -> 11:00 PM
-========================================================= */
-
-const TIMES = [];
-
-for(let minutes = 15 * 60; minutes <= 23 * 60; minutes += 30){
-
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-
-  TIMES.push(
-    String(h).padStart(2,"0") +
-    ":" +
-    String(m).padStart(2,"0")
-  );
-
-}
-
-
-/* =========================================================
-   TRANSLATIONS
-========================================================= */
-
-const T = {
-
-ku:{
-  title:"سیستەمی نۆرە و حجز",
-  heroTitle:"نۆرە و حجز",
-  heroText:"کاتەکەت هەڵبژێرە و نۆرەکەت تۆمار بکە",
-  member:"بەشداربوو",
-  admin:"بەڕێوەبەر",
-  bookTitle:"حجزی نۆرە",
-  nameLabel:"ناوی تەواو",
-  phoneLabel:"ژمارەی مۆبایل",
-  dayLabel:"ڕۆژ هەڵبژێرە",
-  timeLabel:"کات هەڵبژێرە",
-  bookBtn:"تۆمارکردنی نۆرە",
-  todayTitle:"نۆرەکانی ڕۆژەکە",
-  adminLogin:"چوونەژوورەوەی بەڕێوەبەر",
-  password:"وشەی نهێنی",
-  login:"چوونەژوورەوە",
-  defaultPass:"وشەی نهێنی سەرەتایی: 123456",
-  total:"هەموو نۆرەکان",
-  taken:"کاتە گیراوەکان",
-  today:"نۆرەکانی ئەمڕۆ",
-  manage:"بەڕێوەبردنی نۆرەکان",
-  clearAll:"سڕینەوەی هەموو",
-  clearDay:"سڕینەوەی ئەم ڕۆژە",
-  filterDay:"فلتەر بە ڕۆژ",
-  date:"بەروار",
-  action:"کردار",
-  logout:"دەرچوون",
-  required:"تکایە ناو و مۆبایل بنووسە و ڕۆژ و کات هەڵبژێرە.",
-  success:"نۆرەکەت بە سەرکەوتوویی تۆمار کرا.",
-  takenMsg:"ئەم کاتە پێشتر گیراوە. تکایە کاتێکی تر هەڵبژێرە.",
-  loginBad:"وشەی نهێنی هەڵەیە.",
-  empty:"هیچ نۆرەیەک نییە.",
-  confirmAll:"دڵنیایت دەتەوێت هەموو نۆرەکان بسڕیتەوە؟",
-  confirmDay:"دڵنیایت دەتەوێت نۆرەکانی ئەم ڕۆژە بسڕیتەوە؟",
-  deleted:"نۆرەکە سڕایەوە.",
-  dbError:"کێشەیەک لەگەڵ Supabase ڕوویدا.",
-  loading:"چاوەڕێ بکە...",
-  selectDay:"هەموو ڕۆژەکان",
-  connection:"پەیوەندی بە Supabase نەکرا."
-},
-
-ar:{
-  title:"نظام الطوابير والحجز",
-  heroTitle:"الحجز والطابور",
-  heroText:"اختر وقتك وسجل حجزك",
-  member:"المشارك",
-  admin:"المدير",
-  bookTitle:"حجز موعد",
-  nameLabel:"الاسم الكامل",
-  phoneLabel:"رقم الهاتف",
-  dayLabel:"اختر اليوم",
-  timeLabel:"اختر الوقت",
-  bookBtn:"تسجيل الحجز",
-  todayTitle:"حجوزات اليوم",
-  adminLogin:"دخول المدير",
-  password:"كلمة المرور",
-  login:"دخول",
-  defaultPass:"كلمة المرور الافتراضية: 123456",
-  total:"كل الحجوزات",
-  taken:"الأوقات المحجوزة",
-  today:"حجوزات اليوم",
-  manage:"إدارة الحجوزات",
-  clearAll:"حذف الكل",
-  clearDay:"حذف هذا اليوم",
-  filterDay:"تصفية حسب اليوم",
-  date:"التاريخ",
-  action:"إجراء",
-  logout:"خروج",
-  required:"أدخل الاسم والهاتف واختر اليوم والوقت.",
-  success:"تم تسجيل الحجز بنجاح.",
-  takenMsg:"هذا الوقت محجوز مسبقاً. اختر وقتاً آخر.",
-  loginBad:"كلمة المرور غير صحيحة.",
-  empty:"لا توجد حجوزات.",
-  confirmAll:"هل أنت متأكد من حذف كل الحجوزات؟",
-  confirmDay:"هل أنت متأكد من حذف حجوزات هذا اليوم؟",
-  deleted:"تم حذف الحجز.",
-  dbError:"حدث خطأ مع Supabase.",
-  loading:"جاري التحميل...",
-  selectDay:"كل الأيام",
-  connection:"تعذر الاتصال بـ Supabase."
-},
-
-en:{
-  title:"Queue & Booking System",
-  heroTitle:"Queue & Booking",
-  heroText:"Choose your time and book your slot",
-  member:"Member",
-  admin:"Admin",
-  bookTitle:"Book a Slot",
-  nameLabel:"Full name",
-  phoneLabel:"Mobile number",
-  dayLabel:"Choose a day",
-  timeLabel:"Choose a time",
-  bookBtn:"Book slot",
-  todayTitle:"Today's bookings",
-  adminLogin:"Admin login",
-  password:"Password",
-  login:"Login",
-  defaultPass:"Default password: 123456",
-  total:"All bookings",
-  taken:"Taken slots",
-  today:"Today's bookings",
-  manage:"Manage bookings",
-  clearAll:"Clear all",
-  clearDay:"Clear this day",
-  filterDay:"Filter by day",
-  date:"Date",
-  action:"Action",
-  logout:"Logout",
-  required:"Enter name and phone, then choose a day and time.",
-  success:"Booking saved successfully.",
-  takenMsg:"This time is already booked. Please choose another.",
-  loginBad:"Incorrect password.",
-  empty:"No bookings.",
-  confirmAll:"Are you sure you want to delete all bookings?",
-  confirmDay:"Are you sure you want to delete this day's bookings?",
-  deleted:"Booking deleted.",
-  dbError:"A Supabase error occurred.",
-  loading:"Loading...",
-  selectDay:"All days",
-  connection:"Could not connect to Supabase."
-}
-
+const translations = {
+ ku:{navHome:"سەرەتا",navServices:"خزمەتگوزاری",navGallery:"گەلەری",navBooking:"حجزکردن",navContact:"پەیوەندی",bookNow:"حجزی کات",heroTitle:'شێوازی خۆت،<br><span class="gold">ئاستێکی تر</span>',heroText:"ئەزموونێکی تایبەت لە قژبڕین و ڕێکخستنی ڕیش. وردەکاری، پاکوخاوێنی و ستایلی تایبەت لە هەر دانیشتنێکدا.",bookAppointment:"✦ حجزکردنی کات",viewServices:"بینینی خزمەتگوزاری",statQuality:"کوالێتی پڕۆفیشناڵ",statCare:"گرنگیدان بە وردەکاری",statStyle:"ستایلی تایبەت بە تۆ",trust1:"کاتی حجزکراو و ڕێکخراو",trust2:"ئامرازە پاک و پڕۆفیشناڵەکان",trust3:"ئەزموونی تایبەت بە کڕیار",trust4:"نرخە ڕوونەکان",servicesTitle:'خزمەتگوزاری <span class="gold">ئێمە</span>',servicesText:"خزمەتگوزاری پڕۆفیشناڵ، نرخێکی ڕوون و کاتێک کە بۆ تۆ ڕێکخراوە.",galleryTitle:'گەلەری <span class="gold">ستایل</span>',galleryText:"هەندێک لە ستایل و وردەکارییەکانی جیهانی حەلاقی.",bookingTitle:'کاتێک بۆ <span class="gold">خۆت</span> حجز بکە',bookingText:"خزمەتگوزاری و کاتی بەردەست هەڵبژێرە. کاتە بەردەستەکان لە داتابەیسەوە نوێ دەبنەوە کاتێک Supabase ڕێکخرابێت.",bookingInfo1:"کاتی حجزکراو بۆ تۆ دەپارێزرێت",bookingInfo2:"پشتڕاستکردنەوەی حجز لە دوای ناردن",bookingInfo3:"نرخ و ماوەی خزمەتگوزاری ڕوونە",nameLabel:"ناوی تەواو",phoneLabel:"ژمارەی مۆبایل",serviceLabel:"خزمەتگوزاری",dateLabel:"ڕۆژ",barberLabel:"حەلاق",timeLabel:"کاتی بەردەست",notesLabel:"تێبینی (ئارەزوومەندانە)",submitBooking:"پشتڕاستکردنەوە و ناردنی حجز ↗",bookingDisclaimer:"حجز دوای پەسەندکردنی بەڕێوەبەر پشتڕاست دەکرێتەوە.",reviewsTitle:'ئەزموونی <span class="gold">کڕیاران</span>',reviewsText:"جوانی لە وردەکارییەکاندا دەردەکەوێت.",contactTitle:'سەردانمان <span class="gold">بکە</span>',contactText:"بۆ دانانی کات یان زانیاری زیاتر پەیوەندیمان پێوە بکە.",hoursTitle:"کاتەکانی کارکردن",closed:"داخراو",contactUs:"پەیوەندیمان پێوە بکە",addressPlaceholder:"ناونیشانی دوکانەکەت لێرە بنووسە",rights:"هەموو مافەکان پارێزراون.",barbersTitle:"حەلاقەکانی <span class=\"gold\">GOLDEN CUT</span>",barbersText:"حەلاقەکەت هەڵبژێرە و کاتەکەت پێشتر حجز بکە."},
+ ar:{navHome:"الرئيسية",navServices:"الخدمات",navGallery:"المعرض",navBooking:"الحجز",navContact:"اتصل بنا",bookNow:"احجز موعدًا",heroTitle:'أسلوبك،<br><span class="gold">بمستوى آخر</span>',heroText:"تجربة مميزة لقص الشعر وترتيب اللحية، مع الاهتمام بالتفاصيل والنظافة والأسلوب الخاص.",bookAppointment:"✦ احجز موعدك",viewServices:"عرض الخدمات",statQuality:"جودة احترافية",statCare:"اهتمام بالتفاصيل",statStyle:"أسلوبك الخاص",trust1:"مواعيد منظمة",trust2:"أدوات نظيفة واحترافية",trust3:"تجربة مميزة",trust4:"أسعار واضحة",servicesTitle:'خدماتنا <span class="gold">المميزة</span>',servicesText:"خدمات احترافية وأسعار واضحة وموعد يناسبك.",galleryTitle:'معرض <span class="gold">الأساليب</span>',galleryText:"مجموعة من أساليب الحلاقة والتفاصيل.",bookingTitle:'احجز وقتًا <span class="gold">لنفسك</span>',bookingText:"اختر الخدمة والموعد المتاح. يتم تحديث المواعيد من قاعدة البيانات عند إعداد Supabase.",bookingInfo1:"يتم حجز الموعد لك",bookingInfo2:"تأكيد الحجز بعد الإرسال",bookingInfo3:"أسعار ومدد واضحة",nameLabel:"الاسم الكامل",phoneLabel:"رقم الهاتف",serviceLabel:"الخدمة",dateLabel:"التاريخ",barberLabel:"الحلاق",timeLabel:"المواعيد المتاحة",notesLabel:"ملاحظات (اختياري)",submitBooking:"تأكيد وإرسال الحجز ↗",bookingDisclaimer:"يتم تأكيد الموعد بعد موافقة الإدارة.",reviewsTitle:'تجارب <span class="gold">العملاء</span>',reviewsText:"الجمال يكمن في التفاصيل.",contactTitle:'تفضل <span class="gold">بزيارتنا</span>',contactText:"تواصل معنا للحجز أو لمزيد من المعلومات.",hoursTitle:"ساعات العمل",closed:"مغلق",contactUs:"تواصل معنا",addressPlaceholder:"اكتب عنوان المحل هنا",rights:"جميع الحقوق محفوظة.",barbersTitle:"الحلاقون في <span class=\"gold\">GOLDEN CUT</span>",barbersText:"اختر الحلاق واحجز موعدك مسبقًا."},
+ en:{navHome:"Home",navServices:"Services",navGallery:"Gallery",navBooking:"Booking",navContact:"Contact",bookNow:"Book now",heroTitle:'Your style,<br><span class="gold">elevated.</span>',heroText:"A premium experience in haircuts and beard grooming. Precision, cleanliness, and a style made for you.",bookAppointment:"✦ Book an appointment",viewServices:"Explore services",statQuality:"Professional quality",statCare:"Attention to detail",statStyle:"Your signature style",trust1:"Organized appointments",trust2:"Clean professional tools",trust3:"Personal customer care",trust4:"Transparent pricing",servicesTitle:'Our <span class="gold">Services</span>',servicesText:"Professional grooming, clear pricing, and a time reserved for you.",galleryTitle:'Style <span class="gold">Gallery</span>',galleryText:"A look at our barbering styles and attention to detail.",bookingTitle:'Book time for <span class="gold">yourself</span>',bookingText:"Choose a service and available time. Slots update from the database once Supabase is configured.",bookingInfo1:"Your chosen time is reserved",bookingInfo2:"Booking confirmation after submission",bookingInfo3:"Clear prices and durations",nameLabel:"Full name",phoneLabel:"Phone number",serviceLabel:"Service",dateLabel:"Date",barberLabel:"Barber",timeLabel:"Available time",notesLabel:"Notes (optional)",submitBooking:"Confirm and send booking ↗",bookingDisclaimer:"Bookings are confirmed after admin approval.",reviewsTitle:'Client <span class="gold">Stories</span>',reviewsText:"Great style lives in the details.",contactTitle:'Come <span class="gold">visit us</span>',contactText:"Contact us to book or ask for more information.",hoursTitle:"Opening hours",closed:"Closed",contactUs:"Contact us",addressPlaceholder:"Add your shop address here",rights:"All rights reserved.",barbersTitle:"Meet the <span class=\"gold\">GOLDEN CUT</span> barbers",barbersText:"Choose your barber and book ahead."}
 };
 
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let lang =
-  localStorage.getItem("queueLang") || "ku";
-
-let selectedDay = "";
-let selectedTime = "";
-let bookings = [];
-let admin = false;
-let loading = false;
-
-
-/* =========================================================
-   TRANSLATION
-========================================================= */
-
-function tr(key){
-
-  return T[lang]?.[key] || key;
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function esc(value){
-
-  return String(value ?? "").replace(
-    /[&<>"']/g,
-    char => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[char])
-  );
-
-}
-
-
-/* =========================================================
-   LOCAL IRAQ DATE
-========================================================= */
-
-function localDate(){
-
-  const now = new Date();
-
-  const parts = new Intl.DateTimeFormat(
-    "en-CA",
-    {
-      timeZone:"Asia/Baghdad",
-      year:"numeric",
-      month:"2-digit",
-      day:"2-digit"
-    }
-  ).formatToParts(now);
-
-  const obj = {};
-
-  parts.forEach(p => {
-
-    if(p.type !== "literal"){
-      obj[p.type] = p.value;
-    }
-
-  });
-
-  return `${obj.year}-${obj.month}-${obj.day}`;
-
-}
-
-
-/* =========================================================
-   CURRENT DAY
-========================================================= */
-
-function currentDayId(){
-
-  const weekday =
-    new Intl.DateTimeFormat(
-      "en-US",
-      {
-        timeZone:"Asia/Baghdad",
-        weekday:"short"
-      }
-    ).format(new Date());
-
-  const map = {
-    Sat:"sat",
-    Sun:"sun",
-    Mon:"mon",
-    Tue:"tue",
-    Wed:"wed",
-    Thu:"thu"
-  };
-
-  return map[weekday] || "sat";
-
-}
-
-
-/* =========================================================
-   DAY NAME
-========================================================= */
-
-function dayName(id){
-
-  const day = DAYS.find(d => d.id === id);
-
-  return day ? day[lang] : id;
-
-}
-
-
-/* =========================================================
-   CHANGE LANGUAGE
-========================================================= */
-
-function changeLanguage(newLang){
-
-  lang = newLang;
-
-  localStorage.setItem("queueLang",newLang);
-
-  document.documentElement.lang = newLang;
-
-  document.documentElement.dir =
-    newLang === "en" ? "ltr" : "rtl";
-
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-
-    el.textContent = tr(el.dataset.i18n);
-
-  });
-
-  document.querySelectorAll(".lang").forEach(button => {
-
-    const active =
-      (newLang === "ku" && button.textContent.includes("کوردی")) ||
-      (newLang === "ar" && button.textContent.includes("العربية")) ||
-      (newLang === "en" && button.textContent.includes("English"));
-
-    button.classList.toggle("active",active);
-
-  });
-
-  renderDays();
-  renderTimes();
-  renderPublic();
-
-  if(admin){
-    renderAdmin();
-  }
-
-}
-
-
-/* =========================================================
-   PANEL
-========================================================= */
-
-function showPanel(panel){
-
-  document
-    .getElementById("memberPanel")
-    .classList.toggle("hidden",panel !== "member");
-
-  document
-    .getElementById("adminPanel")
-    .classList.toggle("hidden",panel !== "admin");
-
-  document
-    .getElementById("memberTab")
-    .classList.toggle("active",panel === "member");
-
-  document
-    .getElementById("adminTab")
-    .classList.toggle("active",panel === "admin");
-
-  if(panel === "admin"){
-    renderAdmin();
-  }
-
-}
-
-
-/* =========================================================
-   NOTICE
-========================================================= */
-
-function notice(id,message,type="info"){
-
-  const el = document.getElementById(id);
-
-  if(!el) return;
-
-  el.innerHTML =
-    message
-      ? `<div class="notice ${type}">${message}</div>`
-      : "";
-
-}
-
-
-/* =========================================================
-   RENDER DAYS
-========================================================= */
-
-function renderDays(){
-
-  const container =
-    document.getElementById("days");
-
-  container.innerHTML =
-    DAYS.map(day => {
-
-      const selected =
-        selectedDay === day.id
-          ? "selected"
-          : "";
-
-      return `
-        <button
-          type="button"
-          class="option ${selected}"
-          onclick="selectDay('${day.id}')">
-          ${esc(day[lang])}
-        </button>
-      `;
-
-    }).join("");
-
-}
-
-
-/* =========================================================
-   RENDER TIMES
-========================================================= */
-
-function renderTimes(){
-
-  const container =
-    document.getElementById("times");
-
-  const taken = new Set(
-    bookings
-      .filter(b => b.day_id === selectedDay)
-      .map(b => normalizeTime(b.time))
-  );
-
-  if(taken.has(selectedTime)){
-    selectedTime = "";
-  }
-
-  container.innerHTML =
-    TIMES.map(time => {
-
-      const isTaken = taken.has(time);
-
-      return `
-        <button
-          type="button"
-          class="option
-          ${selectedTime === time ? "selected" : ""}
-          ${isTaken ? "disabled" : ""}"
-          ${isTaken ? "disabled" : ""}
-          onclick="selectTime('${time}')">
-          ${time}
-        </button>
-      `;
-
-    }).join("");
-
-}
-
-
-/* =========================================================
-   NORMALIZE TIME
-========================================================= */
-
-function normalizeTime(value){
-
-  if(!value) return "";
-
-  return String(value).slice(0,5);
-
-}
-
-
-/* =========================================================
-   SELECT DAY
-========================================================= */
-
-function selectDay(day){
-
-  selectedDay = day;
-
-  selectedTime = "";
-
-  renderDays();
-  renderTimes();
-  renderPublic();
-
-}
-
-
-/* =========================================================
-   SELECT TIME
-========================================================= */
-
-function selectTime(time){
-
-  if(!selectedDay) return;
-
-  if(!TIMES.includes(time)) return;
-
-  const alreadyTaken =
-    bookings.some(
-      b =>
-        b.day_id === selectedDay &&
-        normalizeTime(b.time) === time
-    );
-
-  if(alreadyTaken){
-
-    notice(
-      "memberNotice",
-      tr("takenMsg"),
-      "error"
-    );
-
-    return;
-
-  }
-
-  selectedTime = time;
-
-  renderTimes();
-
-}
-
-
-/* =========================================================
-   RENDER PUBLIC BOOKINGS
-========================================================= */
-
-function renderPublic(){
-
-  const list =
-    bookings
-      .filter(b =>
-        !selectedDay ||
-        b.day_id === selectedDay
-      )
-      .sort(
-        (a,b) =>
-          normalizeTime(a.time)
-          .localeCompare(normalizeTime(b.time))
-      );
-
-  document.getElementById("publicCount")
-    .textContent = list.length;
-
-  document.getElementById("publicBookings")
-    .innerHTML =
-
-      list.length
-
-      ? list.map(b => `
-          <div class="booking">
-
-            <div>
-
-              <strong>${esc(b.name)}</strong>
-
-              <span class="muted">
-                📱 ${esc(b.phone)}
-                • 📅 ${esc(dayName(b.day_id))}
-                • 🕒 ${esc(normalizeTime(b.time))}
-              </span>
-
-            </div>
-
-          </div>
-        `).join("")
-
-      : `
-        <div class="notice info">
-          ${tr("empty")}
-        </div>
-      `;
-
-}
-
-
-/* =========================================================
-   LOAD BOOKINGS
-========================================================= */
-
-async function loadBookings(){
-
-  if(loading) return;
-
-  loading = true;
-
-  try{
-
-    const {
-      data,
-      error
-    } = await db
-      .from("bookings")
-      .select("id,name,phone,day_id,time,created_at")
-      .order("time",{ascending:true});
-
-    if(error){
-
-      console.error(error);
-
-      notice(
-        "memberNotice",
-        tr("dbError") +
-        "<br>" +
-        esc(error.message),
-        "error"
-      );
-
-      return;
-
-    }
-
-    bookings =
-      (data || []).map(b => ({
-        ...b,
-        time:normalizeTime(b.time)
-      }));
-
-    renderDays();
-    renderTimes();
-    renderPublic();
-
-    if(admin){
-      renderAdmin();
-    }
-
-  }catch(error){
-
-    console.error(error);
-
-    notice(
-      "memberNotice",
-      tr("connection"),
-      "error"
-    );
-
-  }finally{
-
-    loading = false;
-
-  }
-
-}
-
-
-/* =========================================================
-   BOOK
-========================================================= */
-
-async function book(){
-
-  const name =
-    document
-      .getElementById("name")
-      .value
-      .trim();
-
-  const phone =
-    document
-      .getElementById("phone")
-      .value
-      .trim()
-      .replace(/\s+/g,"");
-
-  if(
-    !name ||
-    !phone ||
-    !selectedDay ||
-    !selectedTime
-  ){
-
-    notice(
-      "memberNotice",
-      tr("required"),
-      "error"
-    );
-
-    return;
-
-  }
-
-  if(phone.length < 7){
-
-    notice(
-      "memberNotice",
-      tr("required"),
-      "error"
-    );
-
-    return;
-
-  }
-
-  const button =
-    document.getElementById("bookButton");
-
-  button.disabled = true;
-  button.style.opacity = ".65";
-
-  try{
-
-    /*
-      IMPORTANT:
-      The database unique index on
-      day_id + time is the final protection.
-
-      Even if two phones book at exactly
-      the same moment, only one insert
-      can succeed.
-    */
-
-    const {
-      error
-    } = await db
-      .from("bookings")
-      .insert({
-        name:name,
-        phone:phone,
-        day_id:selectedDay,
-        time:selectedTime
-      });
-
-    if(error){
-
-      console.error(error);
-
-      if(error.code === "23505"){
-
-        notice(
-          "memberNotice",
-          tr("takenMsg"),
-          "error"
-        );
-
-      }else{
-
-        notice(
-          "memberNotice",
-          tr("dbError") +
-          "<br>" +
-          esc(error.message),
-          "error"
-        );
-
-      }
-
-      await loadBookings();
-
-      return;
-
-    }
-
-    notice(
-      "memberNotice",
-      tr("success"),
-      "success"
-    );
-
-    document.getElementById("name").value = "";
-    document.getElementById("phone").value = "";
-
-    selectedTime = "";
-
-    await loadBookings();
-
-  }catch(error){
-
-    console.error(error);
-
-    notice(
-      "memberNotice",
-      tr("connection"),
-      "error"
-    );
-
-  }finally{
-
-    button.disabled = false;
-    button.style.opacity = "1";
-
-  }
-
-}
-
-
-/* =========================================================
-   ADMIN LOGIN
-========================================================= */
-
-function adminLogin(){
-
-  const password =
-    document
-      .getElementById("adminPassword")
-      .value;
-
-  if(password === "123456"){
-
-    admin = true;
-
-    document
-      .getElementById("adminLogin")
-      .classList.add("hidden");
-
-    document
-      .getElementById("adminDashboard")
-      .classList.remove("hidden");
-
-    notice(
-      "adminNotice",
-      "",
-      "info"
-    );
-
-    renderAdmin();
-
-  }else{
-
-    notice(
-      "adminNotice",
-      tr("loginBad"),
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   ADMIN LOGOUT
-========================================================= */
-
-function adminLogout(){
-
-  admin = false;
-
-  document
-    .getElementById("adminDashboard")
-    .classList.add("hidden");
-
-  document
-    .getElementById("adminLogin")
-    .classList.remove("hidden");
-
-  document.getElementById("adminPassword").value = "";
-
-}
-
-
-/* =========================================================
-   ADMIN RENDER
-========================================================= */
-
-function renderAdmin(){
-
-  if(!admin) return;
-
-  const total =
-    bookings.length;
-
-  const taken =
-    new Set(
-      bookings.map(
-        b => b.day_id + "|" + normalizeTime(b.time)
-      )
-    ).size;
-
-  const today =
-    bookings.filter(
-      b =>
-        b.created_at &&
-        localDateFromISO(b.created_at) === localDate()
-    ).length;
-
-  document.getElementById("statTotal")
-    .textContent = total;
-
-  document.getElementById("statTaken")
-    .textContent = taken;
-
-  document.getElementById("statToday")
-    .textContent = today;
-
-
-  const select =
-    document.getElementById("filterDay");
-
-  const oldValue =
-    select.value;
-
-  select.innerHTML =
-    `<option value="">${tr("selectDay")}</option>` +
-    DAYS.map(day =>
-      `<option value="${day.id}">
-        ${esc(day[lang])}
-      </option>`
-    ).join("");
-
-  if(
-    DAYS.some(day => day.id === oldValue)
-  ){
-    select.value = oldValue;
-  }else{
-    select.value = "";
-  }
-
-
-  const filter =
-    select.value;
-
-  const list =
-    bookings
-      .filter(
-        b =>
-          !filter ||
-          b.day_id === filter
-      )
-      .sort(
-        (a,b) =>
-          (a.day_id + normalizeTime(a.time))
-          .localeCompare(
-            b.day_id + normalizeTime(b.time)
-          )
-      );
-
-
-  document.getElementById("adminRows")
-    .innerHTML =
-
-      list.length
-
-      ? list.map((b,index) => `
-
-          <tr>
-
-            <td>${index + 1}</td>
-
-            <td>${esc(b.name)}</td>
-
-            <td>${esc(b.phone)}</td>
-
-            <td>${esc(dayName(b.day_id))}</td>
-
-            <td>${esc(normalizeTime(b.time))}</td>
-
-            <td>
-              ${esc(formatDate(b.created_at))}
-            </td>
-
-            <td>
-
-              <button
-                class="btn danger small"
-                style="width:auto"
-                onclick="deleteBooking('${esc(b.id)}')">
-                🗑️
-              </button>
-
-            </td>
-
-          </tr>
-
-        `).join("")
-
-      : `
-        <tr>
-          <td colspan="7">
-            ${tr("empty")}
-          </td>
-        </tr>
-      `;
-
-}
-
-
-/* =========================================================
-   DATE FROM SUPABASE TIMESTAMP
-========================================================= */
-
-function localDateFromISO(value){
-
-  if(!value) return "";
-
-  return new Intl.DateTimeFormat(
-    "en-CA",
-    {
-      timeZone:"Asia/Baghdad",
-      year:"numeric",
-      month:"2-digit",
-      day:"2-digit"
-    }
-  ).format(new Date(value));
-
-}
-
-
-/* =========================================================
-   FORMAT DATE
-========================================================= */
-
-function formatDate(value){
-
-  if(!value) return "";
-
-  const date =
-    new Date(value);
-
-  return new Intl.DateTimeFormat(
-    lang === "en"
-      ? "en-US"
-      : lang === "ar"
-        ? "ar-IQ"
-        : "en-GB",
-    {
-      timeZone:"Asia/Baghdad",
-      year:"numeric",
-      month:"2-digit",
-      day:"2-digit"
-    }
-  ).format(date);
-
-}
-
-
-/* =========================================================
-   DELETE ONE
-========================================================= */
-
-async function deleteBooking(id){
-
-  if(!admin) return;
-
-  const {
-    error
-  } = await db
-    .from("bookings")
-    .delete()
-    .eq("id",id);
-
-  if(error){
-
-    notice(
-      "adminNotice",
-      tr("dbError") +
-      "<br>" +
-      esc(error.message),
-      "error"
-    );
-
-    return;
-
-  }
-
-  notice(
-    "adminNotice",
-    tr("deleted"),
-    "success"
-  );
-
-  await loadBookings();
-
-}
-
-
-/* =========================================================
-   CLEAR ALL
-========================================================= */
-
-async function clearAll(){
-
-  if(!admin) return;
-
-  if(!confirm(tr("confirmAll"))){
-    return;
-  }
-
-  const {
-    error
-  } = await db
-    .from("bookings")
-    .delete()
-    .not("id","is",null);
-
-  if(error){
-
-    notice(
-      "adminNotice",
-      tr("dbError") +
-      "<br>" +
-      esc(error.message),
-      "error"
-    );
-
-    return;
-
-  }
-
-  await loadBookings();
-
-}
-
-
-/* =========================================================
-   CLEAR SELECTED DAY
-========================================================= */
-
-async function clearSelectedDay(){
-
-  if(!admin) return;
-
-  const day =
-    document.getElementById("filterDay").value;
-
-  if(!day) return;
-
-  if(!confirm(tr("confirmDay"))){
-    return;
-  }
-
-  const {
-    error
-  } = await db
-    .from("bookings")
-    .delete()
-    .eq("day_id",day);
-
-  if(error){
-
-    notice(
-      "adminNotice",
-      tr("dbError") +
-      "<br>" +
-      esc(error.message),
-      "error"
-    );
-
-    return;
-
-  }
-
-  await loadBookings();
-
-}
-
-
-/* =========================================================
-   REALTIME
-========================================================= */
-
-db
-.channel("queue-live")
-.on(
-  "postgres_changes",
-  {
-    event:"*",
-    schema:"public",
-    table:"bookings"
-  },
-  () => {
-
-    loadBookings();
-
-  }
-)
-.subscribe();
-
-
-/* =========================================================
-   INITIAL START
-========================================================= */
-
-changeLanguage(lang);
-
-
-/*
-  Automatically select today's day.
-
-  Friday is excluded from the system.
-  If today is Friday, Saturday is selected.
-*/
-
-selectedDay = currentDayId();
-
-renderDays();
-renderTimes();
-renderPublic();
-
-loadBookings();
-
+function showMessage(el,text,type){el.textContent=text;el.className="form-message show "+type}
+function hideMessage(el){el.className="form-message"}
+function setLang(value){lang=value;document.documentElement.lang=value;document.documentElement.dir=value==="en"?"ltr":"rtl";$("languageSelect").value=value;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(translations[value][key])el.innerHTML=translations[value][key]});}
+lang="ku"; document.documentElement.lang="ku"; document.documentElement.dir="rtl";
+$("menuBtn").addEventListener("click",()=>$("navLinks").classList.toggle("open"));
+document.querySelectorAll("#navLinks a").forEach(a=>a.addEventListener("click",()=>$("navLinks").classList.remove("open")));
+document.querySelectorAll(".choose-service").forEach(btn=>btn.addEventListener("click",()=>{$("serviceSelect").value=btn.dataset.service;$("booking").scrollIntoView({behavior:"smooth"});}));
+$("bookingDate").min=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+$("bookingDate").addEventListener("change",loadSlots);
+$("barberSelect").addEventListener("change",loadSlots);
+$("serviceSelect").addEventListener("change",()=>{if(chosenTime)renderSlots();});
+$("timeSlots").addEventListener("click",e=>{const b=e.target.closest(".slot");if(!b||b.disabled)return;chosenTime=b.dataset.time;$("selectedTime").value=chosenTime;renderSlots();});
+
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function localToday(){return localDateToday()}
+async function loadLiveQueue(){const countEl=$("queueCount"),nextEl=$("queueNextTime"),statusEl=$("queueStatus"),updatedEl=$("queueUpdated");if(!sb){countEl.textContent="—";nextEl.textContent="—";statusEl.textContent="Supabase پەیوەست نییە";return}try{const {data,error}=await sb.rpc("get_live_queue",{p_date:localToday()});if(error)throw error;const row=Array.isArray(data)?data[0]:data;countEl.textContent=Number(row?.active_count||0).toLocaleString("ckb-IQ");nextEl.textContent=row?.next_time?String(row.next_time).slice(0,5):"—";statusEl.textContent="دۆخی نۆرە بە نوێکراوە";updatedEl.textContent="دوایین نوێکردنەوە: "+new Date().toLocaleTimeString("ckb-IQ",{hour:"2-digit",minute:"2-digit"})}catch(err){console.warn("Live queue unavailable",err);statusEl.textContent="تکایە SQL ـی نوێ جێبەجێ بکە";countEl.textContent="—";nextEl.textContent="—"}}
+async function loadAnnouncements(){const holder=$("announcementList");if(!holder)return;if(!sb){holder.innerHTML='<div class="empty-state">بۆ نیشاندانی ڕاگەیاندنەکان Supabase پەیوەست بکە.</div>';return}try{const {data,error}=await sb.from("announcements").select("id,title,body,created_at,expires_at").eq("active",true).order("created_at",{ascending:false}).limit(6);if(error)throw error;const now=Date.now();const items=(data||[]).filter(a=>!a.expires_at||new Date(a.expires_at).getTime()>now);if(!items.length){holder.innerHTML='<div class="empty-state">ئێستا هیچ ڕاگەیاندنێکی نوێ نییە. بۆ هەواڵی نوێ دواتر سەردانمان بکە.</div>';return}holder.innerHTML=items.map(a=>'<article class="announcement-card"><h3>'+escapeHTML(a.title)+'</h3><p>'+escapeHTML(a.body)+'</p><time>'+new Date(a.created_at).toLocaleDateString("ckb-IQ")+'</time></article>').join("")}catch(err){console.warn("Announcements could not load",err);holder.innerHTML='<div class="empty-state">ڕاگەیاندنەکان ئامادە نین؛ SQL ـی نوێ جێبەجێ بکە.</div>'}}
+async function refreshAdminAnnouncements(){const holder=$("adminAnnouncementList");if(!holder||!sb)return;try{const {data,error}=await sb.from("announcements").select("id,title,active,created_at").order("created_at",{ascending:false}).limit(15);if(error)throw error;if(!data?.length){holder.innerHTML='<p class="small-note">هێشتا ڕاگەیاندنێک زیاد نەکراوە.</p>';return}holder.innerHTML=data.map(a=>'<div class="admin-announcement-row"><div><strong>'+escapeHTML(a.title)+'</strong><br><small>'+(a.active?'چالاک':'ناچالاک')+'</small></div>'+(a.active?'<button type="button" class="btn btn-ghost btn-small" data-deactivate-announcement="'+escapeHTML(a.id)+'">ناچالاککردن</button>':'')+'</div>').join("")}catch(err){holder.innerHTML='<p class="small-note">نەتوانرا لیستی ڕاگەیاندنەکان بخوێندرێتەوە.</p>';console.warn(err)}}
+$("refreshQueue")?.addEventListener("click",loadLiveQueue);
+$("announcementAdminForm")?.addEventListener("submit",async e=>{e.preventDefault();const msg=$("announcementAdminMessage");hideMessage(msg);if(!sb){showMessage(msg,"Supabase پەیوەست نییە.","error");return}const expiry=$("announcementExpiry").value;const payload={title:$("newAnnouncementTitle").value.trim(),body:$("newAnnouncementBody").value.trim(),active:true,expires_at:expiry?new Date(expiry+"T23:59:59").toISOString():null};try{const {error}=await sb.from("announcements").insert(payload);if(error)throw error;e.target.reset();showMessage(msg,"ڕاگەیاندنەکە بە سەرکەوتوویی بڵاوکرایەوە.","success");await loadAnnouncements();await refreshAdminAnnouncements()}catch(err){console.error(err);showMessage(msg,"بڵاوکردنەوە سەرکەوتوو نەبوو؛ SQL و مۆڵەتەکان بپشکنە.","error")}});
+$("adminAnnouncementList")?.addEventListener("click",async e=>{const btn=e.target.closest("[data-deactivate-announcement]");if(!btn||!sb)return;btn.disabled=true;try{const {error}=await sb.from("announcements").update({active:false}).eq("id",btn.dataset.deactivateAnnouncement);if(error)throw error;await refreshAdminAnnouncements();await loadAnnouncements()}catch(err){alert("ناچالاککردن سەرکەوتوو نەبوو؛ مۆڵەتەکانی Supabase بپشکنە.");btn.disabled=false}});
+// Gentle reveal animations; content remains visible if IntersectionObserver is unavailable.
+try{const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");revealObserver.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll(".section-head,.live-card,.announcement-card,.style-option").forEach(el=>{el.classList.add("reveal");revealObserver.observe(el)})}catch(e){}
+function renderSlots(taken=[]){const holder=$("timeSlots");holder.innerHTML="";TIMES.forEach(time=>{const b=document.createElement("button");b.type="button";b.className="slot"+(chosenTime===time?" selected":"")+(taken.includes(time)?" taken":"");b.dataset.time=time;b.textContent=time;b.disabled=taken.includes(time);if(b.disabled)b.title="ئەم کاتە حجزکراوە";holder.appendChild(b)});}
+async function loadSlots(){chosenTime="";$("selectedTime").value="";if(!sb){renderSlots();return}const date=$("bookingDate").value;if(!date){renderSlots();return}try{const {data,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:$("barberSelect").value});if(error)throw error;renderSlots((data||[]).map(x=>String(x.booking_time).slice(0,5)))}catch(err){console.error(err);renderSlots();$("connectionStatus").textContent="داتابەیس نەیتوانی کاتە حجزکراوەکان بخوێنێتەوە؛ تکایە SQL و RLS بپشکنە."}}
+function money(n){return Number(n||0).toLocaleString("ar-IQ")+" دینار"}
+function localDateToday(){const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
+$("bookingForm").addEventListener("submit",async e=>{e.preventDefault();const msg=$("bookingMessage");hideMessage(msg);if(!chosenTime){showMessage(msg,lang==="en"?"Please select an available time.":lang==="ar"?"يرجى اختيار موعد متاح.":"تکایە کاتێکی بەردەست هەڵبژێرە.", "error");return}if(!sb){showMessage(msg,"سەرەتا SUPABASE_URL و SUPABASE_ANON_KEY لە کۆدەکەدا دابنێ و SQL ـەکە جێبەجێ بکە.", "error");return}
+const service=$("serviceSelect").value;const payload={customer_name:$("customerName").value.trim(),customer_phone:$("customerPhone").value.trim(),service_name:service,price_iqd:SERVICE_DATA[service]?.price||0,booking_date:$("bookingDate").value,booking_time:chosenTime,barber_name:$("barberSelect").value,haircut_style:document.querySelector("input[name=haircutStyle]:checked")?.value||"Modern Fade",notes:$("customerNotes").value.trim(),status:"pending"};
+if(!payload.customer_name||!payload.customer_phone||!payload.booking_date||!payload.service_name){showMessage(msg,"تکایە خانە پێویستەکان پڕ بکەرەوە.","error");return}
+if(payload.booking_date<localDateToday()){showMessage(msg,"ناتوانیت ڕۆژێکی ڕابردوو حجز بکەیت.","error");return}
+const btn=$("submitBooking");btn.disabled=true;btn.textContent="چاوەڕێ بکە...";
+try{const {error}=await sb.from("bookings").insert(payload);if(error){if(error.code==="23505")throw new Error("ئەم کاتە تازە حجز کراوە؛ تکایە کاتێکی تر هەڵبژێرە.");throw error}showMessage(msg,"حجزەکەت بە سەرکەوتوویی نێردرا — دۆخ: چاوەڕوانی پەسەندکردن.","success");$("bookingForm").reset();chosenTime="";$("selectedTime").value="";$("bookingDate").min=localDateToday();renderSlots();loadSlots()}catch(err){console.error(err);showMessage(msg,err.message||"کێشەیەک ڕوویدا. پەیوەندی ئینتەرنێت و ڕێکخستنی Supabase بپشکنە.","error")}finally{btn.disabled=false;btn.textContent=translations[lang].submitBooking||"ناردنی حجز"}});
+function showAdminModal(){$("adminModal").classList.add("open");hideMessage($("adminMessage"))}
+function closeAdminModal(){$("adminModal").classList.remove("open")}
+$("openAdmin").addEventListener("click",showAdminModal);$("closeAdmin").addEventListener("click",closeAdminModal);$("adminModal").addEventListener("click",e=>{if(e.target===$("adminModal"))closeAdminModal()});
+async function isAdmin(user){const {data,error}=await sb.from("profiles").select("is_admin").eq("id",user.id).single();if(error)throw error;return data?.is_admin===true}
+$("adminLoginForm").addEventListener("submit",async e=>{e.preventDefault();const msg=$("adminMessage");hideMessage(msg);if(!sb){showMessage(msg,"سەرەتا Supabase config پڕ بکەرەوە.","error");return}const btn=$("adminLoginBtn");btn.disabled=true;try{const {data,error}=await sb.auth.signInWithPassword({email:$("adminEmail").value.trim(),password:$("adminPassword").value});if(error)throw error;if(!await isAdmin(data.user)){await sb.auth.signOut();throw new Error("ئەم ئەکاونتە مۆڵەتی بەڕێوەبەری نییە.")}closeAdminModal();$("publicSite").classList.add("hidden");document.querySelectorAll(".section").forEach(s=>{if(s.closest("#publicSite"))s.classList.add("hidden")});$("adminPanel").classList.add("active");await refreshAdmin();await refreshAdminAnnouncements()}catch(err){console.error(err);showMessage(msg,err.message||"چوونەژوورەوە سەرکەوتوو نەبوو.","error")}finally{btn.disabled=false}});
+$("adminLogout").addEventListener("click",async()=>{if(sb)await sb.auth.signOut();$("adminPanel").classList.remove("active");$("publicSite").classList.remove("hidden");document.querySelectorAll("#publicSite .section").forEach(s=>s.classList.remove("hidden"));window.scrollTo({top:0,behavior:"smooth"})});
+async function refreshAdmin(){if(!sb)return;const {data,error}=await sb.from("bookings").select("*").order("booking_date",{ascending:false}).order("booking_time",{ascending:true});if(error){alert("نەتوانرا حجزەکان بخوێندرێنەوە: "+error.message);return}adminBookings=data||[];$("statTotal").textContent=adminBookings.length;$("statPending").textContent=adminBookings.filter(x=>x.status==="pending").length;$("statConfirmed").textContent=adminBookings.filter(x=>x.status==="confirmed").length;$("statRevenue").textContent=money(adminBookings.filter(x=>["confirmed","completed"].includes(x.status)).reduce((sum,x)=>sum+Number(x.price_iqd||0),0));renderAdminRows()}
+function renderAdminRows(){const search=$("adminSearch").value.toLowerCase();const date=$("adminDateFilter").value;const status=$("adminStatusFilter").value;const filtered=adminBookings.filter(b=>(!search||(b.customer_name+" "+b.customer_phone).toLowerCase().includes(search))&&(!date||b.booking_date===date)&&(!status||b.status===status));const tbody=$("bookingRows");tbody.innerHTML="";if(!filtered.length){tbody.innerHTML='<tr><td colspan="9">هیچ حجزێک نەدۆزرایەوە.</td></tr>';return}filtered.forEach(b=>{const tr=document.createElement("tr");const values=[b.customer_name,b.customer_phone,b.service_name,b.haircut_style||"—",b.booking_date,String(b.booking_time).slice(0,5),money(b.price_iqd),b.status];values.forEach((v,i)=>{const td=document.createElement("td");if(i===7){const s=document.createElement("span");s.className="status";s.textContent=({pending:"چاوەڕوان",confirmed:"پەسەندکراو",cancelled:"هەڵوەشاوە",completed:"تەواوبوو"})[v]||v;td.appendChild(s)}else td.textContent=v??"";tr.appendChild(td)});const td=document.createElement("td");const select=document.createElement("select");select.style.cssText="background:#0b0b09;color:#eee;border:1px solid #ffffff22;border-radius:8px;padding:6px;max-width:120px";[["pending","چاوەڕوان"],["confirmed","پەسەندکراو"],["cancelled","هەڵوەشاوە"],["completed","تەواوبوو"]].forEach(([v,l])=>{const o=document.createElement("option");o.value=v;o.textContent=l;o.selected=b.status===v;select.appendChild(o)});select.addEventListener("change",()=>updateBookingStatus(b.id,select.value));td.appendChild(select);tr.appendChild(td);tbody.appendChild(tr)})}
+async function updateBookingStatus(id,status){if(!sb)return;const {error}=await sb.from("bookings").update({status}).eq("id",id);if(error){alert("گۆڕینی دۆخ سەرکەوتوو نەبوو: "+error.message);return}await refreshAdmin();await loadSlots()}
+$("refreshBookings").addEventListener("click",refreshAdmin);$("adminSearch").addEventListener("input",renderAdminRows);$("adminDateFilter").addEventListener("change",renderAdminRows);$("adminStatusFilter").addEventListener("change",renderAdminRows);
+async function updateConnection(){if(!sb){$("connectionStatus").textContent="دۆخی داتابەیس: پێویستە Supabase URL و anon key زیاد بکرێن.";return}try{const {error}=await sb.from("services").select("id").limit(1);if(error)throw error;$("connectionStatus").textContent="دۆخی داتابەیس: پەیوەندی بە Supabase هەیە ✓";}catch(e){$("connectionStatus").textContent="دۆخی داتابەیس: پشکنینی SQL / RLS پێویستە.";console.warn(e)}}
+
+async function loadBarbers(){if(!sb)return;try{const {data,error}=await sb.from("barbers").select("name,specialty,photo_url,active").eq("active",true).order("created_at");if(error)throw error;if(!data?.length)return;const sel=$("barberSelect");sel.innerHTML="";const any=document.createElement("option");any.value="Any available";any.textContent="هەر حەلاقێکی بەردەست";sel.appendChild(any);data.forEach(b=>{const o=document.createElement("option");o.value=b.name;o.textContent=({"Barber 1":"حەلاق ١","Barber 2":"حەلاق ٢"})[b.name]||b.name;sel.appendChild(o)});const grid=$("barberProfiles");grid.innerHTML="";data.forEach(b=>{const card=document.createElement("article");card.className="barber-card";const img=document.createElement("img");img.loading="lazy";img.alt=b.name;img.src=b.photo_url||"https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80";const h=document.createElement("h3");h.textContent=({"Barber 1":"حەلاق ١","Barber 2":"حەلاق ٢"})[b.name]||b.name;const p=document.createElement("p");p.textContent=({"Modern Fade & Classic Cuts":"فەیدی مۆدێرن و قژبڕینی کلاسیکی","Beard Styling & Hair Design":"ڕێکخستنی ڕیش و شێوازدانی قژ"})[b.specialty]||b.specialty||"حەلاقی پڕۆفیشناڵ";card.append(img,h,p);grid.appendChild(card)})}catch(e){console.warn("Barbers table not available yet",e)}}
+async function loadGallery(){if(!sb)return;try{const {data,error}=await sb.from("gallery_items").select("title,image_url,active,sort_order").eq("active",true).order("sort_order");if(error)throw error;if(!data?.length)return;const grid=document.querySelector("#gallery .gallery-grid");grid.innerHTML="";data.forEach(item=>{const a=document.createElement("a");a.className="gallery-item";a.href=item.image_url;a.target="_blank";a.rel="noopener";const img=document.createElement("img");img.loading="lazy";img.src=item.image_url;img.alt=item.title||"Haircut style";const span=document.createElement("span");span.textContent=({"Modern Fade":"فەیدی مۆدێرن","Precision Styling":"شێوازدانی ورد","The Studio":"ناوەندی حەلاقی","Clean Details":"وردەکاریی پاک","Classic Experience":"ئەزموونی کلاسیکی","Tools & Craft":"ئامراز و هونەر"})[item.title]||item.title||"ستایلی GOLDEN CUT";a.append(img,span);grid.appendChild(a)})}catch(e){console.warn("Gallery table not available yet",e)}}
+
+$("barberAdminForm").addEventListener("submit",async e=>{e.preventDefault();if(!sb)return alert("Supabase پەیوەست نییە.");const {error}=await sb.from("barbers").insert({name:$("newBarberName").value.trim(),specialty:$("newBarberSpecialty").value.trim()||"حەلاقی پڕۆفیشناڵ",photo_url:$("newBarberPhoto").value.trim(),active:true});if(error)return alert("زیادکردنی حەلاق سەرکەوتوو نەبوو: "+error.message);e.target.reset();await loadBarbers();alert("حەلاق زیادکرا.")});
+$("galleryAdminForm").addEventListener("submit",async e=>{e.preventDefault();if(!sb)return alert("Supabase پەیوەست نییە.");const {error}=await sb.from("gallery_items").insert({title:$("newGalleryTitle").value.trim(),image_url:$("newGalleryUrl").value.trim(),active:true,sort_order:Date.now()});if(error)return alert("زیادکردنی وێنە سەرکەوتوو نەبوو: "+error.message);e.target.reset();await loadGallery();alert("وێنە زیادکرا.")});
+renderSlots();updateConnection();loadBarbers();loadGallery();loadLiveQueue();loadAnnouncements();setInterval(loadLiveQueue,30000);setInterval(loadAnnouncements,60000);
 </script>
-
 </body>
 </html>
