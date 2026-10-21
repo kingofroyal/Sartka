@@ -132,8 +132,8 @@ html{scroll-behavior:smooth}body{overflow-x:hidden}.hero-copy,.hero-art,.service
    Paste your Project URL and anon/public key below.
    NEVER put the service_role key in this file.
 ========================= */
-const SUPABASE_URL = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3cWNwaGt4cW9yZWxlaWJ5c3NrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMzUzODgsImV4cCI6MjEwNDkxMTM4OH0.YmRJSfSfUJPDKBRyTSFLu_y61nKbIYbkilk0nt3s8dA";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3cWNwaGt4cW9yZWxlaWJ5c3NrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4OTMzNTM4OCwiZXhwIjoyMTA0OTExMzg4fQ.C1e6ePwJ908aMH7wQ6E8V7V-4gB83tL53gUZcQX8W9E";
+const SUPABASE_URL = "sb_publishable_Chrof0oH-zuZqTRHxHcXMw_fOjVV6SpxMTM4OH0.YmRJSfSfUJPDKBRyTSFLu_y61nKbIYbkilk0nt3s8dA";
+const SUPABASE_ANON_KEY = "";
 const supabaseReady = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("PASTE_") && SUPABASE_ANON_KEY.length > 30 && !SUPABASE_ANON_KEY.includes("PASTE_");
 const sb = supabaseReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
