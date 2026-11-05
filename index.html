@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090a0b">
-<title>7ALAQ BARBER — Premium Grooming</title>
+<title>Sartka BarBer — Premium Grooming</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
 :root{--bg:#090a0b;--panel:#111416;--panel2:#171b1d;--gold:#d5ad68;--gold2:#f1d7a4;--muted:#9a9da0;--line:#2a2e30;--white:#f7f4ed;--green:#72c79a;--red:#e58b83;--blue:#8eb8e8}
@@ -51,7 +51,7 @@ header{position:sticky;top:0;z-index:10;background:#090a0bed;backdrop-filter:blu
 <div class="toast" id="toast"></div>
 <script>
 const KEY='7alaq_premium_v2',$=s=>document.querySelector(s);
-const initial={barbers:[{id:1,name:'حەلاقی یەکەم',specialty:'Modern Fade & Taper',phone:'',active:true},{id:2,name:'حەلاقی دووەم',specialty:'Beard & Classic Cuts',phone:'',active:true}],services:[{id:1,name:'قژبڕینی مۆدێرن',price:15000,description:'Fade، Taper و ستایلی مۆدێرن'},{id:2,name:'ڕیش و ڕێکخستن',price:8000,description:'ڕێکخستنی ڕیش و هێڵکاری بە وردی'},{id:3,name:'VIP Package',price:25000,description:'قژبڕین + ڕیش + ستایلی تەواو'}],bookings:[],settings:{shopName:'7ALAQ BARBER',address:'ناونیشانی حەلاقی لێرە زیاد بکە',hours:'10:00 بەیانی – 10:00 شەو',phone:'',username:'owner',password:'7246'}};
+const initial={barbers:[{id:1,name:'حەلاقی یەکەم',specialty:'Modern Fade & Taper',phone:'',active:true},{id:2,name:'حەلاقی دووەم',specialty:'Beard & Classic Cuts',phone:'',active:true}],services:[{id:1,name:'قژبڕینی مۆدێرن',price:15000,description:'Fade، Taper و ستایلی مۆدێرن'},{id:2,name:'ڕیش و ڕێکخستن',price:8000,description:'ڕێکخستنی ڕیش و هێڵکاری بە وردی'},{id:3,name:'VIP Package',price:25000,description:'قژبڕین + ڕیش + ستایلی تەواو'}],bookings:[],settings:{shopName:'Sartka BarBer',address:'Erbil',hours:'11:00 بەیانی – 3:00 شەو',phone:'',username:'owner',password:'7246'}};
 let db=load();function load(){try{return {...initial,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return structuredClone(initial)}}function save(){localStorage.setItem(KEY,JSON.stringify(db))}function id(){return Date.now()+Math.floor(Math.random()*1000)}function money(n){return Number(n||0).toLocaleString('en-US')+' د.ع'}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function toast(s){let t=$('#toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200)}
 function refreshPublic(){ $('#publicServices').innerHTML=db.services.map(s=>`<article class="card"><div class="iconbox">✂</div><h3>${esc(s.name)}</h3><p>${esc(s.description)}</p><div class="price">${money(s.price)}</div></article>`).join('');$('#bookService').innerHTML='<option value="">خزمەتگوزاری هەڵبژێرە</option>'+db.services.map(s=>`<option value="${s.id}">${esc(s.name)} — ${money(s.price)}</option>`).join('');$('#bookBarber').innerHTML='<option value="">حەلاق هەڵبژێرە</option>'+db.barbers.filter(b=>b.active).map(b=>`<option value="${b.id}">${esc(b.name)} — ${esc(b.specialty)}</option>`).join('');$('#shopAddress').textContent=db.settings.address;$('#shopHours').textContent=db.settings.hours;document.title=db.settings.shopName+' — Premium Grooming'}
 const date=$('#dateInput');let today=new Date();date.min=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
