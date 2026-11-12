@@ -125,7 +125,7 @@ body:before{background:radial-gradient(ellipse at 82% 0%,#2f75bd0b,transparent 3
 <header class="header">
   <div class="container nav">
     <a class="brand" href="#home"><span class="brand-mark">✦</span><span>Sartka <span class="gold">BarBer</span><small style="display:block;color:var(--muted);font-size:.62rem;letter-spacing:3px;font-weight:600">ناوەندی حەلاقی</small></span></a>
-    <nav class="nav-links" id="navLinks"><a href="#home" data-i18n="navHome">سەرەتا</a><a href="#services" data-i18n="navServices">خزمەتگوزاری</a><a href="#gallery" data-i18n="navGallery">گەلەری</a><a href="#announcements">ڕاگەیاندن</a><a href="#booking" data-i18n="navBooking">حجزکردن</a><a href="#contact" data-i18n="navContact">پەیوەندی</a></nav>
+    <nav class="nav-links" id="navLinks"><a href="#home" data-i18n="navHome">سەرەتا</a><a href="#services" data-i18n="navServices">خزمەتگوزاری</a><a href="#gallery" data-i18n="navGallery">گەلەری</a><a href="#announcements">ڕاگەیاندن</a><a href="#booking" data-i18n="navBooking">حجزکردن</a><a href="#contact" data-i18n="navContact">پەیوەندی</a><a href="#" id="ownerMenuLink" aria-label="Owner login">🔐 بەڕێوەبەر</a></nav>
     <div class="nav-actions"><label class="language-picker" aria-label="Choose language"><span class="language-icon">文</span><select id="languageSelect" class="lang" aria-label="Language"><option value="ku">کوردی</option><option value="ar">العربية</option><option value="en">English</option></select></label><a class="btn btn-gold" href="#booking" data-i18n="bookNow">حجزکردنی کات</a><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button></div>
   </div>
 </header>
@@ -262,6 +262,7 @@ $("languageSelect").addEventListener("change",e=>setLang(e.target.value));
 lang="ku"; document.documentElement.lang="ku"; document.documentElement.dir="rtl";
 $("menuBtn").addEventListener("click",()=>$("navLinks").classList.toggle("open"));
 document.querySelectorAll("#navLinks a").forEach(a=>a.addEventListener("click",()=>$("navLinks").classList.remove("open")));
+$("ownerMenuLink").addEventListener("click",e=>{e.preventDefault();$("navLinks").classList.remove("open");showAdminModal()});
 document.querySelectorAll(".choose-service").forEach(btn=>btn.addEventListener("click",()=>{$("serviceSelect").value=btn.dataset.service;$("booking").scrollIntoView({behavior:"smooth"});}));
 function isFridayDate(dateText){if(!dateText)return false;const [y,m,d]=dateText.split("-").map(Number);return new Date(y,m-1,d).getDay()===5}
 const BOOKING_WEEKDAYS=[{value:6,label:"١ شەمە"},{value:1,label:"٢ دوو شەمە"},{value:2,label:"٣ سێ شەمە"},{value:3,label:"٤ چوار شەمە"},{value:4,label:"٥ پێنجشەمە"}];
