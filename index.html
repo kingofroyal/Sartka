@@ -125,7 +125,7 @@ body:before{background:radial-gradient(ellipse at 82% 0%,#2f75bd0b,transparent 3
 <header class="header">
   <div class="container nav">
     <a class="brand" href="#home"><span class="brand-mark">✦</span><span>Sartka <span class="gold">BarBer</span><small style="display:block;color:var(--muted);font-size:.62rem;letter-spacing:3px;font-weight:600">ناوەندی حەلاقی</small></span></a>
-    <nav class="nav-links" id="navLinks"><a href="#home" data-i18n="navHome">سەرەتا</a><a href="#services" data-i18n="navServices">خزمەتگوزاری</a><a href="#gallery" data-i18n="navGallery">گەلەری</a><a href="#announcements">ڕاگەیاندن</a><a href="#booking" data-i18n="navBooking">حجزکردن</a><a href="#contact" data-i18n="navContact">پەیوەندی</a><a href="#" id="ownerMenuLink" aria-label="Owner login">🔐 بەڕێوەبەر</a></nav>
+    <nav class="nav-links" id="navLinks"><a href="#home" data-i18n="navHome">سەرەتا</a><a href="#services" data-i18n="navServices">خزمەتگوزاری</a><a href="#gallery" data-i18n="navGallery">گەلەری</a><a href="#announcements">ڕاگەیاندن</a><a href="#booking" data-i18n="navBooking">حجزکردن</a><a href="#contact" data-i18n="navContact">پەیوەندی</a><a href="#" id="ownerMenuLink" aria-label="Owner login">🔐 بەڕێوەبەر</a><a href="#owner" id="openAdmin" role="button" style="cursor:pointer">🔐 بەڕێوەبەر</a></nav>
     <div class="nav-actions"><label class="language-picker" aria-label="Choose language"><span class="language-icon">文</span><select id="languageSelect" class="lang" aria-label="Language"><option value="ku">کوردی</option><option value="ar">العربية</option><option value="en">English</option></select></label><a class="btn btn-gold" href="#booking" data-i18n="bookNow">حجزکردنی کات</a><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button></div>
   </div>
 </header>
@@ -343,7 +343,7 @@ const btn=$("submitBooking");btn.disabled=true;btn.textContent="چاوەڕێ ب�
 try{const {error}=await sb.from("bookings").insert(payload);if(error){if(error.code==="23505")throw new Error("ئەم کاتە تازە حجز کراوە؛ تکایە کاتێکی تر هەڵبژێرە.");throw error}showMessage(msg,"حجزەکەت بە سەرکەوتوویی نێردرا — دۆخ: چاوەڕوانی پەسەندکردن.","success");$("bookingForm").reset();chosenTime="";$("selectedTime").value="";$("bookingDate").value="";$("selectedBookingDate").textContent="ڕۆژی حجزکردن هەڵبژێرە.";renderSlots();loadSlots();loadLiveQueue();loadPublicBookings()}catch(err){console.error(err);showMessage(msg,err.message||"کێشەیەک ڕوویدا. پەیوەندی ئینتەرنێت و ڕێکخستنی Supabase بپشکنە.","error")}finally{btn.disabled=false;btn.textContent=translations[lang].submitBooking||"ناردنی حجز"}});
 function showAdminModal(){$("adminModal").classList.add("open");hideMessage($("adminMessage"))}
 function closeAdminModal(){$("adminModal").classList.remove("open")}
-$("openAdmin").addEventListener("click",showAdminModal);$("closeAdmin").addEventListener("click",closeAdminModal);$("adminModal").addEventListener("click",e=>{if(e.target===$("adminModal"))closeAdminModal()});
+$("openAdmin").addEventListener("click",e=>{e.preventDefault();$("navLinks").classList.remove("open");showAdminModal()});$("closeAdmin").addEventListener("click",closeAdminModal);$("adminModal").addEventListener("click",e=>{if(e.target===$("adminModal"))closeAdminModal()});
 async function isAdmin(user){const {data,error}=await sb.from("profiles").select("is_admin").eq("id",user.id).single();if(error)throw error;return data?.is_admin===true}
 // Hidden owner entry: tap the brand logo five times.
 let ownerLogoTaps=0, ownerLogoTapTimer=null;
