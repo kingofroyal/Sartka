@@ -7,7 +7,7 @@
 <title>Sartka BarBer | ناوەندی حەلاقی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#090909;--panel:#11110f;--panel2:#171713;--gold:#d8b56d;--gold2:#f2d99b;--text:#f7f3e9;--muted:#a8a397;--line:#ffffff16;--red:#e46f6f;--green:#7bc7a1;--radius:22px;--shadow:0 24px 70px #0008}
@@ -440,3 +440,18 @@ renderSlots();updateConnection();loadShopSchedule();loadBarbers();loadGallery();
 #adminPanel {padding-top:28px}
 @media(max-width:700px){#publicSite > #booking{padding:18px 0 30px!important}.booking-card{padding:16px!important}.style-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
+
+
+/* Mobile-friendly Kurdish typography: Noto Sans Arabic */
+html, body, body *, button, input, select, textarea {
+  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif !important;
+}
+.brand, .stat strong, .slot {
+  font-family: "Manrope", "Noto Sans Arabic", sans-serif !important;
+}
+body { font-weight: 500; line-height: 1.85; }
+button, .btn, input, select, textarea { font-weight: 600; }
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  button, .btn, input, select { font-size: 14px; }
+}
