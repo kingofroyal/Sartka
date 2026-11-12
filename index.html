@@ -163,6 +163,53 @@ button:not(:disabled):active{transform:translateY(1px) scale(.985)}
 #ownerWeekdays input{accent-color:#d8b56d}
 @media(max-width:600px){.btn{min-height:44px;padding:10px 16px}.barber-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.barber-card img{height:165px}#ownerWeekdays label{font-size:.85rem}}
 </style>
+<style id="gc-simple-booking-only">
+/* Simple one-page booking layout: keep booking, public booking list and owner panel. */
+#publicSite > #home,
+#publicSite > .trust-row,
+#publicSite > #services,
+#publicSite > #gallery,
+#publicSite > #barbers,
+#publicSite > #announcements,
+#publicSite > #reviews,
+#publicSite > #contact {display:none!important}
+#publicSite > #liveQueue {padding:18px 0 0!important}
+#liveQueue > .section-head,
+#liveQueue > .live-card,
+#liveQueue > #queueUpdated {display:none!important}
+#publicSite > #booking {padding:28px 0 42px!important}
+#booking .booking-layout {display:block!important;max-width:760px;margin:0 auto}
+#booking .booking-intro {padding:0 0 12px!important;text-align:center}
+#booking .booking-intro h2 {font-size:clamp(1.7rem,5vw,2.3rem);margin:6px 0}
+#booking .booking-intro p,
+#booking .booking-intro .info-line,
+#booking .booking-intro #connectionStatus {display:none!important}
+#booking .booking-card {box-shadow:0 10px 32px #173b640c!important}
+.header .nav-links {display:none!important}
+.header .nav {height:66px}
+.footer .brand,
+.footer .footer-inner > span,
+.footer .footer-inner > a[href="#home"] {display:none!important}
+.footer .footer-inner {justify-content:center}
+#adminPanel {padding-top:28px}
+@media(max-width:700px){#publicSite > #booking{padding:18px 0 30px!important}.booking-card{padding:16px!important}.style-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.brand, .stat strong, .slot {
+  font-family: "Manrope", "Noto Sans Arabic", sans-serif !important;
+}
+body { font-weight: 500; line-height: 1.85; }
+button, .btn, input, select, textarea { font-weight: 600; }
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  button, .btn, input, select { font-size: 14px; }
+}
+</style>
+<style id="kurdish-mobile-typography">
+html, body, body *, button, input, select, textarea { font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif !important; }
+.brand, .stat strong, .slot { font-family: "Manrope", "Noto Sans Arabic", sans-serif !important; }
+body { font-weight: 500; line-height: 1.85; }
+button, .btn, input, select, textarea { font-weight: 600; }
+@media (max-width: 520px) { body { font-size: 15px; } button, .btn, input, select { font-size: 14px; } }
+</style>
 </head>
 <body>
 <header class="header">
@@ -415,49 +462,5 @@ renderSlots();updateConnection();loadShopSchedule();loadBarbers();loadGallery();
 </body>
 </html>
 
-<style id="gc-simple-booking-only">
-/* Simple one-page booking layout: keep booking, public booking list and owner panel. */
-#publicSite > #home,
-#publicSite > .trust-row,
-#publicSite > #services,
-#publicSite > #gallery,
-#publicSite > #barbers,
-#publicSite > #announcements,
-#publicSite > #reviews,
-#publicSite > #contact {display:none!important}
-#publicSite > #liveQueue {padding:18px 0 0!important}
-#liveQueue > .section-head,
-#liveQueue > .live-card,
-#liveQueue > #queueUpdated {display:none!important}
-#publicSite > #booking {padding:28px 0 42px!important}
-#booking .booking-layout {display:block!important;max-width:760px;margin:0 auto}
-#booking .booking-intro {padding:0 0 12px!important;text-align:center}
-#booking .booking-intro h2 {font-size:clamp(1.7rem,5vw,2.3rem);margin:6px 0}
-#booking .booking-intro p,
-#booking .booking-intro .info-line,
-#booking .booking-intro #connectionStatus {display:none!important}
-#booking .booking-card {box-shadow:0 10px 32px #173b640c!important}
-.header .nav-links {display:none!important}
-.header .nav {height:66px}
-.footer .brand,
-.footer .footer-inner > span,
-.footer .footer-inner > a[href="#home"] {display:none!important}
-.footer .footer-inner {justify-content:center}
-#adminPanel {padding-top:28px}
-@media(max-width:700px){#publicSite > #booking{padding:18px 0 30px!important}.booking-card{padding:16px!important}.style-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* Mobile-friendly Kurdish typography: Noto Sans Arabic */
-html, body, body *, button, input, select, textarea {
-  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif !important;
-}
-.brand, .stat strong, .slot {
-  font-family: "Manrope", "Noto Sans Arabic", sans-serif !important;
-}
-body { font-weight: 500; line-height: 1.85; }
-button, .btn, input, select, textarea { font-weight: 600; }
-@media (max-width: 520px) {
-  body { font-size: 15px; }
-  button, .btn, input, select { font-size: 14px; }
-}
-</style>
 
