@@ -459,6 +459,50 @@ $("galleryAdminForm").addEventListener("submit",async e=>{e.preventDefault();if(
 renderSlots();updateConnection();loadShopSchedule();loadBarbers();loadGallery();loadLiveQueue();loadAnnouncements();loadPublicBookings();setInterval(loadLiveQueue,30000);setInterval(loadPublicBookings,30000);setInterval(loadAnnouncements,60000);
 </script>
 <style>.language-picker{display:flex;align-items:center;gap:5px}.language-icon{color:#28649c}.nav-actions .lang{display:block!important;background:#fff!important;color:#1d3550!important;border:1px solid #cbd9e8!important;border-radius:11px!important;padding:8px 9px!important;min-width:92px;max-width:112px;font-weight:700}</style>
+
+<style id="sartka-polish-upgrade">
+/* Sartka BarBer — polished buttons, cards and mobile details */
+:root{--ui-blue:#2463a6;--ui-blue-dark:#174b83;--ui-soft:#eaf2fb;--ui-border:#d7e3ef}
+button,.btn,.lang,.menu-btn,.slot,.style-tile,.barber-card,.gallery-item,.service-card{ -webkit-tap-highlight-color:transparent }
+.btn,button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease,border-color .2s ease}
+.btn{font-weight:800;letter-spacing:.05px;box-shadow:0 5px 15px #173b6410}
+.btn-gold{background:linear-gradient(135deg,#4388c7 0%,#2463a6 55%,#174b83 100%)!important;box-shadow:0 8px 20px #2463a62b!important}
+.btn-gold:hover{box-shadow:0 12px 26px #2463a638!important;filter:saturate(1.08)}
+.btn-ghost:hover,.lang:hover,.menu-btn:hover{background:#edf4fb!important;border-color:#a9c5e1!important;color:#174b83!important}
+.btn:active,button:active,.slot:active{transform:scale(.975)}
+button:focus-visible,.btn:focus-visible,.slot:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #4388c766;outline-offset:3px}
+.section-head h2{letter-spacing:-.35px}
+.service-card,.review-card,.booking-card,.admin-card,.contact-card,.barber-card{box-shadow:0 10px 30px #173b640b!important;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important}
+.service-card:hover,.review-card:hover,.barber-card:hover{transform:translateY(-5px)!important;box-shadow:0 16px 34px #173b6415!important;border-color:#a9c8e5!important}
+.service-icon{box-shadow:inset 0 1px 0 #fff9}
+.field input,.field select,.field textarea,.admin-tools input,.admin-tools select{transition:border-color .2s,box-shadow .2s,background .2s}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:#b7cde2!important}
+.slot{font-weight:700;min-height:42px;transition:transform .16s,background .18s,border-color .18s,box-shadow .18s}
+.slot:hover:not(.taken){background:#eff6fd!important;border-color:#7eacd5!important;box-shadow:0 4px 12px #2463a614}
+.slot.selected{background:linear-gradient(135deg,#4388c7,#2463a6)!important;color:#fff!important;border-color:#2463a6!important;box-shadow:0 5px 14px #2463a633}
+.slot.taken{background:#f5f6f8!important;color:#9aa7b5!important}
+.style-tile{background:#fff!important;border-color:#dce6f0!important;box-shadow:0 4px 12px #173b6408}
+.style-option input:checked+.style-tile{border-color:#367fc2!important;box-shadow:0 0 0 2px #367fc225,0 10px 22px #2463a614!important}
+.gallery-item{box-shadow:0 7px 20px #173b6410;transition:transform .22s,box-shadow .22s,border-color .22s}
+.gallery-item:hover{transform:translateY(-4px);box-shadow:0 14px 28px #173b641b;border-color:#a9c8e5}
+.barber-card img{border-radius:13px;object-fit:cover}
+.live-card{background:linear-gradient(115deg,#fff 0%,#f0f6fc 100%)!important;border-color:#cbdced!important;box-shadow:0 10px 28px #173b640d}
+.live-number{color:#2463a6!important}
+.announcement-card{background:linear-gradient(145deg,#fff,#f3f7fc)!important;border-color:#d9e5f0!important;box-shadow:0 8px 22px #173b640b}
+.announcement-card h3{color:#174b83!important}
+.admin-stat{background:linear-gradient(145deg,#fff,#f4f8fc)!important;border-color:#dce6f0!important;box-shadow:0 7px 20px #173b6409}
+.modal-box{box-shadow:0 24px 70px #102d4a2b!important}
+@media(max-width:520px){
+ .btn{min-height:44px;padding:10px 16px;font-size:.9rem}
+ .hero-buttons{gap:9px}.hero-buttons .btn{flex:1 1 auto}
+ .slot{min-height:43px;padding:9px 3px;font-size:.84rem}
+ .service-card,.review-card,.booking-card,.admin-card,.contact-card{border-radius:17px!important}
+ .section-head h2{font-size:1.75rem}
+ .nav-actions{gap:6px}.nav-actions .btn{min-height:39px;padding:7px 11px}
+}
+@media(prefers-reduced-motion:reduce){.btn,button,.service-card,.review-card,.barber-card,.gallery-item,.slot{transition:none!important}}
+</style>
+
 </body>
 </html>
 
