@@ -374,10 +374,9 @@ async function loadShopSchedule(){if(!sb)return;try{const {data,error}=await sb.
 $("saveOwnerSchedule")?.addEventListener("click",async()=>{const msg=$("ownerScheduleMessage");hideMessage(msg);if(!sb)return showMessage(msg,"Supabase پەیوەست نییە.","error");const open=$("ownerOpenTime").value,close=$("ownerCloseTime").value,interval=Number($("ownerInterval").value),days=Array.from(document.querySelectorAll("#ownerWeekdays input:checked")).map(c=>Number(c.value));if(!open||!close||close<=open||!days.length)return showMessage(msg,"کاتی دەستپێک و کۆتایی و لانیکەم یەک ڕۆژ دیاری بکە. کاتی کۆتایی دەبێت دوای دەستپێک بێت.","error");const payload={id:1,open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days,updated_at:new Date().toISOString()};const {error}=await sb.from("shop_booking_settings").upsert(payload,{onConflict:"id"});if(error)return showMessage(msg,"پاشەکەوتکردن سەرکەوتوو نەبوو: "+error.message,"error");shopSchedule={open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days};TIMES=buildTimes();applyEnabledWeekdays();handleBookingDayChange();showMessage(msg,"کات و ڕۆژەکان بە سەرکەوتوویی پاشەکەوت کران.","success");});
 function formatKurdishBookingTime(value){
  const raw=String(value||"").slice(0,5);const match=raw.match(/^(\d{1,2}):(\d{2})$/);if(!match)return raw;
- const hour=Number(match[1]),minute=Number(match[2]);const hour12=hour%12||12;
- const period=hour<12?"بەیانی":hour<17?"دوای نیوەڕۆ":hour<20?"ئێوارە":"شەو";
- const number=n=>String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[Number(d)]);
- return `${number(hour12)}:${number(String(minute).padStart(2,"0"))} ${period}`;
+ const hour=Number(match[1]),minute=match[2];
+ const hour12=hour%12||12;
+ return `${hour12}:${minute}`;
 }
 function renderSlots(taken=[]){const holder=$("timeSlots");holder.innerHTML="";TIMES.forEach(time=>{const b=document.createElement("button");b.type="button";b.className="slot"+(chosenTime===time?" selected":"")+(taken.includes(time)?" taken":"");b.dataset.time=time;b.textContent=formatKurdishBookingTime(time);b.disabled=taken.includes(time);if(b.disabled)b.title="ئەم کاتە حجزکراوە";holder.appendChild(b)});}
 async function loadSlots(){chosenTime="";$("selectedTime").value="";if(!sb){renderSlots();return}const date=$("bookingDate").value;if(!date){renderSlots();return}if(isFridayDate(date)){renderSlots();return}try{const {data,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:"Any available"});if(error)throw error;renderSlots((data||[]).map(x=>String(x.booking_time).slice(0,5)))}catch(err){console.error(err);renderSlots();$("connectionStatus").textContent="داتابەیس نەیتوانی کاتە حجزکراوەکان بخوێنێتەوە؛ تکایە SQL و RLS بپشکنە."}}
