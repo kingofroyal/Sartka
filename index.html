@@ -373,9 +373,9 @@ async function loadLiveQueue(){
  if(!sb){countEl.textContent="—";nextEl.textContent="—";statusEl.textContent="Supabase پەیوەست نییە";return}
  try{
   const today=localToday();
-  const {data:todayRows,error:todayError}=await sb.from("bookings").select("id,status,booking_date,booking_time,time").eq("booking_date",today).in("status",["pending","confirmed"]);
-  if(todayError)throw todayError;
-  countEl.textContent=(todayRows||[]).length.toLocaleString("ckb-IQ");
+  const {data:countData,error:countError}=await sb.rpc("get_today_active_booking_count",{p_date:today});
+  if(countError)throw countError;
+  countEl.textContent=Number(countData||0).toLocaleString("ckb-IQ");
   let nearest=null;
   const now=new Date();
   for(let offset=0;offset<8&&!nearest;offset++){
@@ -385,7 +385,7 @@ async function loadLiveQueue(){
    if(weekday===5||!shopSchedule.enabled_weekdays.includes(weekday)||await isShopClosed(date))continue;
    const {data:busy,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:"Any available"});
    if(error)throw error;
-   const taken=new Set((busy||[]).map(x=>String(x.booking_time||"").slice(0,5)));
+   const taken=new Set((busy||[]).map(x=>String(x.booking_time||x.time||"").slice(0,5)));
    const available=buildTimes().find(t=>{
     if(taken.has(t))return false;
     if(offset===0){const [h,m]=t.split(":").map(Number);return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)>now}
@@ -396,7 +396,11 @@ async function loadLiveQueue(){
   nextEl.textContent=nearest?(nearest.date===today?formatKurdishBookingTime(nearest.time):weekdayKu(nearest.date)+" — "+formatDateKu(nearest.date)+"، "+formatKurdishBookingTime(nearest.time)):"هیچ کاتێکی بەردەست نییە";
   statusEl.textContent="زانیاری حجزە چالاکەکان نوێکرایەوە";
   updatedEl.textContent="دوایین نوێکردنەوە: "+new Date().toLocaleTimeString("ckb-IQ",{hour:"2-digit",minute:"2-digit"});
- }catch(err){console.warn("Live queue unavailable",err);statusEl.textContent="نەتوانرا زانیاری حجز بخوێندرێتەوە؛ مۆڵەتی Supabase بپشکنە";countEl.textContent="—";nextEl.textContent="—"}
+ }catch(err){
+  console.warn("Live queue unavailable",err);
+  statusEl.textContent="پێویستە SQL ـی چاککراو جێبەجێ بکرێت؛ وردەکاری لە Console ببینە";
+  countEl.textContent="—";nextEl.textContent="—";
+ }
 }
 
 const WEEKDAYS_KU={0:"یەکشەممە",1:"دووشەممە",2:"سێشەممە",3:"چوارشەممە",4:"پێنجشەممە",5:"هەینی",6:"شەممە"};
