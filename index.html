@@ -162,120 +162,6 @@ button:not(:disabled):active{transform:translateY(1px) scale(.985)}
 #ownerWeekdays label{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid #d8b56d38;border-radius:12px;background:#ffffff08;color:#eee5d2;font-weight:700}
 #ownerWeekdays input{accent-color:#d8b56d}
 @media(max-width:600px){.btn{min-height:44px;padding:10px 16px}.barber-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.barber-card img{height:165px}#ownerWeekdays label{font-size:.85rem}}
-
-/* Sartka BarBer — polished visual refinement */
-:root{
- --bg:#f3f7fc;--panel:#fff;--panel2:#edf3fa;--gold:#2463a6;--gold2:#174b83;
- --text:#17283d;--muted:#63758b;--line:#173b641c;--radius:22px;
- --shadow:0 18px 50px #173b6410;
-}
-body{font-family:"Noto Sans Arabic","Segoe UI",sans-serif!important;line-height:1.85!important}
-.container{width:min(1180px,calc(100% - 36px))}
-.header{box-shadow:0 8px 30px #173b6408}
-.nav{min-height:76px}
-.brand{gap:12px}
-.brand-mark{box-shadow:0 5px 16px #2463a615;border-radius:15px}
-.nav-links a{font-weight:700;transition:color .2s,transform .2s}
-.nav-links a:hover{transform:translateY(-1px)}
-.hero{gap:clamp(25px,5vw,65px);padding-top:72px;padding-bottom:82px}
-.hero-copy h1{letter-spacing:-.7px;font-weight:900}
-.hero-copy p{line-height:2;font-size:1.05rem}
-.hero-art{border-radius:30px;box-shadow:0 25px 65px #173b6420}
-.hero-art img{transition:transform .7s}
-.hero-art:hover img{transform:scale(1.035)}
-.hero-label{padding:17px 19px;border:1px solid #ffffff30;border-radius:18px;background:#102d4a65;backdrop-filter:blur(12px)}
-.trust-row{padding:22px 0}
-.section{padding:clamp(55px,7vw,88px) 0}
-.section-head{margin-bottom:32px}
-.section-head h2{font-weight:900;letter-spacing:-.5px}
-.service-card,.review-card,.booking-card,.admin-card,.contact-card,.barber-card{
- border-radius:23px!important;box-shadow:0 10px 32px #173b6408!important;
- transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease!important
-}
-.service-card:hover,.review-card:hover,.barber-card:hover,.contact-card:hover{
- transform:translateY(-5px)!important;box-shadow:0 18px 38px #173b6412!important
-}
-.service-icon{border-radius:17px;box-shadow:inset 0 1px #fff}
-.service-card h3,.contact-card h3,.booking-intro h2{font-weight:900}
-.price{font-size:1.28rem}
-.gallery-grid{gap:17px}
-.gallery-item{border-radius:22px;box-shadow:0 12px 30px #173b640d}
-.gallery-item img{transition:transform .55s,filter .55s}
-.gallery-item:hover img{filter:saturate(1.08)}
-.booking-layout{gap:clamp(18px,3vw,34px)}
-.booking-card{box-shadow:0 18px 45px #173b6410!important}
-.field input,.field select,.field textarea{min-height:48px;transition:border-color .2s,box-shadow .2s}
-.field input:focus,.field select:focus,.field textarea:focus{transform:translateY(-1px)}
-.slot{min-height:43px;font-weight:700;transition:all .18s}
-.slot:hover:not(.taken){transform:translateY(-2px);box-shadow:0 5px 14px #2463a615}
-.btn{min-height:48px;padding-inline:23px;box-shadow:0 7px 18px #173b640d}
-.btn-gold:hover{box-shadow:0 11px 25px #2463a62b!important}
-.btn-ghost:hover{border-color:#8bb4dc!important;background:#f5f9fd!important}
-.reviews{gap:18px}
-.review-card{padding:25px}
-.avatar{font-size:1rem}
-.contact-grid{gap:20px}
-.contact-card{padding:25px}
-.hours-row{padding:11px 0}
-.footer{padding:36px 0;background:#edf3fa55}
-.admin-wrap{background:#f3f7fc}
-.admin-stat{border-radius:18px;box-shadow:0 8px 25px #173b6408}
-.table-wrap{border-radius:17px;box-shadow:0 8px 25px #173b6408}
-th{font-weight:900}
-td,th{padding:14px 16px}
-.modal-box{box-shadow:0 24px 70px #173b6425}
-.form-message{line-height:1.8}
-:focus-visible{outline:3px solid #5590c866!important;outline-offset:3px}
-::selection{background:#2463a633;color:#17324c}
-@media(max-width:900px){
- .hero{grid-template-columns:1fr;min-height:unset;padding-top:42px}
- .hero-copy{max-width:760px}
- .hero-art,.hero-art img{min-height:360px}
- .booking-layout{grid-template-columns:1fr}
- .booking-intro{padding:0}
-}
-@media(max-width:700px){
- .container{width:min(100% - 26px,560px)}
- .nav{height:68px}
- .hero{gap:24px;padding-top:30px;padding-bottom:44px}
- .hero-copy h1{font-size:clamp(2.35rem,11vw,3.5rem);line-height:1.22}
- .hero-copy p{font-size:.96rem}
- .hero-art,.hero-art img{min-height:270px}
- .section{padding:54px 0}
- .section-head h2{font-size:1.75rem}
- .gallery-grid{grid-template-columns:1fr 1fr}
- .gallery-item,.gallery-item img{min-height:165px}
- .reviews,.contact-grid{grid-template-columns:1fr}
- .service-card,.review-card,.contact-card{padding:19px}
- .hero-buttons .btn{flex:1}
- .admin-grid{gap:9px}
-}
-@media(prefers-reduced-motion:reduce){
- html{scroll-behavior:auto!important}
- *,*:before,*:after{animation:none!important;transition:none!important}
-}
-
-
-/* Elegant customer booking ticket */
-.ticket-card{position:relative;overflow:hidden;padding:clamp(20px,4vw,38px);border:1px solid #c8d9eb;border-radius:28px;background:linear-gradient(135deg,#fff 0%,#f1f7ff 65%,#e7f1fc 100%);box-shadow:0 22px 60px #173b6415;color:#17283d}
-.ticket-card:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:#2463a60b;left:-80px;top:-100px}
-.ticket-top{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
-.ticket-kicker{font-size:.72rem;letter-spacing:2px;color:#2463a6;font-weight:900}
-.ticket-top h2{font-size:clamp(1.35rem,3vw,2rem);font-weight:900;margin:8px 0}
-.ticket-top p{color:#63758b;margin:0}
-.ticket-check{width:48px;height:48px;flex:0 0 48px;border-radius:16px;display:grid;place-items:center;background:#e2f4e9;color:#16834b;font-size:1.7rem;font-weight:900}
-.ticket-number-wrap{position:relative;margin:24px 0;padding:22px;border-radius:20px;background:linear-gradient(110deg,#173f68,#2463a6);color:white;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.ticket-number-wrap span{font-weight:700}
-.ticket-number-wrap strong{font-size:clamp(2.5rem,8vw,4rem);line-height:1;color:#fff;letter-spacing:1px}
-.ticket-number-wrap small{margin-inline-start:auto;color:#e5f0fb;font-weight:700}
-.ticket-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.ticket-details>div{padding:14px 16px;border:1px solid #dce7f2;border-radius:15px;background:#ffffffc9;min-width:0}
-.ticket-details small{display:block;color:#6b7f94;font-size:.78rem;margin-bottom:5px}
-.ticket-details strong{display:block;color:#1c3550;font-size:.98rem;overflow-wrap:anywhere}
-.ticket-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed #b7c9dc;color:#6b7f94;font-size:.85rem}
-.ticket-pending{color:#a56b14;font-weight:800}
-@media(max-width:650px){.ticket-details{grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-number-wrap{gap:12px}.ticket-number-wrap small{width:100%;margin:0}.ticket-footer{flex-direction:column}}
-
 </style>
 <style id="gc-simple-booking-only">
 /* Simple one-page booking layout: keep booking, public booking list and owner panel. */
@@ -290,8 +176,7 @@ td,th{padding:14px 16px}
 #publicSite > #liveQueue {padding:18px 0 0!important}
 #liveQueue > .section-head,
 #liveQueue > .live-card,
-#liveQueue > #queueUpdated {display:block!important}
-#liveQueue > .section-head {display:flex!important}
+#liveQueue > #queueUpdated {display:none!important}
 #publicSite > #booking {padding:28px 0 42px!important}
 #booking .booking-layout {display:block!important;max-width:760px;margin:0 auto}
 #booking .booking-intro {padding:0 0 12px!important;text-align:center}
@@ -370,24 +255,8 @@ button, .btn, input, select, textarea { font-weight: 600; }
 
 <section class="section container" id="announcements"><div class="section-head"><div><div class="eyebrow">زانیاری نوێ</div><h2>ڕاگەیاندنەکانی <span class="gold">Sartka BarBer</span></h2><p>نوێترین هەواڵ، گۆڕانی کات و ئاگادارییەکانی دوکان لێرە ببینە.</p></div><span class="live-pulse"><i></i> نوێ دەبێتەوە</span></div><div class="announcement-list" id="announcementList"><div class="empty-state">ڕاگەیاندنەکان لێرە دەردەکەون.</div></div></section>
 
+<section class="section container" id="liveQueue"><div class="section-head"><div><div class="eyebrow">دۆخی زیندوو</div><h2>نۆرەی <span class="gold">ئەمڕۆ</span></h2><p>ژمارەی حجزە چالاکەکانی ئەمڕۆ و نزیکترین کاتی حجز ببینە.</p></div><button class="btn btn-ghost btn-small" id="refreshQueue">↻ نوێکردنەوە</button></div><div class="live-card"><div><div class="live-pulse"><i></i><span id="queueStatus">پەیوەندی بە داتابەیسەوە چاوەڕوانە</span></div><div class="live-number" id="queueCount">—</div><div class="live-meta">حجزێکی چالاک بۆ ئەمڕۆ</div></div><div class="live-next"><div class="small-note">نزیکترین کات</div><strong class="gold" id="queueNextTime">—</strong></div></div><p class="small-note" id="queueUpdated" style="margin-top:10px">زانیاری بە شێوەی خۆکار نوێ دەبێتەوە.</p><div class="public-bookings-head"><h3 data-i18n="upcomingBookings">حجزەکانی ڕۆژانی داهاتوو</h3><span class="small-note" data-i18n="autoRefresh">نوێکردنەوەی خۆکار</span></div><div class="public-booking-tools"><div class="public-booking-search"><span>⌕</span><input id="publicBookingSearch" type="search" placeholder="گەڕان بە ناوی کڕیار..." aria-label="گەڕان بە ناوی کڕیار"></div><select id="publicBookingDayFilter" aria-label="فلتەری ڕۆژ"><option value="">هەموو ڕۆژەکان</option><option value="6">١ شەمە</option><option value="0">یەکشەممە</option><option value="1">٢ دوو شەمە</option><option value="2">٣ سێ شەمە</option><option value="3">٤ چوار شەمە</option><option value="4">٥ پێنجشەمە</option></select><button type="button" class="public-booking-clear" id="clearPublicBookingFilters">پاککردنەوە</button></div><div class="public-booking-summary"><div><small>کۆی حجزە پیشاندراوەکان</small><strong id="publicBookingCount">—</strong></div><div><small>ڕۆژە جیاوازەکان</small><strong id="publicBookingDays">—</strong></div><div><small>دۆخی لیست</small><strong><i class="summary-live-dot"></i> زیندوو</strong></div></div><div class="public-bookings-wrap"><div id="publicBookings" class="public-bookings"><div class="empty-state">لیستی حجزەکان بار دەکرێت...</div></div></div><p class="small-note" data-i18n="privacyNote">بۆ پاراستنی تایبەتمەندی، تەنها ناوی یەکەم و چوار ژمارەی کۆتایی مۆبایل پیشان دەدرێت.</p></section>
 
-
-<div id="closureNotice" class="container" style="display:none;margin:18px auto;padding:16px 20px;border:1px solid #d8b56d66;border-radius:16px;background:#d8b56d14;color:var(--text);font-weight:700"></div>
-<section id="bookingTicket" class="container" aria-live="polite" style="display:none;margin:24px auto 0">
- <div class="ticket-card">
-  <div class="ticket-top"><div><span class="ticket-kicker">SARTKA BARBER · BOOKING</span><h2>حجزەکەت بە سەرکەوتوویی نێردرا</h2><p>ئەم زانیارییانە بۆ حجزەکەت تۆمار کران؛ چاوەڕێی پەسەندکردنی بەڕێوەبەر بە.</p></div><div class="ticket-check">✓</div></div>
-  <div class="ticket-number-wrap"><span>ژمارەی نۆرەی تۆ</span><strong id="ticketQueueNumber">#01</strong><small id="ticketAhead">هیچ کەسێک لە پێشەوەت نییە</small></div>
-  <div class="ticket-details">
-   <div><small>ناوی کڕیار</small><strong id="ticketName">—</strong></div>
-   <div><small>ژمارەی مۆبایل</small><strong id="ticketPhone">—</strong></div>
-   <div><small>داواکاری / خزمەتگوزاری</small><strong id="ticketService">—</strong></div>
-   <div><small>حەلاق</small><strong id="ticketBarber">—</strong></div>
-   <div><small>ڕۆژ</small><strong id="ticketDate">—</strong></div>
-   <div><small>کات</small><strong id="ticketTime">—</strong></div>
-  </div>
-  <div class="ticket-footer"><span class="ticket-pending">● چاوەڕێی پەسەندکردن</span><span>تکایە لە کاتی حجزکراودا ئامادەبە</span></div>
- </div>
-</section>
 <section class="section container" id="booking">
 <div class="booking-layout"><div class="booking-intro"><div class="eyebrow">کاتی خۆت حجز بکە</div><h2 data-i18n="bookingTitle">کاتێک بۆ <span class="gold">خۆت</span> حجز بکە</h2><p data-i18n="bookingText">خزمەتگوزاری و کاتی بەردەست هەڵبژێرە. کاتە بەردەستەکان لە داتابەیسەوە نوێ دەبنەوە کاتێک Supabase ڕێکخرابێت.</p><div class="info-line"><span class="info-icon">◷</span><span data-i18n="bookingInfo1">کاتی حجزکراو بۆ تۆ دەپارێزرێت</span></div><div class="info-line"><span class="info-icon">✦</span><span data-i18n="bookingInfo2">پشتڕاستکردنەوەی حجز لە دوای ناردن</span></div><div class="info-line"><span class="info-icon">✓</span><span data-i18n="bookingInfo3">نرخ و ماوەی خزمەتگوزاری ڕوونە</span></div><p class="small-note" id="connectionStatus">دۆخی داتابەیس: تاقی نەکراوەتەوە</p></div>
 <form class="booking-card" id="bookingForm">
@@ -417,7 +286,7 @@ button, .btn, input, select, textarea { font-weight: 600; }
 <section class="admin-wrap container" id="adminPanel">
 <div class="section-head"><div><div class="eyebrow">بەشی تایبەتی</div><h2>داشبۆردی <span class="gold">بەڕێوەبەر</span></h2><p>بەڕێوەبردنی حجزەکان و دۆخیان.</p></div><button class="btn btn-ghost" id="adminLogout">چوونەدەرەوە</button></div>
 <div class="admin-grid"><div class="admin-stat"><span>هەموو حجزەکان</span><strong id="statTotal">—</strong></div><div class="admin-stat"><span>چاوەڕوانی</span><strong id="statPending">—</strong></div><div class="admin-stat"><span>پەسەندکراو</span><strong id="statConfirmed">—</strong></div><div class="admin-stat"><span>کۆی داهاتی حجزە پەسەندکراوەکان (گشتی)</span><strong id="statRevenue">—</strong></div><div class="admin-stat"><span>حجزەکانی ئەم هەفتەیە</span><strong id="statWeek">—</strong></div><div class="admin-stat"><span>زۆرترین حجز بۆ حەلاق</span><strong id="statTopBarber">—</strong></div></div>
-<div class="admin-card" style="margin:18px 0"><h3>⚙️ ڕێکخستنی کات و ڕۆژەکانی حجز</h3><p class="small-note">بەڕێوەبەر دەتوانێت کاتی دەستپێک، کاتی کۆتایی، ماوەی نێوان حجزەکان و ڕۆژە کراوەکان دیاری بکات. بۆ نموونە 00:00 تا 23:30 بۆ کاتەکانی نزیکەی ٢٤ کاتژمێر.</p><div class="form-grid"><div class="field"><label for="ownerOpenTime">کاتی دەستپێک</label><input id="ownerOpenTime" type="time" value="14:00" required></div><div class="field"><label for="ownerCloseTime">کاتی کۆتایی</label><input id="ownerCloseTime" type="time" value="23:00" required></div><div class="field"><label for="ownerInterval">ماوەی نێوان حجزەکان</label><select id="ownerInterval"><option value="15">١٥ خولەک</option><option value="30" selected>٣٠ خولەک</option><option value="45">٤٥ خولەک</option><option value="60">١ کاتژمێر</option><option value="90">١.٥ کاتژمێر</option><option value="120">٢ کاتژمێر</option></select></div><div class="field"><label>ڕۆژەکانی کراوە</label><div style="display:flex;gap:8px;flex-wrap:wrap" id="ownerWeekdays"><label><input type="checkbox" value="6" checked> شەممە</label><label><input type="checkbox" value="0" checked> یەکشەممە</label><label><input type="checkbox" value="1" checked> دووشەممە</label><label><input type="checkbox" value="2" checked> سێشەممە</label><label><input type="checkbox" value="3" checked> چوارشەممە</label><label><input type="checkbox" value="4" checked> پێنجشەممە</label></div></div></div><button class="btn btn-gold btn-small" id="saveOwnerSchedule" type="button" style="margin-top:14px">پاشەکەوتکردنی کاتەکان</button><div id="ownerScheduleMessage" class="form-message" role="status"></div></div><div class="admin-card" style="margin:18px 0"><h3>🎉 پشوو و جەژنەکان</h3><p class="small-note">بەرواری پشوو زیاد بکە؛ لەو ڕۆژەدا کڕیار ناتوانێت حجز بکات و ئاگاداری لە ماڵپەڕ دەردەکەوێت.</p><form id="closureAdminForm" class="form-grid"><div class="field"><label for="closureDate">بەرواری پشوو</label><input id="closureDate" type="date" required></div><div class="field"><label for="closureTitle">ناوی پشوو / جەژن</label><input id="closureTitle" maxlength="100" required placeholder="وەک: جەژنی ڕەمەزان"></div><div class="field full"><label for="closureNote">تێبینی (ئارەزوومەندانە)</label><input id="closureNote" maxlength="250" placeholder="ئەمڕۆ دوکان داخراوە"></div><div class="field full"><button class="btn btn-gold" type="submit">زیادکردنی پشوو</button></div></form><div id="closureAdminMessage" class="form-message" role="status"></div><div id="closureAdminList" style="margin-top:14px"></div></div>
+<div class="admin-card" style="margin:18px 0"><h3>⚙️ ڕێکخستنی کات و ڕۆژەکانی حجز</h3><p class="small-note">بەڕێوەبەر دەتوانێت کاتی دەستپێک، کاتی کۆتایی، ماوەی نێوان حجزەکان و ڕۆژە کراوەکان دیاری بکات. بۆ نموونە 00:00 تا 23:30 بۆ کاتەکانی نزیکەی ٢٤ کاتژمێر.</p><div class="form-grid"><div class="field"><label for="ownerOpenTime">کاتی دەستپێک</label><input id="ownerOpenTime" type="time" value="14:00" required></div><div class="field"><label for="ownerCloseTime">کاتی کۆتایی</label><input id="ownerCloseTime" type="time" value="23:00" required></div><div class="field"><label for="ownerInterval">ماوەی نێوان حجزەکان</label><select id="ownerInterval"><option value="15">١٥ خولەک</option><option value="30" selected>٣٠ خولەک</option><option value="45">٤٥ خولەک</option><option value="60">١ کاتژمێر</option><option value="90">١.٥ کاتژمێر</option><option value="120">٢ کاتژمێر</option></select></div><div class="field"><label>ڕۆژەکانی کراوە</label><div style="display:flex;gap:8px;flex-wrap:wrap" id="ownerWeekdays"><label><input type="checkbox" value="6" checked> شەممە</label><label><input type="checkbox" value="0" checked> یەکشەممە</label><label><input type="checkbox" value="1" checked> دووشەممە</label><label><input type="checkbox" value="2" checked> سێشەممە</label><label><input type="checkbox" value="3" checked> چوارشەممە</label><label><input type="checkbox" value="4" checked> پێنجشەممە</label></div></div></div><button class="btn btn-gold btn-small" id="saveOwnerSchedule" type="button" style="margin-top:14px">پاشەکەوتکردنی کاتەکان</button><div id="ownerScheduleMessage" class="form-message" role="status"></div></div>
 <div class="admin-card"><div class="admin-tools"><input id="adminSearch" placeholder="گەڕان بە ناو یان ژمارە"><input id="adminDateFilter" type="date"><select id="adminStatusFilter"><option value="">هەموو دۆخەکان</option><option value="pending">چاوەڕوان</option><option value="confirmed">پەسەندکراو</option><option value="cancelled">هەڵوەشاوە</option><option value="completed">تەواوبوو</option></select><button class="btn btn-ghost btn-small" id="refreshBookings">نوێکردنەوە</button></div><div class="table-wrap"><table><thead><tr><th>کڕیار</th><th>مۆبایل</th><th>خزمەتگوزاری</th><th>ستایلی قژ</th><th>ڕۆژ</th><th>کات</th><th>نرخ</th><th>دۆخ</th><th>کردار</th></tr></thead><tbody id="bookingRows"><tr><td colspan="8">تکایە بچۆرە ژوورەوە.</td></tr></tbody></table></div><p class="small-note">کۆی داهات تەنها بۆ حجزە پەسەندکراو و تەواوبووەکانە؛ هیچ داهاتی ڕۆژانە پیشان نادرێت. هەموو گۆڕانکارییەکان لە Supabase تۆمار دەکرێن.</p></div>
 <div class="cards" style="margin-top:18px;grid-template-columns:repeat(2,minmax(0,1fr))">
   <form class="admin-card" id="barberAdminForm"><h3>➕ زیادکردنی حەلاق</h3><div class="field"><label for="newBarberName">ناوی حەلاق</label><input id="newBarberName" required maxlength="80" placeholder="ناوی حەلاق"></div><div class="field" style="margin-top:10px"><label for="newBarberSpecialty">پسپۆڕی</label><input id="newBarberSpecialty" maxlength="120" placeholder="فەیدی مۆدێرن, Beard... "></div><div class="field" style="margin-top:10px"><label for="newBarberPhoto">لینکی وێنە</label><input id="newBarberPhoto" type="url" placeholder="https://..."></div><button class="btn btn-gold btn-small" style="margin-top:12px" type="submit">زیادکردنی حەلاق</button></form>
@@ -497,40 +366,7 @@ $("timeSlots").addEventListener("click",e=>{const b=e.target.closest(".slot");if
 
 function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
 function localToday(){return localDateToday()}
-async function {
- const countEl=$("queueCount"),nextEl=$("queueNextTime"),statusEl=$("queueStatus"),updatedEl=$("queueUpdated");
- if(!sb){countEl.textContent="—";nextEl.textContent="—";statusEl.textContent="Supabase پەیوەست نییە";return}
- try{
-  const today=localToday();
-  const {data:countData,error:countError}=await sb.rpc("get_today_active_booking_count",{p_date:today});
-  if(countError)throw countError;
-  countEl.textContent=Number(countData||0).toLocaleString("ckb-IQ");
-  let nearest=null;
-  const now=new Date();
-  for(let offset=0;offset<8&&!nearest;offset++){
-   const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+offset,12);
-   const date=[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
-   const weekday=d.getDay();
-   if(weekday===5||!shopSchedule.enabled_weekdays.includes(weekday)||await isShopClosed(date))continue;
-   const {data:busy,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:"Any available"});
-   if(error)throw error;
-   const taken=new Set((busy||[]).map(x=>String(x.booking_time||x.time||"").slice(0,5)));
-   const available=buildTimes().find(t=>{
-    if(taken.has(t))return false;
-    if(offset===0){const [h,m]=t.split(":").map(Number);return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)>now}
-    return true;
-   });
-   if(available)nearest={date,time:available};
-  }
-  nextEl.textContent=nearest?(nearest.date===today?formatKurdishBookingTime(nearest.time):weekdayKu(nearest.date)+" — "+formatDateKu(nearest.date)+"، "+formatKurdishBookingTime(nearest.time)):"هیچ کاتێکی بەردەست نییە";
-  statusEl.textContent="زانیاری حجزە چالاکەکان نوێکرایەوە";
-  updatedEl.textContent="دوایین نوێکردنەوە: "+new Date().toLocaleTimeString("ckb-IQ",{hour:"2-digit",minute:"2-digit"});
- }catch(err){
-  console.warn("Live queue unavailable",err);
-  statusEl.textContent="پێویستە SQL ـی چاککراو جێبەجێ بکرێت؛ وردەکاری لە Console ببینە";
-  countEl.textContent="—";nextEl.textContent="—";
- }
-}
+async function loadLiveQueue(){const countEl=$("queueCount"),nextEl=$("queueNextTime"),statusEl=$("queueStatus"),updatedEl=$("queueUpdated");if(!sb){countEl.textContent="—";nextEl.textContent="—";statusEl.textContent="Supabase پەیوەست نییە";return}try{const {data,error}=await sb.rpc("get_live_queue",{p_date:localToday()});if(error)throw error;const row=Array.isArray(data)?data[0]:data;countEl.textContent=Number(row?.active_count||0).toLocaleString("ckb-IQ");nextEl.textContent=row?.next_time?formatKurdishBookingTime(row.next_time):"—";statusEl.textContent="دۆخی نۆرە بە نوێکراوە";updatedEl.textContent="دوایین نوێکردنەوە: "+new Date().toLocaleTimeString("ckb-IQ",{hour:"2-digit",minute:"2-digit"})}catch(err){console.warn("Live queue unavailable",err);statusEl.textContent="تکایە SQL ـی نوێ جێبەجێ بکە";countEl.textContent="—";nextEl.textContent="—"}}
 
 const WEEKDAYS_KU={0:"یەکشەممە",1:"دووشەممە",2:"سێشەممە",3:"چوارشەممە",4:"پێنجشەممە",5:"هەینی",6:"شەممە"};
 function weekdayKu(dateText){const [y,m,d]=dateText.split("-").map(Number);return WEEKDAYS_KU[new Date(y,m-1,d).getDay()]||""}
@@ -577,50 +413,11 @@ $("publicBookingDayFilter")?.addEventListener("change",renderPublicBookings);
 $("clearPublicBookingFilters")?.addEventListener("click",()=>{$("publicBookingSearch").value="";$ ("publicBookingDayFilter").value="";renderPublicBookings()});
 async function loadAnnouncements(){const holder=$("announcementList");if(!holder)return;if(!sb){holder.innerHTML='<div class="empty-state">بۆ نیشاندانی ڕاگەیاندنەکان Supabase پەیوەست بکە.</div>';return}try{const {data,error}=await sb.from("announcements").select("id,title,body,created_at,expires_at").eq("active",true).order("created_at",{ascending:false}).limit(6);if(error)throw error;const now=Date.now();const items=(data||[]).filter(a=>!a.expires_at||new Date(a.expires_at).getTime()>now);if(!items.length){holder.innerHTML='<div class="empty-state">ئێستا هیچ ڕاگەیاندنێکی نوێ نییە. بۆ هەواڵی نوێ دواتر سەردانمان بکە.</div>';return}holder.innerHTML=items.map(a=>'<article class="announcement-card"><h3>'+escapeHTML(a.title)+'</h3><p>'+escapeHTML(a.body)+'</p><time>'+new Date(a.created_at).toLocaleDateString("ckb-IQ")+'</time></article>').join("")}catch(err){console.warn("Announcements could not load",err);holder.innerHTML='<div class="empty-state">ڕاگەیاندنەکان ئامادە نین؛ SQL ـی نوێ جێبەجێ بکە.</div>'}}
 async function refreshAdminAnnouncements(){const holder=$("adminAnnouncementList");if(!holder||!sb)return;try{const {data,error}=await sb.from("announcements").select("id,title,active,created_at").order("created_at",{ascending:false}).limit(15);if(error)throw error;if(!data?.length){holder.innerHTML='<p class="small-note">هێشتا ڕاگەیاندنێک زیاد نەکراوە.</p>';return}holder.innerHTML=data.map(a=>'<div class="admin-announcement-row"><div><strong>'+escapeHTML(a.title)+'</strong><br><small>'+(a.active?'چالاک':'ناچالاک')+'</small></div>'+(a.active?'<button type="button" class="btn btn-ghost btn-small" data-deactivate-announcement="'+escapeHTML(a.id)+'">ناچالاککردن</button>':'')+'</div>').join("")}catch(err){holder.innerHTML='<p class="small-note">نەتوانرا لیستی ڕاگەیاندنەکان بخوێندرێتەوە.</p>';console.warn(err)}}
-$("refreshQueue")?.addEventListener("click",()=>{loadPublicBookings()});
+$("refreshQueue")?.addEventListener("click",()=>{loadLiveQueue();loadPublicBookings()});
 $("announcementAdminForm")?.addEventListener("submit",async e=>{e.preventDefault();const msg=$("announcementAdminMessage");hideMessage(msg);if(!sb){showMessage(msg,"Supabase پەیوەست نییە.","error");return}const expiry=$("announcementExpiry").value;const payload={title:$("newAnnouncementTitle").value.trim(),body:$("newAnnouncementBody").value.trim(),active:true,expires_at:expiry?new Date(expiry+"T23:59:59").toISOString():null};try{const {error}=await sb.from("announcements").insert(payload);if(error)throw error;e.target.reset();showMessage(msg,"ڕاگەیاندنەکە بە سەرکەوتوویی بڵاوکرایەوە.","success");await loadAnnouncements();await refreshAdminAnnouncements()}catch(err){console.error(err);showMessage(msg,"بڵاوکردنەوە سەرکەوتوو نەبوو؛ SQL و مۆڵەتەکان بپشکنە.","error")}});
 $("adminAnnouncementList")?.addEventListener("click",async e=>{const btn=e.target.closest("[data-deactivate-announcement]");if(!btn||!sb)return;btn.disabled=true;try{const {error}=await sb.from("announcements").update({active:false}).eq("id",btn.dataset.deactivateAnnouncement);if(error)throw error;await refreshAdminAnnouncements();await loadAnnouncements()}catch(err){alert("ناچالاککردن سەرکەوتوو نەبوو؛ مۆڵەتەکانی Supabase بپشکنە.");btn.disabled=false}});
 // Gentle reveal animations; content remains visible if IntersectionObserver is unavailable.
 try{const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");revealObserver.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll(".section-head,.live-card,.announcement-card,.style-option").forEach(el=>{el.classList.add("reveal");revealObserver.observe(el)})}catch(e){}
-let shopClosures=[];
-async function loadShopClosures(){
- const notice=$("closureNotice");
- if(!sb){if(notice){notice.style.display="none"}return}
- try{
-  const {data,error}=await sb.from("shop_closures").select("id,closed_date,title,note").gte("closed_date",localToday()).order("closed_date",{ascending:true});
-  if(error)throw error; shopClosures=data||[];
-  const today=shopClosures.find(x=>x.closed_date===localToday());
-  if(notice){notice.style.display=today?"block":"none";if(today)notice.textContent="📢 "+today.title+" — "+(today.note||"ئەمڕۆ دوکان داخراوە و حجز وەرناگرین.");}
-  renderClosureAdminList();
- }catch(err){console.warn("Shop closures unavailable",err);if(notice){notice.style.display="none"}}
-}
-function renderClosureAdminList(){
- const holder=$("closureAdminList");if(!holder)return;
- if(!shopClosures.length){holder.innerHTML='<p class="small-note">هیچ پشوویەکی تۆمارکراو نییە.</p>';return}
- holder.innerHTML=shopClosures.map(x=>`<div class="admin-announcement-row"><div><strong>${escapeHTML(x.title)}</strong><br><small>${escapeHTML(x.closed_date)} ${escapeHTML(x.note||"")}</small></div><button type="button" class="btn btn-ghost btn-small" data-remove-closure="${escapeHTML(x.id)}">سڕینەوە</button></div>`).join("");
-}
-$("closureAdminForm")?.addEventListener("submit",async e=>{
- e.preventDefault();const msg=$("closureAdminMessage");hideMessage(msg);
- if(!sb)return showMessage(msg,"Supabase پەیوەست نییە.","error");
- const payload={closed_date:$("closureDate").value,title:$("closureTitle").value.trim(),note:$("closureNote").value.trim()||null};
- if(!payload.closed_date||!payload.title)return showMessage(msg,"بەروار و ناوی پشوو پڕ بکەرەوە.","error");
- const {error}=await sb.from("shop_closures").upsert(payload,{onConflict:"closed_date"});
- if(error)return showMessage(msg,"پاشەکەوتکردن سەرکەوتوو نەبوو: "+error.message,"error");
- e.target.reset();await loadShopClosures();showMessage(msg,"پشووەکە زیادکرا.","success");
-});
-$("closureAdminList")?.addEventListener("click",async e=>{
- const b=e.target.closest("[data-remove-closure]");if(!b||!sb)return;
- if(!confirm("دڵنیایت لە سڕینەوەی ئەم پشوویە؟"))return;
- const {error}=await sb.from("shop_closures").delete().eq("id",b.dataset.removeClosure);
- if(error){alert("سڕینەوە سەرکەوتوو نەبوو: "+error.message);return}
- await loadShopClosures();
-});
-async function isShopClosed(date){
- if(!date||!sb)return false;
- const {data,error}=await sb.from("shop_closures").select("title").eq("closed_date",date).maybeSingle();
- if(error){console.warn("Could not verify closure date",error);return false}
- return !!data;
-}
 async function loadShopSchedule(){if(!sb)return;try{const {data,error}=await sb.from("shop_booking_settings").select("open_time,close_time,interval_minutes,enabled_weekdays").eq("id",1).maybeSingle();if(error)throw error;if(data){shopSchedule={open_time:String(data.open_time).slice(0,5),close_time:String(data.close_time).slice(0,5),interval_minutes:Number(data.interval_minutes),enabled_weekdays:(data.enabled_weekdays||[6,0,1,2,3,4]).map(Number)};TIMES=buildTimes();applyEnabledWeekdays();if($("ownerOpenTime")){ $("ownerOpenTime").value=shopSchedule.open_time;$("ownerCloseTime").value=shopSchedule.close_time;$("ownerInterval").value=String(shopSchedule.interval_minutes);document.querySelectorAll("#ownerWeekdays input").forEach(c=>c.checked=shopSchedule.enabled_weekdays.includes(Number(c.value)));}}}catch(err){console.warn("Shop schedule table not ready",err)}}
 $("saveOwnerSchedule")?.addEventListener("click",async()=>{const msg=$("ownerScheduleMessage");hideMessage(msg);if(!sb)return showMessage(msg,"Supabase پەیوەست نییە.","error");const open=$("ownerOpenTime").value,close=$("ownerCloseTime").value,interval=Number($("ownerInterval").value),days=Array.from(document.querySelectorAll("#ownerWeekdays input:checked")).map(c=>Number(c.value));if(!open||!close||close<=open||!days.length)return showMessage(msg,"کاتی دەستپێک و کۆتایی و لانیکەم یەک ڕۆژ دیاری بکە. کاتی کۆتایی دەبێت دوای دەستپێک بێت.","error");const payload={id:1,open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days,updated_at:new Date().toISOString()};const {error}=await sb.from("shop_booking_settings").upsert(payload,{onConflict:"id"});if(error)return showMessage(msg,"پاشەکەوتکردن سەرکەوتوو نەبوو: "+error.message,"error");shopSchedule={open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days};TIMES=buildTimes();applyEnabledWeekdays();handleBookingDayChange();showMessage(msg,"کات و ڕۆژەکان بە سەرکەوتوویی پاشەکەوت کران.","success");});
 function formatKurdishBookingTime(value){
@@ -630,44 +427,20 @@ function formatKurdishBookingTime(value){
  return `${hour12}:${minute}`;
 }
 function renderSlots(taken=[]){const holder=$("timeSlots");holder.innerHTML="";TIMES.forEach(time=>{const b=document.createElement("button");b.type="button";b.className="slot"+(chosenTime===time?" selected":"")+(taken.includes(time)?" taken":"");b.dataset.time=time;b.textContent=formatKurdishBookingTime(time);b.disabled=taken.includes(time);if(b.disabled)b.title="ئەم کاتە حجزکراوە";holder.appendChild(b)});}
-async function loadSlots(){chosenTime="";$("selectedTime").value="";if(!sb){renderSlots();return}const date=$("bookingDate").value;if(!date){renderSlots();return}if(isFridayDate(date)){renderSlots();return}if(await isShopClosed(date)){renderSlots();$("connectionStatus").textContent="ئەم ڕۆژە بەهۆی پشوو/جەژنەوە داخراوە.";return}try{const {data,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:"Any available"});if(error)throw error;renderSlots((data||[]).map(x=>String(x.booking_time).slice(0,5)))}catch(err){console.error(err);renderSlots();$("connectionStatus").textContent="داتابەیس نەیتوانی کاتە حجزکراوەکان بخوێنێتەوە؛ تکایە SQL و RLS بپشکنە."}}
+async function loadSlots(){chosenTime="";$("selectedTime").value="";if(!sb){renderSlots();return}const date=$("bookingDate").value;if(!date){renderSlots();return}if(isFridayDate(date)){renderSlots();return}try{const {data,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:"Any available"});if(error)throw error;renderSlots((data||[]).map(x=>String(x.booking_time).slice(0,5)))}catch(err){console.error(err);renderSlots();$("connectionStatus").textContent="داتابەیس نەیتوانی کاتە حجزکراوەکان بخوێنێتەوە؛ تکایە SQL و RLS بپشکنە."}}
 function money(n){return Number(n||0).toLocaleString("ar-IQ")+" دینار"}
 function localDateToday(){const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
-function timeToMinutes(value){
- const raw=String(value||"").trim();
- const m=raw.match(/^(\d{1,2}):(\d{2})/);
- return m?Number(m[1])*60+Number(m[2]):NaN;
-}
-function showBookingTicket(payload,queueNumber,ahead){
- const box=$("bookingTicket");if(!box)return;
- const put=(id,value)=>{const el=$(id);if(el)el.textContent=value||"—"};
- put("ticketQueueNumber","#"+String(queueNumber).padStart(2,"0"));
- put("ticketAhead",ahead===null?"ژمارەی پێشەوەکان لە داتابەیس بەردەست نەبوو":(ahead>0?ahead+" کەس لە پێشەوەتن":"هیچ کەسێک لە پێشەوەت نییە"));
- put("ticketName",payload.name);put("ticketPhone",payload.phone);
- put("ticketService",({"Classic Haircut":"قژبڕینی کلاسیکی","Skin Fade":"فەیدی مۆدێرن","Beard Trim":"ڕێکخستنی ڕیش","Hair Styling":"شێوازدانی قژ","Hair + Beard Combo":"قژ و ڕیش پێکەوە","Premium Package":"پاکێجی تایبەت"})[payload.service]||payload.service);
- put("ticketBarber",({"Barber 1":"سارتکا","Barber 2":"کاردۆ","Any available":"هەر حەلاقێکی بەردەست"})[payload.barber_name]||payload.barber_name);
- put("ticketDate",payload.booking_date);put("ticketTime",formatKurdishBookingTime(payload.booking_time||payload.time||""));
- box.style.display="block";box.scrollIntoView({behavior:"smooth",block:"start"});
-}
-$("bookingForm").addEventListener("submit",async e=>{e.preventDefault();const msg=$("bookingMessage");hideMessage(msg);if(await isShopClosed($("bookingDate").value)){showMessage(msg,"ئەم ڕۆژە بەهۆی پشوو یان جەژنەوە داخراوە؛ تکایە ڕۆژێکی تر هەڵبژێرە.","error");return}if(!chosenTime){showMessage(msg,lang==="en"?"Please select an available time.":lang==="ar"?"يرجى اختيار موعد متاح.":"تکایە کاتێکی بەردەست هەڵبژێرە.", "error");return}if(!sb){showMessage(msg,"سەرەتا SUPABASE_URL و SUPABASE_ANON_KEY لە کۆدەکەدا دابنێ و SQL ـەکە جێبەجێ بکە.", "error");return}
+$("bookingForm").addEventListener("submit",async e=>{e.preventDefault();const msg=$("bookingMessage");hideMessage(msg);if(!chosenTime){showMessage(msg,lang==="en"?"Please select an available time.":lang==="ar"?"يرجى اختيار موعد متاح.":"تکایە کاتێکی بەردەست هەڵبژێرە.", "error");return}if(!sb){showMessage(msg,"سەرەتا SUPABASE_URL و SUPABASE_ANON_KEY لە کۆدەکەدا دابنێ و SQL ـەکە جێبەجێ بکە.", "error");return}
 const service=$("serviceSelect").value;const bookingDateValue=$("bookingDate").value;const selectedDayValue=$("bookingDay").value;const parsedBookingDate=bookingDateValue?new Date(bookingDateValue+"T12:00:00"):null;const calculatedDayId=parsedBookingDate&&!Number.isNaN(parsedBookingDate.getTime())?String(parsedBookingDate.getDay()):"";const weekdayCodeByNumber={6:"sat",0:"sun",1:"mon",2:"tue",3:"wed",4:"thu"};const selectedWeekdayNumber=selectedDayValue!==""?Number(selectedDayValue):(calculatedDayId!==""?Number(calculatedDayId):NaN);const dayId=Number.isInteger(selectedWeekdayNumber)?(weekdayCodeByNumber[selectedWeekdayNumber]||""):"";if(!bookingDateValue||!dayId||!/^\d{4}-\d{2}-\d{2}$/.test(bookingDateValue)){showMessage(msg,"تکایە ڕۆژی حجزکردن دووبارە هەڵبژێرە.","error");return}const payload={name:$("customerName").value.trim(),phone:$("customerPhone").value.trim(),day_id:String(dayId),time:chosenTime,service:service,price_iqd:SERVICE_DATA[service]?.price||0,booking_date:bookingDateValue,booking_time:chosenTime,barber_name:$("barberSelect").value,haircut_style:document.querySelector("input[name=haircutStyle]:checked")?.value||"Modern Fade",notes:$("customerNotes").value.trim(),status:"pending"};
 if(!payload.name||!payload.phone||!payload.booking_date||!payload.service){showMessage(msg,"تکایە خانە پێویستەکان پڕ بکەرەوە.","error");return}
 if(payload.booking_date<localDateToday()){showMessage(msg,"ناتوانیت ڕۆژێکی ڕابردوو حجز بکەیت.","error");return}
 if(isFridayDate(payload.booking_date)){showMessage(msg,"ڕۆژی هەینی دووكان داخراوە و حجزکردن تێیدا ناکرێت.","error");return}
 const btn=$("submitBooking");btn.disabled=true;btn.textContent="چاوەڕێ بکە...";
-try{const {error}=await sb.from("bookings").insert(payload);if(error){if(error.code==="23505")throw new Error("ئەم کاتە تازە حجز کراوە؛ تکایە کاتێکی تر هەڵبژێرە.");throw error}
-let ahead=null;try{
- const {data:busy,error:busyError}=await sb.rpc("get_booked_times",{p_date:payload.booking_date,p_barber:"Any available"});
- if(!busyError&&Array.isArray(busy)){
-  const selectedMinutes=timeToMinutes(payload.booking_time);
-  ahead=busy.filter(x=>{const mins=timeToMinutes(x.booking_time||x.time);return Number.isFinite(mins)&&Number.isFinite(selectedMinutes)&&mins<selectedMinutes}).length;
- }
-}catch(queueErr){console.warn("Queue position could not be calculated",queueErr)}
-showBookingTicket(payload,ahead===null?1:ahead+1,ahead);showMessage(msg,"حجزەکەت بە سەرکەوتوویی نێردرا — دۆخ: چاوەڕوانی پەسەندکردن.","success");$("bookingForm").reset();chosenTime="";$("selectedTime").value="";$("bookingDate").value="";$("selectedBookingDate").textContent="ڕۆژی حجزکردن هەڵبژێرە.";renderSlots();loadSlots();loadPublicBookings()}catch(err){console.error(err);showMessage(msg,err.message||"کێشەیەک ڕوویدا. پەیوەندی ئینتەرنێت و ڕێکخستنی Supabase بپشکنە.","error")}finally{btn.disabled=false;btn.textContent=translations[lang].submitBooking||"ناردنی حجز"}});
+try{const {error}=await sb.from("bookings").insert(payload);if(error){if(error.code==="23505")throw new Error("ئەم کاتە تازە حجز کراوە؛ تکایە کاتێکی تر هەڵبژێرە.");throw error}showMessage(msg,"حجزەکەت بە سەرکەوتوویی نێردرا — دۆخ: چاوەڕوانی پەسەندکردن.","success");$("bookingForm").reset();chosenTime="";$("selectedTime").value="";$("bookingDate").value="";$("selectedBookingDate").textContent="ڕۆژی حجزکردن هەڵبژێرە.";renderSlots();loadSlots();loadLiveQueue();loadPublicBookings()}catch(err){console.error(err);showMessage(msg,err.message||"کێشەیەک ڕوویدا. پەیوەندی ئینتەرنێت و ڕێکخستنی Supabase بپشکنە.","error")}finally{btn.disabled=false;btn.textContent=translations[lang].submitBooking||"ناردنی حجز"}});
 function showAdminModal(){$("adminModal").classList.add("open");hideMessage($("adminMessage"))}
 function closeAdminModal(){$("adminModal").classList.remove("open")}
 $("openAdmin").addEventListener("click",showAdminModal);$("closeAdmin").addEventListener("click",closeAdminModal);$("adminModal").addEventListener("click",e=>{if(e.target===$("adminModal"))closeAdminModal()});
-async function openAdminPanel(){closeAdminModal();$("publicSite").classList.add("hidden");document.querySelectorAll(".section").forEach(s=>{if(s.closest("#publicSite"))s.classList.add("hidden")});$("adminPanel").classList.add("active");await refreshAdmin();await refreshAdminAnnouncements();await loadShopSchedule();await loadShopClosures()}
+async function openAdminPanel(){closeAdminModal();$("publicSite").classList.add("hidden");document.querySelectorAll(".section").forEach(s=>{if(s.closest("#publicSite"))s.classList.add("hidden")});$("adminPanel").classList.add("active");await refreshAdmin();await refreshAdminAnnouncements();await loadShopSchedule()}
 $("adminLoginForm").addEventListener("submit",async e=>{e.preventDefault();const msg=$("adminMessage");hideMessage(msg);const btn=$("adminLoginBtn"),email=$("adminEmail").value.trim(),password=$("adminPassword").value;btn.disabled=true;btn.textContent="چاوەڕێ بکە...";try{if(!sb)throw new Error("Supabase پەیوەست نییە.");const {data:authData,error:authError}=await sb.auth.signInWithPassword({email,password});if(authError)throw new Error("چوونەژوورەوە سەرکەوتوو نەبوو: "+authError.message);if(!authData?.user)throw new Error("ئەکاونتەکە نەناسرا.");const {data:isAdmin,error:adminError}=await sb.rpc("is_current_user_admin");if(adminError)throw adminError;if(isAdmin!==true){await sb.auth.signOut();throw new Error("ئەم ئەکاونتە مۆڵەتی بەڕێوەبەری نییە. profiles.is_admin بۆ ئەم UID ـە بکە true.");}await openAdminPanel()}catch(err){console.error(err);showMessage(msg,err.message||"چوونەژوورەوە سەرکەوتوو نەبوو.","error")}finally{btn.disabled=false;btn.textContent="چوونەژوورەوە"}});
 
 $("adminLogout").addEventListener("click",async()=>{try{if(sb)await sb.auth.signOut()}catch(err){console.warn("Supabase sign out failed",err)}$("adminLoginForm").reset();$("adminPanel").classList.remove("active");$("publicSite").classList.remove("hidden");document.querySelectorAll("#publicSite .section").forEach(s=>s.classList.remove("hidden"));window.scrollTo({top:0,behavior:"smooth"})});
@@ -675,7 +448,7 @@ async function refreshAdmin(){if(!sb)return;const {data,error}=await sb.from("bo
 function renderAdminRows(){const search=$("adminSearch").value.toLowerCase();const date=$("adminDateFilter").value;const status=$("adminStatusFilter").value;const filtered=adminBookings.filter(b=>(!search||((b.name||"")+" "+(b.phone||"")).toLowerCase().includes(search))&&(!date||b.booking_date===date)&&(!status||b.status===status));const tbody=$("bookingRows");tbody.innerHTML="";if(!filtered.length){tbody.innerHTML='<tr><td colspan="9">هیچ حجزێک نەدۆزرایەوە.</td></tr>';return}filtered.forEach(b=>{const tr=document.createElement("tr");const values=[b.name,b.phone,b.service,b.haircut_style||"—",b.booking_date,String(b.booking_time).slice(0,5),money(b.price_iqd),b.status];values.forEach((v,i)=>{const td=document.createElement("td");if(i===7){const s=document.createElement("span");s.className="status";s.textContent=({pending:"چاوەڕوان",confirmed:"پەسەندکراو",cancelled:"هەڵوەشاوە",completed:"تەواوبوو"})[v]||v;td.appendChild(s)}else td.textContent=v??"";tr.appendChild(td)});const td=document.createElement("td");const actions=document.createElement("div");actions.style.cssText="display:flex;gap:7px;align-items:center";const select=document.createElement("select");select.style.cssText="background:#fff;color:#243d58;border:1px solid #d6e1ed;border-radius:8px;padding:6px;max-width:120px";[["pending","چاوەڕوان"],["confirmed","پەسەندکراو"],["cancelled","هەڵوەشاوە"],["completed","تەواوبوو"]].forEach(([v,l])=>{const o=document.createElement("option");o.value=v;o.textContent=l;o.selected=b.status===v;select.appendChild(o)});select.addEventListener("change",()=>updateBookingStatus(b.id,select.value));const edit=document.createElement("button");edit.type="button";edit.className="btn btn-ghost btn-small";edit.textContent="گۆڕینی کات";edit.dataset.editBooking=b.id;const del=document.createElement("button");del.type="button";del.className="delete-booking";del.textContent="سڕینەوە";del.dataset.deleteBooking=b.id;actions.append(select,edit,del);td.appendChild(actions);tr.appendChild(td);tbody.appendChild(tr)})}
 
 async function updateBookingStatus(id,status){if(!sb)return;const {error}=await sb.from("bookings").update({status}).eq("id",id);if(error){alert("گۆڕینی دۆخ سەرکەوتوو نەبوو: "+error.message);return}await refreshAdmin();await loadSlots()}
-$("bookingRows").addEventListener("click",async e=>{const edit=e.target.closest("[data-edit-booking]");if(edit){const b=adminBookings.find(x=>String(x.id)===String(edit.dataset.editBooking));if(!b)return;const date=prompt("بەرواری نوێ (YYYY-MM-DD):",b.booking_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){alert("بەروار بە شێوەی YYYY-MM-DD بنووسە.");return}const time=prompt("کاتی نوێ (24h HH:MM):",String(b.booking_time||b.time||"").slice(0,5));if(time===null)return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)){alert("کات بە شێوەی HH:MM بنووسە.");return}const weekday={0:"sun",1:"mon",2:"tue",3:"wed",4:"thu",5:"fri",6:"sat"};const dayNo=new Date(date+"T12:00:00").getDay();const patch={booking_date:date,booking_time:time,time:time,day_id:weekday[dayNo]};const {error}=await sb.from("bookings").update(patch).eq("id",b.id);if(error){alert("گۆڕینی کات سەرکەوتوو نەبوو: "+error.message);return}await refreshAdmin();await loadSlots();await await loadPublicBookings();return}const btn=e.target.closest("[data-delete-booking]");if(!btn)return;const id=btn.dataset.deleteBooking;if(!confirm("دڵنیایت لە سڕینەوەی ئەم حجزە؟ ئەم کردارە ناگەڕێتەوە."))return;btn.disabled=true;btn.textContent="چاوەڕێ...";try{const {error}=await sb.from("bookings").delete().eq("id",id);if(error)throw error;await refreshAdmin();await loadSlots();await await loadPublicBookings()}catch(err){console.error(err);alert("سڕینەوەی حجز سەرکەوتوو نەبوو. مۆڵەتی DELETE لە Supabase بپشکنە. "+(err.message||""));btn.disabled=false;btn.textContent="سڕینەوە"}});
+$("bookingRows").addEventListener("click",async e=>{const edit=e.target.closest("[data-edit-booking]");if(edit){const b=adminBookings.find(x=>String(x.id)===String(edit.dataset.editBooking));if(!b)return;const date=prompt("بەرواری نوێ (YYYY-MM-DD):",b.booking_date||"");if(date===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){alert("بەروار بە شێوەی YYYY-MM-DD بنووسە.");return}const time=prompt("کاتی نوێ (24h HH:MM):",String(b.booking_time||b.time||"").slice(0,5));if(time===null)return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)){alert("کات بە شێوەی HH:MM بنووسە.");return}const weekday={0:"sun",1:"mon",2:"tue",3:"wed",4:"thu",5:"fri",6:"sat"};const dayNo=new Date(date+"T12:00:00").getDay();const patch={booking_date:date,booking_time:time,time:time,day_id:weekday[dayNo]};const {error}=await sb.from("bookings").update(patch).eq("id",b.id);if(error){alert("گۆڕینی کات سەرکەوتوو نەبوو: "+error.message);return}await refreshAdmin();await loadSlots();await loadLiveQueue();await loadPublicBookings();return}const btn=e.target.closest("[data-delete-booking]");if(!btn)return;const id=btn.dataset.deleteBooking;if(!confirm("دڵنیایت لە سڕینەوەی ئەم حجزە؟ ئەم کردارە ناگەڕێتەوە."))return;btn.disabled=true;btn.textContent="چاوەڕێ...";try{const {error}=await sb.from("bookings").delete().eq("id",id);if(error)throw error;await refreshAdmin();await loadSlots();await loadLiveQueue();await loadPublicBookings()}catch(err){console.error(err);alert("سڕینەوەی حجز سەرکەوتوو نەبوو. مۆڵەتی DELETE لە Supabase بپشکنە. "+(err.message||""));btn.disabled=false;btn.textContent="سڕینەوە"}});
 $("refreshBookings").addEventListener("click",refreshAdmin);$("adminSearch").addEventListener("input",renderAdminRows);$("adminDateFilter").addEventListener("change",renderAdminRows);$("adminStatusFilter").addEventListener("change",renderAdminRows);
 async function updateConnection(){if(!sb){$("connectionStatus").textContent="دۆخی داتابەیس: پێویستە Supabase URL و anon key زیاد بکرێن.";return}try{const {error}=await sb.from("services").select("id").limit(1);if(error)throw error;$("connectionStatus").textContent="دۆخی داتابەیس: پەیوەندی بە Supabase هەیە ✓";}catch(e){$("connectionStatus").textContent="دۆخی داتابەیس: پشکنینی SQL / RLS پێویستە.";console.warn(e)}}
 
@@ -684,7 +457,7 @@ async function loadGallery(){if(!sb)return;try{const {data,error}=await sb.from(
 
 $("barberAdminForm").addEventListener("submit",async e=>{e.preventDefault();if(!sb)return alert("Supabase پەیوەست نییە.");const {error}=await sb.from("barbers").insert({name:$("newBarberName").value.trim(),specialty:$("newBarberSpecialty").value.trim()||"حەلاقی پڕۆفیشناڵ",photo_url:$("newBarberPhoto").value.trim(),active:true});if(error)return alert("زیادکردنی حەلاق سەرکەوتوو نەبوو: "+error.message);e.target.reset();await loadBarbers();alert("حەلاق زیادکرا.")});
 $("galleryAdminForm").addEventListener("submit",async e=>{e.preventDefault();if(!sb)return alert("Supabase پەیوەست نییە.");const {error}=await sb.from("gallery_items").insert({title:$("newGalleryTitle").value.trim(),image_url:$("newGalleryUrl").value.trim(),active:true,sort_order:Date.now()});if(error)return alert("زیادکردنی وێنە سەرکەوتوو نەبوو: "+error.message);e.target.reset();await loadGallery();alert("وێنە زیادکرا.")});
-renderSlots();updateConnection();loadShopSchedule();loadBarbers();loadGallery();loadAnnouncements();loadPublicBookings();loadShopClosures();setInterval(loadPublicBookings,30000);setInterval(loadAnnouncements,60000);setInterval(loadShopClosures,60000);
+renderSlots();updateConnection();loadShopSchedule();loadBarbers();loadGallery();loadLiveQueue();loadAnnouncements();loadPublicBookings();setInterval(loadLiveQueue,30000);setInterval(loadPublicBookings,30000);setInterval(loadAnnouncements,60000);
 </script>
 <style>.language-picker{display:flex;align-items:center;gap:5px}.language-icon{color:#28649c}.nav-actions .lang{display:block!important;background:#fff!important;color:#1d3550!important;border:1px solid #cbd9e8!important;border-radius:11px!important;padding:8px 9px!important;min-width:92px;max-width:112px;font-weight:700}</style>
 
