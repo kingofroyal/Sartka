@@ -633,16 +633,20 @@ function renderSlots(taken=[]){const holder=$("timeSlots");holder.innerHTML="";T
 async function loadSlots(){chosenTime="";$("selectedTime").value="";if(!sb){renderSlots();return}const date=$("bookingDate").value;if(!date){renderSlots();return}if(isFridayDate(date)){renderSlots();return}if(await isShopClosed(date)){renderSlots();$("connectionStatus").textContent="ئەم ڕۆژە بەهۆی پشوو/جەژنەوە داخراوە.";return}try{const {data,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:"Any available"});if(error)throw error;renderSlots((data||[]).map(x=>String(x.booking_time).slice(0,5)))}catch(err){console.error(err);renderSlots();$("connectionStatus").textContent="داتابەیس نەیتوانی کاتە حجزکراوەکان بخوێنێتەوە؛ تکایە SQL و RLS بپشکنە."}}
 function money(n){return Number(n||0).toLocaleString("ar-IQ")+" دینار"}
 function localDateToday(){const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
+function timeToMinutes(value){
+ const raw=String(value||"").trim();
+ const m=raw.match(/^(\d{1,2}):(\d{2})/);
+ return m?Number(m[1])*60+Number(m[2]):NaN;
+}
 function showBookingTicket(payload,queueNumber,ahead){
  const box=$("bookingTicket");if(!box)return;
- $("ticketQueueNumber").textContent="#"+String(queueNumber).padStart(2,"0");
- $("ticketAhead").textContent=ahead>0?ahead+" کەس لە پێشەوەتن": "هیچ کەسێک لە پێشەوەت نییە";
- $("ticketName").textContent=payload.name||"—";
- $("ticketPhone").textContent=payload.phone||"—";
- $("ticketService").textContent=({"Classic Haircut":"قژبڕینی کلاسیکی","Skin Fade":"فەیدی مۆدێرن","Beard Trim":"ڕێکخستنی ڕیش","Hair Styling":"شێوازدانی قژ","Hair + Beard Combo":"قژ و ڕیش پێکەوە","Premium Package":"پاکێجی تایبەت"})[payload.service]||payload.service||"—";
- $("ticketBarber").textContent=({"Barber 1":"سارتکا","Barber 2":"کاردۆ","Any available":"هەر حەلاقێکی بەردەست"})[payload.barber_name]||payload.barber_name||"—";
- $("ticketDate").textContent=payload.booking_date||"—";
- $("ticketTime").textContent=formatKurdishBookingTime(payload.booking_time||payload.time||"");
+ const put=(id,value)=>{const el=$(id);if(el)el.textContent=value||"—"};
+ put("ticketQueueNumber","#"+String(queueNumber).padStart(2,"0"));
+ put("ticketAhead",ahead===null?"ژمارەی پێشەوەکان لە داتابەیس بەردەست نەبوو":(ahead>0?ahead+" کەس لە پێشەوەتن":"هیچ کەسێک لە پێشەوەت نییە"));
+ put("ticketName",payload.name);put("ticketPhone",payload.phone);
+ put("ticketService",({"Classic Haircut":"قژبڕینی کلاسیکی","Skin Fade":"فەیدی مۆدێرن","Beard Trim":"ڕێکخستنی ڕیش","Hair Styling":"شێوازدانی قژ","Hair + Beard Combo":"قژ و ڕیش پێکەوە","Premium Package":"پاکێجی تایبەت"})[payload.service]||payload.service);
+ put("ticketBarber",({"Barber 1":"سارتکا","Barber 2":"کاردۆ","Any available":"هەر حەلاقێکی بەردەست"})[payload.barber_name]||payload.barber_name);
+ put("ticketDate",payload.booking_date);put("ticketTime",formatKurdishBookingTime(payload.booking_time||payload.time||""));
  box.style.display="block";box.scrollIntoView({behavior:"smooth",block:"start"});
 }
 $("bookingForm").addEventListener("submit",async e=>{e.preventDefault();const msg=$("bookingMessage");hideMessage(msg);if(await isShopClosed($("bookingDate").value)){showMessage(msg,"ئەم ڕۆژە بەهۆی پشوو یان جەژنەوە داخراوە؛ تکایە ڕۆژێکی تر هەڵبژێرە.","error");return}if(!chosenTime){showMessage(msg,lang==="en"?"Please select an available time.":lang==="ar"?"يرجى اختيار موعد متاح.":"تکایە کاتێکی بەردەست هەڵبژێرە.", "error");return}if(!sb){showMessage(msg,"سەرەتا SUPABASE_URL و SUPABASE_ANON_KEY لە کۆدەکەدا دابنێ و SQL ـەکە جێبەجێ بکە.", "error");return}
@@ -652,8 +656,14 @@ if(payload.booking_date<localDateToday()){showMessage(msg,"ناتوانیت ڕۆ
 if(isFridayDate(payload.booking_date)){showMessage(msg,"ڕۆژی هەینی دووكان داخراوە و حجزکردن تێیدا ناکرێت.","error");return}
 const btn=$("submitBooking");btn.disabled=true;btn.textContent="چاوەڕێ بکە...";
 try{const {error}=await sb.from("bookings").insert(payload);if(error){if(error.code==="23505")throw new Error("ئەم کاتە تازە حجز کراوە؛ تکایە کاتێکی تر هەڵبژێرە.");throw error}
-let ahead=0;try{const {data:busy,error:busyError}=await sb.rpc("get_booked_times",{p_date:payload.booking_date,p_barber:"Any available"});if(!busyError){const selected=String(payload.booking_time).slice(0,5);ahead=(busy||[]).filter(x=>String(x.booking_time||x.time||"").slice(0,5)<selected).length}}catch(queueErr){console.warn("Queue position could not be calculated",queueErr)}
-showBookingTicket(payload,ahead+1,ahead);showMessage(msg,"حجزەکەت بە سەرکەوتوویی نێردرا — دۆخ: چاوەڕوانی پەسەندکردن.","success");$("bookingForm").reset();chosenTime="";$("selectedTime").value="";$("bookingDate").value="";$("selectedBookingDate").textContent="ڕۆژی حجزکردن هەڵبژێرە.";renderSlots();loadSlots();loadPublicBookings()}catch(err){console.error(err);showMessage(msg,err.message||"کێشەیەک ڕوویدا. پەیوەندی ئینتەرنێت و ڕێکخستنی Supabase بپشکنە.","error")}finally{btn.disabled=false;btn.textContent=translations[lang].submitBooking||"ناردنی حجز"}});
+let ahead=null;try{
+ const {data:busy,error:busyError}=await sb.rpc("get_booked_times",{p_date:payload.booking_date,p_barber:"Any available"});
+ if(!busyError&&Array.isArray(busy)){
+  const selectedMinutes=timeToMinutes(payload.booking_time);
+  ahead=busy.filter(x=>{const mins=timeToMinutes(x.booking_time||x.time);return Number.isFinite(mins)&&Number.isFinite(selectedMinutes)&&mins<selectedMinutes}).length;
+ }
+}catch(queueErr){console.warn("Queue position could not be calculated",queueErr)}
+showBookingTicket(payload,ahead===null?1:ahead+1,ahead);showMessage(msg,"حجزەکەت بە سەرکەوتوویی نێردرا — دۆخ: چاوەڕوانی پەسەندکردن.","success");$("bookingForm").reset();chosenTime="";$("selectedTime").value="";$("bookingDate").value="";$("selectedBookingDate").textContent="ڕۆژی حجزکردن هەڵبژێرە.";renderSlots();loadSlots();loadPublicBookings()}catch(err){console.error(err);showMessage(msg,err.message||"کێشەیەک ڕوویدا. پەیوەندی ئینتەرنێت و ڕێکخستنی Supabase بپشکنە.","error")}finally{btn.disabled=false;btn.textContent=translations[lang].submitBooking||"ناردنی حجز"}});
 function showAdminModal(){$("adminModal").classList.add("open");hideMessage($("adminMessage"))}
 function closeAdminModal(){$("adminModal").classList.remove("open")}
 $("openAdmin").addEventListener("click",showAdminModal);$("closeAdmin").addEventListener("click",closeAdminModal);$("adminModal").addEventListener("click",e=>{if(e.target===$("adminModal"))closeAdminModal()});
