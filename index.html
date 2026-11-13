@@ -368,7 +368,36 @@ $("timeSlots").addEventListener("click",e=>{const b=e.target.closest(".slot");if
 
 function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
 function localToday(){return localDateToday()}
-async function loadLiveQueue(){const countEl=$("queueCount"),nextEl=$("queueNextTime"),statusEl=$("queueStatus"),updatedEl=$("queueUpdated");if(!sb){countEl.textContent="—";nextEl.textContent="—";statusEl.textContent="Supabase پەیوەست نییە";return}try{const {data,error}=await sb.rpc("get_live_queue",{p_date:localToday()});if(error)throw error;const row=Array.isArray(data)?data[0]:data;countEl.textContent=Number(row?.active_count||0).toLocaleString("ckb-IQ");nextEl.textContent=row?.next_time?formatKurdishBookingTime(row.next_time):"—";statusEl.textContent="دۆخی نۆرە بە نوێکراوە";updatedEl.textContent="دوایین نوێکردنەوە: "+new Date().toLocaleTimeString("ckb-IQ",{hour:"2-digit",minute:"2-digit"})}catch(err){console.warn("Live queue unavailable",err);statusEl.textContent="تکایە SQL ـی نوێ جێبەجێ بکە";countEl.textContent="—";nextEl.textContent="—"}}
+async function loadLiveQueue(){
+ const countEl=$("queueCount"),nextEl=$("queueNextTime"),statusEl=$("queueStatus"),updatedEl=$("queueUpdated");
+ if(!sb){countEl.textContent="—";nextEl.textContent="—";statusEl.textContent="Supabase پەیوەست نییە";return}
+ try{
+  const today=localToday();
+  const {data:todayRows,error:todayError}=await sb.from("bookings").select("id,status,booking_date,booking_time,time").eq("booking_date",today).in("status",["pending","confirmed"]);
+  if(todayError)throw todayError;
+  countEl.textContent=(todayRows||[]).length.toLocaleString("ckb-IQ");
+  let nearest=null;
+  const now=new Date();
+  for(let offset=0;offset<8&&!nearest;offset++){
+   const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+offset,12);
+   const date=[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
+   const weekday=d.getDay();
+   if(weekday===5||!shopSchedule.enabled_weekdays.includes(weekday)||await isShopClosed(date))continue;
+   const {data:busy,error}=await sb.rpc("get_booked_times",{p_date:date,p_barber:"Any available"});
+   if(error)throw error;
+   const taken=new Set((busy||[]).map(x=>String(x.booking_time||"").slice(0,5)));
+   const available=buildTimes().find(t=>{
+    if(taken.has(t))return false;
+    if(offset===0){const [h,m]=t.split(":").map(Number);return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)>now}
+    return true;
+   });
+   if(available)nearest={date,time:available};
+  }
+  nextEl.textContent=nearest?(nearest.date===today?formatKurdishBookingTime(nearest.time):weekdayKu(nearest.date)+" — "+formatDateKu(nearest.date)+"، "+formatKurdishBookingTime(nearest.time)):"هیچ کاتێکی بەردەست نییە";
+  statusEl.textContent="زانیاری حجزە چالاکەکان نوێکرایەوە";
+  updatedEl.textContent="دوایین نوێکردنەوە: "+new Date().toLocaleTimeString("ckb-IQ",{hour:"2-digit",minute:"2-digit"});
+ }catch(err){console.warn("Live queue unavailable",err);statusEl.textContent="نەتوانرا زانیاری حجز بخوێندرێتەوە؛ مۆڵەتی Supabase بپشکنە";countEl.textContent="—";nextEl.textContent="—"}
+}
 
 const WEEKDAYS_KU={0:"یەکشەممە",1:"دووشەممە",2:"سێشەممە",3:"چوارشەممە",4:"پێنجشەممە",5:"هەینی",6:"شەممە"};
 function weekdayKu(dateText){const [y,m,d]=dateText.split("-").map(Number);return WEEKDAYS_KU[new Date(y,m-1,d).getDay()]||""}
@@ -460,7 +489,7 @@ async function isShopClosed(date){
  return !!data;
 }
 async function loadShopSchedule(){if(!sb)return;try{const {data,error}=await sb.from("shop_booking_settings").select("open_time,close_time,interval_minutes,enabled_weekdays").eq("id",1).maybeSingle();if(error)throw error;if(data){shopSchedule={open_time:String(data.open_time).slice(0,5),close_time:String(data.close_time).slice(0,5),interval_minutes:Number(data.interval_minutes),enabled_weekdays:(data.enabled_weekdays||[6,0,1,2,3,4]).map(Number)};TIMES=buildTimes();applyEnabledWeekdays();if($("ownerOpenTime")){ $("ownerOpenTime").value=shopSchedule.open_time;$("ownerCloseTime").value=shopSchedule.close_time;$("ownerInterval").value=String(shopSchedule.interval_minutes);document.querySelectorAll("#ownerWeekdays input").forEach(c=>c.checked=shopSchedule.enabled_weekdays.includes(Number(c.value)));}}}catch(err){console.warn("Shop schedule table not ready",err)}}
-$("saveOwnerSchedule")?.addEventListener("click",async()=>{const msg=$("ownerScheduleMessage");hideMessage(msg);if(!sb)return showMessage(msg,"Supabase پەیوەست نییە.","error");const open=$("ownerOpenTime").value,close=$("ownerCloseTime").value,interval=Number($("ownerInterval").value),days=Array.from(document.querySelectorAll("#ownerWeekdays input:checked")).map(c=>Number(c.value));if(!open||!close||close<=open||!days.length)return showMessage(msg,"کاتی دەستپێک و کۆتایی و لانیکەم یەک ڕۆژ دیاری بکە. کاتی کۆتایی دەبێت دوای دەستپێک بێت.","error");const payload={id:1,open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days,updated_at:new Date().toISOString()};const {error}=await sb.from("shop_booking_settings").upsert(payload,{onConflict:"id"});if(error)return showMessage(msg,"پاشەکەوتکردن سەرکەوتوو نەبوو: "+error.message,"error");shopSchedule={open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days};TIMES=buildTimes();applyEnabledWeekdays();handleBookingDayChange();showMessage(msg,"کات و ڕۆژەکان بە سەرکەوتوویی پاشەکەوت کران.","success");});
+$("saveOwnerSchedule")?.addEventListener("click",async()=>{const msg=$("ownerScheduleMessage");hideMessage(msg);if(!sb)return showMessage(msg,"Supabase پەیوەست نییە.","error");const open=$("ownerOpenTime").value,close=$("ownerCloseTime").value,interval=Number($("ownerInterval").value),days=Array.from(document.querySelectorAll("#ownerWeekdays input:checked")).map(c=>Number(c.value));if(!open||!close||close<=open||!days.length)return showMessage(msg,"کاتی دەستپێک و کۆتایی و لانیکەم یەک ڕۆژ دیاری بکە. کاتی کۆتایی دەبێت دوای دەستپێک بێت.","error");const payload={id:1,open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days,updated_at:new Date().toISOString()};const {error}=await sb.from("shop_booking_settings").upsert(payload,{onConflict:"id"});if(error)return showMessage(msg,"پاشەکەوتکردن سەرکەوتوو نەبوو: "+error.message,"error");shopSchedule={open_time:open,close_time:close,interval_minutes:interval,enabled_weekdays:days};TIMES=buildTimes();applyEnabledWeekdays();handleBookingDayChange();showMessage(msg,"کات و ڕۆژەکان بە سەرکەوتوویی پاشەکەوت کران.","success");loadLiveQueue();});
 function formatKurdishBookingTime(value){
  const raw=String(value||"").slice(0,5);const match=raw.match(/^(\d{1,2}):(\d{2})$/);if(!match)return raw;
  const hour=Number(match[1]),minute=match[2];
